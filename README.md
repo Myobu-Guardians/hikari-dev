@@ -15,4 +15,4 @@ https://myobu-guardians.github.io/hikari-dev/
 
 AGPL3. 
 
-All assets (including images, sounds, videos) are 
+Myobu Team. All rights reserved.
