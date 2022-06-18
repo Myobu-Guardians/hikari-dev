@@ -20,7 +20,7 @@ export default function OfferingCardsInPlay() {
         top: gameContainer.zoom * OfferingCardsInPlayTop,
         width: gameContainer.zoom * OfferingCardsInPlayWidth,
         height: gameContainer.zoom * OfferingCardsInPlayHeight,
-        backgroundColor: "rgb(233 30 99 / 36%)",
+        // backgroundColor: "rgb(233 30 99 / 36%)",
       }}
     >
       <div className="w-full flex flex-row items-center justify-evenly">

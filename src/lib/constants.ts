@@ -4,15 +4,15 @@ export const BoardHeight = 510;
 export const NumOfOfferingCardsInPlay = 4;
 export const NumOfKitsuneCardsInPlay = 2;
 
-export const OfferingCardsInDeckLeft = 765;
-export const OfferingCardsInDeckTop = 160;
-export const OfferingCardsInDeckWidth = 160;
-export const OfferingCardsInDeckHeight = 160;
+export const OfferingCardsInDeckLeft = 795;
+export const OfferingCardsInDeckTop = 195;
+export const OfferingCardsInDeckWidth = 120;
+export const OfferingCardsInDeckHeight = 120;
 
-export const UsedOfferingCardsInDeckLeft = 80;
-export const UsedOfferingCardsInDeckTop = 160;
-export const UsedOfferingCardsInDeckWidth = 160;
-export const UsedOfferingCardsInDeckHeight = 160;
+export const UsedOfferingCardsInDeckLeft = 120;
+export const UsedOfferingCardsInDeckTop = OfferingCardsInDeckTop;
+export const UsedOfferingCardsInDeckWidth = OfferingCardsInDeckWidth;
+export const UsedOfferingCardsInDeckHeight = OfferingCardsInDeckHeight;
 
 export const OfferingCardsInPlayLeft = 280;
 export const OfferingCardsInPlayTop = 200;
