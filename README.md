@@ -1,5 +1,7 @@
 # Hikari - dev
 
+https://myobu-guardians.github.io/hikari-dev/
+
 ## Roadmap
 
 * [ ] Local play
@@ -13,4 +15,4 @@
 
 AGPL3. 
 
-All assets (including images, sounds, videos) are 
+Myobu Team. All rights reserved.
