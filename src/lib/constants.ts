@@ -14,10 +14,10 @@ export const UsedOfferingCardsInDeckTop = 160;
 export const UsedOfferingCardsInDeckWidth = 160;
 export const UsedOfferingCardsInDeckHeight = 160;
 
-export const OfferingCardsInPlayLeft = 300;
-export const OfferingCardsInPlayTop = 160;
-export const OfferingCardsInPlayWidth = 410;
-export const OfferingCardsInPlayHeight = 160;
+export const OfferingCardsInPlayLeft = 280;
+export const OfferingCardsInPlayTop = 200;
+export const OfferingCardsInPlayWidth = 460;
+export const OfferingCardsInPlayHeight = 120;
 
 export const KitsuneCardsInDeckLeft = 725;
 export const KitsuneCardsInDeckTop = 320;
@@ -42,3 +42,5 @@ export const OpponentKitsuneCardsInPlayTop = 0;
 
 export const OpponentKitsuneCardsInHandLeft = KitsuneCardsInDeckLeft;
 export const OpponentKitsuneCardsInHandTop = 0;
+
+export const OfferingCardSize = 100;
