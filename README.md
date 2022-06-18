@@ -1,5 +1,7 @@
 # Hikari - dev
 
+https://myobu-guardians.github.io/hikari-dev/
+
 ## Roadmap
 
 * [ ] Local play

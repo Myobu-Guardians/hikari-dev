@@ -15,7 +15,7 @@ export default function KitsuneCardComponent(props: Props) {
     >
       <img
         src={props.kitsuneCard.imageSrc}
-        alt={props.kitsuneCard.name}
+        alt={props.kitsuneCard.id}
         style={{
           width: gameContainer.zoom * KitsuneCardWidth,
           height: gameContainer.zoom * KitsuneCardHeight,
