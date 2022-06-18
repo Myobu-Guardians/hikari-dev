@@ -1,5 +1,5 @@
 import { NumOfOfferingCardsInPlay } from "./constants";
-import { KitsuneCard } from "./kitsune";
+import { exampleKitsuneCard, KitsuneCard } from "./kitsune";
 import { OfferingCard, OfferingCards } from "./offering";
 
 export interface Player {
@@ -22,6 +22,9 @@ export class GameBoard {
     this.usedOfferingCards = [];
 
     this.drawOfferingCards();
+
+    // TODO: Delete below
+    this.createFakeKitsuneCards();
   }
 
   public drawOfferingCards() {
@@ -37,5 +40,25 @@ export class GameBoard {
         this.offeringCardsInPlay.push(drawnCard);
       }
     }
+  }
+
+  private createFakeKitsuneCards() {
+    const fakeKitsuneCards: KitsuneCard[] = [
+      exampleKitsuneCard,
+      exampleKitsuneCard,
+      exampleKitsuneCard,
+    ];
+    this.player = {
+      kitsunCardsInDeck: fakeKitsuneCards,
+      kitsunCardsInHand: fakeKitsuneCards,
+      kitsunCardsInPlay: fakeKitsuneCards,
+      gamePoints: 4,
+    };
+    this.opponent = {
+      kitsunCardsInDeck: fakeKitsuneCards,
+      kitsunCardsInHand: fakeKitsuneCards,
+      kitsunCardsInPlay: fakeKitsuneCards,
+      gamePoints: 6,
+    };
   }
 }

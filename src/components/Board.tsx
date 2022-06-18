@@ -9,9 +9,11 @@ import UsedOfferingCards from "./UsedOfferingCards";
 import KitsuneCardsInDeck from "./KitsuneCardsInDeck";
 import KitsuneCardsInPlay from "./KitsuneCardsInPlay";
 import KitsuneCardsInHand from "./KitsuneCardsInHand";
+import { BoardContainer } from "../containers/board";
 
 export default function Board() {
   const gameContainer = GameContainer.useContainer();
+  const boardContainer = BoardContainer.useContainer();
   return (
     <div className="container mx-auto px-4">
       <div
@@ -29,14 +31,21 @@ export default function Board() {
         <UsedOfferingCards></UsedOfferingCards>
 
         {/* Player  */}
-        <KitsuneCardsInDeck isOpponent={false}></KitsuneCardsInDeck>
-        <KitsuneCardsInPlay isOpponent={false}></KitsuneCardsInPlay>
-        <KitsuneCardsInHand isOpponent={false}></KitsuneCardsInHand>
-
+        {boardContainer.board.player && (
+          <>
+            <KitsuneCardsInDeck isOpponent={false}></KitsuneCardsInDeck>
+            <KitsuneCardsInPlay isOpponent={false}></KitsuneCardsInPlay>
+            <KitsuneCardsInHand isOpponent={false}></KitsuneCardsInHand>
+          </>
+        )}
         {/* Opponent */}
-        <KitsuneCardsInDeck isOpponent={true}></KitsuneCardsInDeck>
-        <KitsuneCardsInPlay isOpponent={true}></KitsuneCardsInPlay>
-        <KitsuneCardsInHand isOpponent={true}></KitsuneCardsInHand>
+        {boardContainer.board.opponent && (
+          <>
+            <KitsuneCardsInDeck isOpponent={true}></KitsuneCardsInDeck>
+            <KitsuneCardsInPlay isOpponent={true}></KitsuneCardsInPlay>
+            <KitsuneCardsInHand isOpponent={true}></KitsuneCardsInHand>
+          </>
+        )}
       </div>
     </div>
   );

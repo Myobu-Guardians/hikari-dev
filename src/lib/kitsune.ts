@@ -1,4 +1,5 @@
 import { OfferingSymbol } from "./offering";
+import Tail1 from "../assets/images/kitsunes/tail-1.jpg";
 
 export class KitsuneCard {
   public name: string;
@@ -18,3 +19,10 @@ export class KitsuneCard {
     this.imageSrc = imageSrc;
   }
 }
+
+export const exampleKitsuneCard = new KitsuneCard(
+  "Example Kitsune Card",
+  1,
+  OfferingSymbol.Plant,
+  Tail1
+);

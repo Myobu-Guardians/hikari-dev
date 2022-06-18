@@ -14,7 +14,7 @@ import { asciiStringToNumber } from "../lib/utils";
 export default function OfferingCardsInDeck() {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
-  console.log("Enter here");
+
   return (
     <div
       className="absolute tooltip"
