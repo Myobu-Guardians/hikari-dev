@@ -85,6 +85,18 @@ export default function KitsuneCardsInDeck(props: Props) {
             </div>
           );
         })}
+      {canDraw && cards.length > 0 && (
+        <div
+          className="text-white absolute"
+          style={{
+            fontSize: gameContainer.zoom * 12,
+            top: gameContainer.zoom * 140,
+            left: gameContainer.zoom * -10,
+          }}
+        >
+          Draw Kitsune Card ^
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { createContainer } from "unstated-next";
 import { GameBoard } from "../lib/board";
+import { NumOfKitsuneCardsInPlay } from "../lib/constants";
 import { KitsuneCard } from "../lib/kitsune";
 import { OfferingCard } from "../lib/offering";
 
@@ -14,10 +15,10 @@ export const BoardContainer = createContainer(() => {
   const [highlightedKitsuneCards, setHighlightedKitsuneCards] = useState<
     Set<KitsuneCard>
   >(new Set());
-  const [
-    isSelectingKitsuneCardToReplaceWith,
-    setIsSelectingKitsuneCardToReplaceWith,
-  ] = useState<boolean>(false);
+  const [isSelectingKitsuneCardToReplace, setIsSelectingKitsuneCardToReplace] =
+    useState<boolean>(false);
+  const [selectedKitsuneCardToActivate, setSelectedKitsuneCardToActivate] =
+    useState<KitsuneCard | null>(null);
 
   const drawKitsuneCard = useCallback(async () => {
     board.drawKitsuneCard(turns);
@@ -46,13 +47,33 @@ export const BoardContainer = createContainer(() => {
     }
   }, [selectedOfferingCards, board]);
 
+  const getPlayer = useCallback(() => {
+    if (isPlayerTurn) {
+      return board.player;
+    } else {
+      return board.opponent;
+    }
+  }, [board, isPlayerTurn]);
+
   const placeAndActivateKitsuneCard = useCallback(
-    (kitsuneCard: KitsuneCard, replaceKitsuneCard?: KitsuneCard) => {
+    (kitsuneCard: KitsuneCard, kitsuneCardToReplaceWith?: KitsuneCard) => {
+      const player = getPlayer();
+      setSelectedKitsuneCardToActivate(kitsuneCard);
+
+      // Replace the selected kitsune card with the one to be activated
+      if (
+        player?.kitsuneCardsInPlay.length === NumOfKitsuneCardsInPlay &&
+        !kitsuneCardToReplaceWith &&
+        player?.kitsuneCardsInPlay.indexOf(kitsuneCard) < 0
+      ) {
+        return setIsSelectingKitsuneCardToReplace(true);
+      }
+
       const success = board.placeAndActivateKitsuneCard(
         kitsuneCard,
         Array.from(selectedOfferingCards),
         turns,
-        replaceKitsuneCard
+        kitsuneCardToReplaceWith
       );
       if (success) {
         setTurns((turns) => turns + 1);
@@ -60,7 +81,7 @@ export const BoardContainer = createContainer(() => {
         alert("Failed to place and activate the card");
       }
     },
-    [board, selectedOfferingCards, turns]
+    [board, selectedOfferingCards, turns, getPlayer]
   );
 
   useEffect(() => {
@@ -71,13 +92,15 @@ export const BoardContainer = createContainer(() => {
     setIsPlayerTurn(turns % 2 === board.player?.turnRemainder);
     setSelectedOfferingCards(new Set());
     setHighlightedKitsuneCards(new Set());
+
+    setIsSelectingKitsuneCardToReplace(false);
+    setSelectedKitsuneCardToActivate(null);
   }, [board, turns]);
 
   useEffect(() => {
     setHighlightedKitsuneCards(() => {
       const newHighlightedKitsuneCards = new Set<KitsuneCard>();
       const player = isPlayerTurn ? board.player : board.opponent;
-      console.log("player: ", player);
       const kitsuneCards = [
         ...(player?.kitsuneCardsInHand || []),
         ...(player?.kitsuneCardsInPlay || []),
@@ -99,6 +122,12 @@ export const BoardContainer = createContainer(() => {
     });
   }, [isPlayerTurn, board, selectedOfferingCards]);
 
+  useEffect(() => {
+    if (!isSelectingKitsuneCardToReplace) {
+      setSelectedKitsuneCardToActivate(null);
+    }
+  }, [isSelectingKitsuneCardToReplace]);
+
   return {
     board,
     turns,
@@ -109,5 +138,10 @@ export const BoardContainer = createContainer(() => {
     toggleOfferingCard,
     discardSelectedOfferingCard,
     placeAndActivateKitsuneCard,
+    getPlayer,
+
+    isSelectingKitsuneCardToReplace,
+    setIsSelectingKitsuneCardToReplace,
+    selectedKitsuneCardToActivate,
   };
 });

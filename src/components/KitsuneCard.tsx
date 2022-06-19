@@ -75,6 +75,7 @@ function SpellTrigger(props: Props) {
 
 export default function KitsuneCardComponent(props: Props) {
   const gameContainer = GameContainer.useContainer();
+  const boardContainer = BoardContainer.useContainer();
   const deltaHeight = props.earningPoints && props.earningPoints > 0 ? 12 : 0;
   return (
     <div
@@ -118,8 +119,13 @@ export default function KitsuneCardComponent(props: Props) {
         }}
       ></img>
       <SpellTrigger kitsuneCard={props.kitsuneCard}></SpellTrigger>
-      {props.earningPoints && props.earningPoints > 0 ? (
-        <div className="w-full text-center absolute bottom-0 z-200 text-white bg-orange-500">
+      {!boardContainer.isSelectingKitsuneCardToReplace &&
+      props.earningPoints &&
+      props.earningPoints > 0 ? (
+        <div
+          className="w-full text-center absolute bottom-0 z-200 text-white bg-orange-500"
+          style={{ fontSize: gameContainer.zoom * 12 }}
+        >
           {`+ ${props.earningPoints} ${
             props.earningPoints === 1 ? "point" : "points"
           }`}

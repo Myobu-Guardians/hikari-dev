@@ -59,12 +59,23 @@ export default function KitsuneCardsInPlay(props: Props) {
             <div
               key={`kitsune-card-in-play-${index}-` + card.imageSrc}
               className={
-                (boardContainer.highlightedKitsuneCards.has(card)
-                  ? "cursor-pointer transition-all duration-300"
-                  : "cursor-not-allowed") + " "
+                boardContainer.isSelectingKitsuneCardToReplace && canSelect
+                  ? "cursor-pointer border-4 border-blue-400"
+                  : (boardContainer.highlightedKitsuneCards.has(card)
+                      ? "cursor-pointer transition-all duration-300"
+                      : "cursor-not-allowed") + " "
               }
               onClick={() => {
-                if (boardContainer.highlightedKitsuneCards.has(card)) {
+                if (
+                  canSelect &&
+                  boardContainer.isSelectingKitsuneCardToReplace &&
+                  boardContainer.selectedKitsuneCardToActivate
+                ) {
+                  boardContainer.placeAndActivateKitsuneCard(
+                    boardContainer.selectedKitsuneCardToActivate,
+                    card
+                  );
+                } else if (boardContainer.highlightedKitsuneCards.has(card)) {
                   boardContainer.placeAndActivateKitsuneCard(card);
                 }
               }}
