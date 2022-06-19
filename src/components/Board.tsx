@@ -59,6 +59,7 @@ export function HelpModal() {
 function GamePoints() {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
+
   return (
     <div
       className="absolute z-50 font-bold text-center text-gray-900"
@@ -70,23 +71,21 @@ function GamePoints() {
       }}
     >
       <div
-        className={
-          boardContainer.turns % 2 ===
-          boardContainer.board.opponent?.turnRemainder
-            ? "text-orange-400"
-            : ""
-        }
+        className={!boardContainer.isPlayerTurn ? "text-orange-400" : ""}
+        style={{
+          fontSize:
+            gameContainer.zoom * (!boardContainer.isPlayerTurn ? 48 : 36),
+        }}
       >
         {boardContainer.board.opponent?.gamePoints || "0"}
       </div>
       <div className="text-gray-800">-</div>
       <div
-        className={
-          boardContainer.turns % 2 ===
-          boardContainer.board.player?.turnRemainder
-            ? "text-orange-400"
-            : ""
-        }
+        className={boardContainer.isPlayerTurn ? "text-orange-400" : ""}
+        style={{
+          fontSize:
+            gameContainer.zoom * (boardContainer.isPlayerTurn ? 48 : 36),
+        }}
       >
         {boardContainer.board.player?.gamePoints || "0"}
       </div>

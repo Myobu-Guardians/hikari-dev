@@ -61,7 +61,9 @@ export default function UsedOfferingCards() {
           return (
             <div
               key={`offering-cards-in-deck-${index}`}
-              className={"absolute card shadow-sm shadow-black rounded-sm"}
+              className={
+                "absolute card shadow-sm shadow-black rounded-sm cursor-not-allowed"
+              }
               style={{
                 transform: `rotate(${
                   (boardContainer.board.usedOfferingCards.length -

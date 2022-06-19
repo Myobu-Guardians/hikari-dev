@@ -76,7 +76,7 @@ export default function KitsuneCardComponent(props: Props) {
   return (
     <div
       className={
-        "card shadow-black hover:shadow-lg hover:shadow-black hover:scale-125 hover:z-50 transform transition duration-300 rounded-sm glass shadow-md"
+        "card shadow-black hover:shadow-lg hover:shadow-black hover:z-50 transform transition duration-300 rounded-sm glass shadow-md"
       }
       style={{ width: gameContainer.zoom * KitsuneCardWidth }}
     >

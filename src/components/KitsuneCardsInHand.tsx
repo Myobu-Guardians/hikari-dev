@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
@@ -13,6 +13,7 @@ import {
 } from "../lib/constants";
 import KitsuneCardBack from "../assets/images/kitsunes/back.jpg";
 import KitsuneCardComponent from "./KitsuneCard";
+import { KitsuneCard } from "../lib/kitsune";
 
 interface Props {
   isOpponent?: boolean;
@@ -21,6 +22,7 @@ interface Props {
 export default function KitsuneCardsInHand(props: Props) {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
+  const [mouseOverCard, setMouseOverCard] = useState<KitsuneCard | null>(null);
 
   const cards =
     (props.isOpponent
@@ -96,11 +98,23 @@ export default function KitsuneCardsInHand(props: Props) {
                   " " +
                   (boardContainer.highlightedKitsuneCards.has(card)
                     ? "border-[8px] border-blue-500 transition-all duration-300"
-                    : "")
+                    : "") +
+                  // ` rotate-[${(index - mid) * 10}deg] scale-75 ` +
+                  " " +
+                  " hover:scale-125 hover:rotate-0 hover:transition-all hover:z-[100]"
                 }
                 style={{
-                  left: (index * gameContainer.zoom * KitsuneCardWidth) / 2,
-                  transform: `rotate(${(index - mid) * 10}deg) scale(75%)`,
+                  left: (index * gameContainer.zoom * KitsuneCardWidth) / 2.5,
+                  transform:
+                    mouseOverCard === card
+                      ? `translateY(${props.isOpponent ? 20 : -20}px)`
+                      : `rotate(${(index - mid) * 10}deg) scale(75%)`,
+                }}
+                onMouseEnter={() => {
+                  setMouseOverCard(card);
+                }}
+                onMouseLeave={() => {
+                  setMouseOverCard(null);
                 }}
               >
                 <KitsuneCardComponent kitsuneCard={card}></KitsuneCardComponent>
