@@ -1,6 +1,6 @@
 import { NumOfOfferingCardsInPlay } from "./constants";
 import { exampleKitsuneCard, KitsuneCard } from "./kitsune";
-import { OfferingCard, OfferingCards } from "./offering";
+import { OfferingCard, createOfferingCards } from "./offering";
 
 export interface Player {
   kitsunCardsInDeck: KitsuneCard[];
@@ -17,7 +17,7 @@ export class GameBoard {
   opponent?: Player = undefined;
 
   constructor() {
-    this.offeringCardsInDeck = [...OfferingCards];
+    this.offeringCardsInDeck = createOfferingCards();
     this.offeringCardsInPlay = [];
     this.usedOfferingCards = [];
 

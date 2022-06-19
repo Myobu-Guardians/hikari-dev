@@ -47,3 +47,6 @@ export const OfferingCardSize = 90;
 
 export const KitsuneCardWidth = 735 / 6.5;
 export const KitsuneCardHeight = 1185 / 6.5;
+
+export const KitsuneCardNumberWidth = 26;
+export const KitsuneCardSymbolSize = 24;

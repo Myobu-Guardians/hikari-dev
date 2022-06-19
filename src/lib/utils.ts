@@ -5,3 +5,10 @@ export function asciiStringToNumber(str: string): number {
   }
   return num;
 }
+
+export function intersperse(arr: any[], sep: any): any[] {
+  if (arr.length === 0) {
+    return [];
+  }
+  return arr.slice(1).reduce((xs, x) => [...xs, sep, x], [arr[0]]);
+}
