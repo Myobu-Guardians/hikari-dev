@@ -1,4 +1,4 @@
-import { NumOfOfferingCardsInPlay } from "./constants";
+import { NumOfKitsuneCardsInPlay, NumOfOfferingCardsInPlay } from "./constants";
 import { createKitsuneCards, exampleKitsuneCard, KitsuneCard } from "./kitsune";
 import { OfferingCard, createOfferingCards } from "./offering";
 import { generateUUID, shuffleArray } from "./utils";
@@ -94,5 +94,75 @@ export class GameBoard {
       (card) => card.id !== offeringCard.id
     );
     this.drawOfferingCards();
+  }
+
+  /**
+   *
+   * @param kituneCard
+   * @param offeringCards
+   * @returns
+   */
+  public calculateEarningPoints(
+    kitsuneCard: KitsuneCard,
+    offeringCards: OfferingCard[]
+  ): number {
+    const sumNumber = offeringCards.reduce((sum, offeringCard) => {
+      return sum + offeringCard.number;
+    }, 0);
+
+    if (sumNumber === kitsuneCard.number) {
+      // Sum of number matches
+      let points = offeringCards.length;
+      for (let i = 0; i < offeringCards.length; i++) {
+        if (offeringCards[i].symbol === kitsuneCard.symbol) {
+          points += 1;
+        }
+      }
+      return points;
+    } else {
+      let symbolMatches = true;
+      for (const offeringCard of offeringCards) {
+        // Symbol matches
+        if (kitsuneCard.symbol !== offeringCard.symbol) {
+          symbolMatches = false;
+          break;
+        }
+      }
+      if (symbolMatches) {
+        return offeringCards.length;
+      } else {
+        return 0;
+      }
+    }
+  }
+
+  public placeAndActivateKitsuneCard(
+    kitsuneCard: KitsuneCard,
+    offeringCards: OfferingCard[],
+    turns: number
+  ): boolean {
+    const player =
+      turns % 2 === this.player?.turnRemainder ? this.player : this.opponent;
+    if (!player) {
+      return false;
+    }
+    if (player.kitsunCardsInPlay.length >= NumOfKitsuneCardsInPlay) {
+      return false;
+    }
+
+    const earningPoints = this.calculateEarningPoints(
+      kitsuneCard,
+      offeringCards
+    );
+    if (earningPoints <= 0) {
+      return false;
+    }
+
+    player.kitsunCardsInPlay.push(kitsuneCard);
+    player.kitsunCardsInHand = player.kitsunCardsInHand.filter(
+      (card) => card.id !== kitsuneCard.id
+    );
+    player.gamePoints += earningPoints;
+    return true;
   }
 }

@@ -42,6 +42,22 @@ export const BoardContainer = createContainer(() => {
     }
   }, [selectedOfferingCards, board]);
 
+  const placeAndActivateKitsuneCard = useCallback(
+    (kitsuneCard: KitsuneCard) => {
+      const success = board.placeAndActivateKitsuneCard(
+        kitsuneCard,
+        Array.from(selectedOfferingCards),
+        turns
+      );
+      if (success) {
+        setTurns((turns) => turns + 1);
+      } else {
+        alert("Failed to place and activate the card");
+      }
+    },
+    [board, selectedOfferingCards, turns]
+  );
+
   useEffect(() => {
     (window as any)["board"] = board;
   }, [board]);
@@ -61,20 +77,15 @@ export const BoardContainer = createContainer(() => {
         ...(player?.kitsunCardsInPlay || []),
       ];
       const offeringCards = Array.from(selectedOfferingCards);
-      const sumNumber = offeringCards.reduce((sum, offeringCard) => {
-        return sum + offeringCard.number;
-      }, 0);
-
+      if (!offeringCards.length) {
+        return newHighlightedKitsuneCards;
+      }
       for (const kitsuneCard of kitsuneCards) {
-        for (const offeringCard of offeringCards) {
-          // Symbol matches
-          if (kitsuneCard.symbol === offeringCard.symbol) {
-            newHighlightedKitsuneCards.add(kitsuneCard);
-          }
-        }
-
-        // Number matches
-        if (kitsuneCard.number === sumNumber) {
+        const earningPoints = board.calculateEarningPoints(
+          kitsuneCard,
+          offeringCards
+        );
+        if (earningPoints > 0) {
           newHighlightedKitsuneCards.add(kitsuneCard);
         }
       }
@@ -91,5 +102,6 @@ export const BoardContainer = createContainer(() => {
     drawKitsuneCard,
     toggleOfferingCard,
     discardSelectedOfferingCard,
+    placeAndActivateKitsuneCard,
   };
 });

@@ -89,12 +89,18 @@ export default function KitsuneCardsInHand(props: Props) {
         <div>
           {cards.map((card, index: number) => {
             const mid = Math.floor(cards.length / 2);
+            const earningPoints = boardContainer.board.calculateEarningPoints(
+              card,
+              Array.from(boardContainer.selectedOfferingCards)
+            );
             return (
               <div
                 key={`kitsune-card-in-hand-${index}-` + card.imageSrc}
                 className={
                   "absolute " +
-                  (canSelect ? "cursor-pointer" : "cursor-not-allowed") +
+                  (boardContainer.highlightedKitsuneCards.has(card)
+                    ? "cursor-pointer"
+                    : "cursor-not-allowed") +
                   " " +
                   (boardContainer.highlightedKitsuneCards.has(card)
                     ? "border-[8px] border-blue-500 transition-all duration-300"
@@ -116,6 +122,16 @@ export default function KitsuneCardsInHand(props: Props) {
                 onMouseLeave={() => {
                   setMouseOverCard(null);
                 }}
+                onClick={() => {
+                  if (boardContainer.highlightedKitsuneCards.has(card)) {
+                    boardContainer.placeAndActivateKitsuneCard(card);
+                  }
+                }}
+                title={
+                  earningPoints > 0
+                    ? `Activate to earn ${earningPoints} points`
+                    : ""
+                }
               >
                 <KitsuneCardComponent kitsuneCard={card}></KitsuneCardComponent>
               </div>
