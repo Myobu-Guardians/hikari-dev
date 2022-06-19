@@ -59,12 +59,23 @@ export default function KitsuneCardsInPlay(props: Props) {
             <div
               key={`kitsune-card-in-play-${index}-` + card.imageSrc}
               className={
-                (boardContainer.highlightedKitsuneCards.has(card)
-                  ? "cursor-pointer transition-all duration-300"
-                  : "cursor-not-allowed") + " "
+                boardContainer.isSelectingKitsuneCardToReplace && canSelect
+                  ? "cursor-pointer"
+                  : (boardContainer.highlightedKitsuneCards.has(card)
+                      ? "cursor-pointer transition-all duration-300"
+                      : "cursor-not-allowed") + " relative"
               }
               onClick={() => {
-                if (boardContainer.highlightedKitsuneCards.has(card)) {
+                if (
+                  canSelect &&
+                  boardContainer.isSelectingKitsuneCardToReplace &&
+                  boardContainer.selectedKitsuneCardToActivate
+                ) {
+                  boardContainer.placeAndActivateKitsuneCard(
+                    boardContainer.selectedKitsuneCardToActivate,
+                    card
+                  );
+                } else if (boardContainer.highlightedKitsuneCards.has(card)) {
                   boardContainer.placeAndActivateKitsuneCard(card);
                 }
               }}
@@ -80,11 +91,15 @@ export default function KitsuneCardsInPlay(props: Props) {
                   earningPoints > 0 && canSelect ? earningPoints : undefined
                 }
                 isInPlay={true}
+                showReplaceHint={
+                  canSelect && boardContainer.isSelectingKitsuneCardToReplace
+                }
               ></KitsuneCardComponent>
             </div>
           );
         })}
-        {!props.isOpponent &&
+        {
+          /*!props.isOpponent &&*/
           new Array(Math.max(0, NumOfKitsuneCardsInPlay - cards.length))
             .fill(null)
             .map((val: any, index: number) => {
@@ -107,7 +122,8 @@ export default function KitsuneCardsInPlay(props: Props) {
                   </div>
                 </div>
               );
-            })}
+            })
+        }
       </div>
     </div>
   );

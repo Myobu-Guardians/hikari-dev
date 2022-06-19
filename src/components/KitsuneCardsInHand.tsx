@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
+  BoardHeight,
+  BoardWidth,
   KitsuneCardHeight,
   KitsuneCardsInHandHeight,
   KitsuneCardsInHandLeft,
   KitsuneCardsInHandTop,
   KitsuneCardsInHandWidth,
   KitsuneCardWidth,
+  NumOfKitsuneCardsInPlay,
   OpponentKitsuneCardsInHandLeft,
   OpponentKitsuneCardsInHandTop,
 } from "../lib/constants";
@@ -112,9 +115,15 @@ export default function KitsuneCardsInHand(props: Props) {
                 style={{
                   left: (index * gameContainer.zoom * KitsuneCardWidth) / 3,
                   transform:
-                    mouseOverCard === card
+                    mouseOverCard === card ||
+                    boardContainer.selectedKitsuneCardToActivate === card
                       ? `translateY(${props.isOpponent ? 20 : -20}px)`
                       : `rotate(${(index - mid) * 10}deg) scale(75%)`,
+                  zIndex:
+                    mouseOverCard === card ||
+                    boardContainer.selectedKitsuneCardToActivate === card
+                      ? 100
+                      : 0,
                 }}
                 onMouseEnter={() => {
                   setMouseOverCard(card);
@@ -139,12 +148,41 @@ export default function KitsuneCardsInHand(props: Props) {
                     earningPoints && canSelect ? earningPoints : undefined
                   }
                   isInPlay={
-                    mouseOverCard === card || cards.length === 1 ? true : false
+                    mouseOverCard === card ||
+                    boardContainer.selectedKitsuneCardToActivate === card ||
+                    cards.length === 1
+                      ? true
+                      : false
                   }
                 ></KitsuneCardComponent>
               </div>
             );
           })}
+        </div>
+      )}
+      {boardContainer.isSelectingKitsuneCardToReplace && (
+        <div>
+          <div
+            className="text-white p-4 fixed text-center flex flex-row items-center"
+            style={{
+              fontSize: gameContainer.zoom * 18,
+              width: (gameContainer.zoom * BoardWidth) / 2,
+              height: gameContainer.zoom * 80,
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              left: gameContainer.zoom * 250,
+              top: gameContainer.zoom * (BoardHeight / 2 - 40),
+            }}
+          >
+            Please select the Kitsune card to replace with
+            <button
+              className="btn btn-sm btn-primary ml-2"
+              onClick={() => {
+                boardContainer.setIsSelectingKitsuneCardToReplace(false);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       )}
     </div>

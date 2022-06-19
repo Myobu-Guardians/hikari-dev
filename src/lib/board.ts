@@ -175,9 +175,24 @@ export class GameBoard {
     ) {
       player.kitsuneCardsInPlay.push(kitsuneCard);
     }
-    player.kitsuneCardsInHand = player.kitsuneCardsInHand.filter(
-      (card) => card.id !== kitsuneCard.id
-    );
+
+    if (replaceKitsuneCard) {
+      const replaceIndex =
+        player.kitsuneCardsInPlay.indexOf(replaceKitsuneCard);
+      if (replaceIndex >= 0) {
+        player.kitsuneCardsInPlay[replaceIndex] = kitsuneCard;
+      }
+
+      const replaceIndexInHand = player.kitsuneCardsInHand.indexOf(kitsuneCard);
+      if (replaceIndexInHand >= 0) {
+        player.kitsuneCardsInHand[replaceIndexInHand] = replaceKitsuneCard;
+      }
+    } else {
+      player.kitsuneCardsInHand = player.kitsuneCardsInHand.filter(
+        (card) => card.id !== kitsuneCard.id
+      );
+    }
+
     player.gamePoints += earningPoints;
 
     for (let i = 0; i < offeringCards.length; i++) {

@@ -71,7 +71,10 @@ function GamePoints() {
       }}
     >
       <div
-        className={!boardContainer.isPlayerTurn ? "text-orange-400" : ""}
+        className={
+          "transition-all duration-300 " +
+          (!boardContainer.isPlayerTurn ? "text-orange-400" : "")
+        }
         style={{
           fontSize:
             gameContainer.zoom * (!boardContainer.isPlayerTurn ? 48 : 36),
@@ -81,7 +84,10 @@ function GamePoints() {
       </div>
       <div className="text-gray-800">-</div>
       <div
-        className={boardContainer.isPlayerTurn ? "text-orange-400" : ""}
+        className={
+          "transition-all duration-300 " +
+          (boardContainer.isPlayerTurn ? "text-orange-400" : "")
+        }
         style={{
           fontSize:
             gameContainer.zoom * (boardContainer.isPlayerTurn ? 48 : 36),
