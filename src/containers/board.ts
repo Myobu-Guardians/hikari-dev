@@ -43,11 +43,12 @@ export const BoardContainer = createContainer(() => {
   }, [selectedOfferingCards, board]);
 
   const placeAndActivateKitsuneCard = useCallback(
-    (kitsuneCard: KitsuneCard) => {
+    (kitsuneCard: KitsuneCard, replaceKitsuneCard?: KitsuneCard) => {
       const success = board.placeAndActivateKitsuneCard(
         kitsuneCard,
         Array.from(selectedOfferingCards),
-        turns
+        turns,
+        replaceKitsuneCard
       );
       if (success) {
         setTurns((turns) => turns + 1);
@@ -73,8 +74,8 @@ export const BoardContainer = createContainer(() => {
       const newHighlightedKitsuneCards = new Set<KitsuneCard>();
       const player = isPlayerTurn ? board.player : board.opponent;
       const kitsuneCards = [
-        ...(player?.kitsunCardsInHand || []),
-        ...(player?.kitsunCardsInPlay || []),
+        ...(player?.kitsuneCardsInHand || []),
+        ...(player?.kitsuneCardsInPlay || []),
       ];
       const offeringCards = Array.from(selectedOfferingCards);
       if (!offeringCards.length) {

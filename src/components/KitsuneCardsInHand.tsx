@@ -26,8 +26,8 @@ export default function KitsuneCardsInHand(props: Props) {
 
   const cards =
     (props.isOpponent
-      ? boardContainer.board.opponent?.kitsunCardsInHand
-      : boardContainer.board.player?.kitsunCardsInHand) || [];
+      ? boardContainer.board.opponent?.kitsuneCardsInHand
+      : boardContainer.board.player?.kitsuneCardsInHand) || [];
 
   const canSelect =
     (boardContainer.isPlayerTurn && !props.isOpponent) ||
@@ -110,7 +110,7 @@ export default function KitsuneCardsInHand(props: Props) {
                   " hover:scale-125 hover:rotate-0 hover:transition-all hover:z-[100]"
                 }
                 style={{
-                  left: (index * gameContainer.zoom * KitsuneCardWidth) / 2.5,
+                  left: (index * gameContainer.zoom * KitsuneCardWidth) / 3,
                   transform:
                     mouseOverCard === card
                       ? `translateY(${props.isOpponent ? 20 : -20}px)`
@@ -133,7 +133,10 @@ export default function KitsuneCardsInHand(props: Props) {
                     : ""
                 }
               >
-                <KitsuneCardComponent kitsuneCard={card}></KitsuneCardComponent>
+                <KitsuneCardComponent
+                  kitsuneCard={card}
+                  earningPoints={earningPoints}
+                ></KitsuneCardComponent>
               </div>
             );
           })}

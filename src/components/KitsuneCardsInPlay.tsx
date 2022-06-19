@@ -23,8 +23,8 @@ export default function KitsuneCardsInPlay(props: Props) {
 
   const cards: KitsuneCard[] =
     (props.isOpponent
-      ? boardContainer.board.opponent?.kitsunCardsInPlay
-      : boardContainer.board.player?.kitsunCardsInPlay) || [];
+      ? boardContainer.board.opponent?.kitsuneCardsInPlay
+      : boardContainer.board.player?.kitsuneCardsInPlay) || [];
 
   return (
     <div
@@ -47,9 +47,33 @@ export default function KitsuneCardsInPlay(props: Props) {
     >
       <div className="w-full flex flex-row items-center justify-evenly">
         {cards.map((card, index) => {
+          const earningPoints = boardContainer.board.calculateEarningPoints(
+            card,
+            Array.from(boardContainer.selectedOfferingCards)
+          );
           return (
-            <div key={`kitsune-card-in-play-${index}-` + card.imageSrc}>
-              <KitsuneCardComponent kitsuneCard={card}></KitsuneCardComponent>
+            <div
+              key={`kitsune-card-in-play-${index}-` + card.imageSrc}
+              className={
+                (boardContainer.highlightedKitsuneCards.has(card)
+                  ? "cursor-pointer border-[8px] border-blue-500 transition-all duration-300"
+                  : "cursor-not-allowed") + " "
+              }
+              onClick={() => {
+                if (boardContainer.highlightedKitsuneCards.has(card)) {
+                  boardContainer.placeAndActivateKitsuneCard(card);
+                }
+              }}
+              title={
+                earningPoints > 0
+                  ? `Activate to earn ${earningPoints} points`
+                  : ""
+              }
+            >
+              <KitsuneCardComponent
+                kitsuneCard={card}
+                earningPoints={earningPoints}
+              ></KitsuneCardComponent>
             </div>
           );
         })}

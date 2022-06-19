@@ -16,6 +16,7 @@ import { intersperse } from "../lib/utils";
 
 interface Props {
   kitsuneCard: KitsuneCard;
+  earningPoints?: number;
 }
 
 function SpellTrigger(props: Props) {
@@ -62,7 +63,7 @@ function SpellTrigger(props: Props) {
         )}
       </div>
       <div
-        className="font-bold text-white px-2"
+        className="font-bold text-white py-2 px-4"
         style={{ fontSize: gameContainer.zoom * 8 }}
       >
         {spell}
@@ -111,6 +112,13 @@ export default function KitsuneCardComponent(props: Props) {
         }}
       ></img>
       <SpellTrigger kitsuneCard={props.kitsuneCard}></SpellTrigger>
+      {props.earningPoints && props.earningPoints > 0 ? (
+        <div className="w-full text-center absolute bottom-0 z-200 text-white bg-orange-500">
+          {`+ ${props.earningPoints} ${
+            props.earningPoints === 1 ? "point" : "points"
+          }`}
+        </div>
+      ) : null}
     </div>
   );
 }
