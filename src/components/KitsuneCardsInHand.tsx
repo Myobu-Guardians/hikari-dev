@@ -103,7 +103,7 @@ export default function KitsuneCardsInHand(props: Props) {
                     : "cursor-not-allowed") +
                   " " +
                   (boardContainer.highlightedKitsuneCards.has(card)
-                    ? "border-[8px] border-blue-500 transition-all duration-300"
+                    ? "transition-all duration-300"
                     : "") +
                   // ` rotate-[${(index - mid) * 10}deg] scale-75 ` +
                   " " +
@@ -128,14 +128,19 @@ export default function KitsuneCardsInHand(props: Props) {
                   }
                 }}
                 title={
-                  earningPoints > 0
+                  earningPoints > 0 && canSelect
                     ? `Activate to earn ${earningPoints} points`
                     : ""
                 }
               >
                 <KitsuneCardComponent
                   kitsuneCard={card}
-                  earningPoints={earningPoints}
+                  earningPoints={
+                    earningPoints && canSelect ? earningPoints : undefined
+                  }
+                  isInPlay={
+                    mouseOverCard === card || cards.length === 1 ? true : false
+                  }
                 ></KitsuneCardComponent>
               </div>
             );

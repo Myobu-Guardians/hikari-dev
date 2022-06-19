@@ -17,6 +17,7 @@ import { intersperse } from "../lib/utils";
 interface Props {
   kitsuneCard: KitsuneCard;
   earningPoints?: number;
+  isInPlay?: boolean; // true => in play, false => in hand
 }
 
 function SpellTrigger(props: Props) {
@@ -74,6 +75,7 @@ function SpellTrigger(props: Props) {
 
 export default function KitsuneCardComponent(props: Props) {
   const gameContainer = GameContainer.useContainer();
+  const deltaHeight = props.earningPoints && props.earningPoints > 0 ? 12 : 0;
   return (
     <div
       className={
@@ -97,18 +99,22 @@ export default function KitsuneCardComponent(props: Props) {
       <img
         src={getNumberImageSrcFromNumber(props.kitsuneCard.number)}
         alt={props.kitsuneCard.number.toString()}
-        className={"absolute left-2 bottom-1"}
+        className={"absolute left-2"}
         style={{
           width: gameContainer.zoom * KitsuneCardNumberWidth,
+          bottom: gameContainer.zoom * (4 + deltaHeight),
         }}
       ></img>
       <img
         src={getSymbolImageSrcFromSymbol(props.kitsuneCard.symbol)}
         alt={props.kitsuneCard.symbol}
-        className={"absolute right-3 bottom-4"}
+        className={"absolute " + (props.isInPlay ? "right-3" : "left-3")}
         style={{
           width: gameContainer.zoom * KitsuneCardSymbolSize,
           height: gameContainer.zoom * KitsuneCardSymbolSize,
+          bottom: props.isInPlay
+            ? gameContainer.zoom * (12 + deltaHeight)
+            : gameContainer.zoom * (36 + deltaHeight),
         }}
       ></img>
       <SpellTrigger kitsuneCard={props.kitsuneCard}></SpellTrigger>

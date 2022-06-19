@@ -14,6 +14,10 @@ export const BoardContainer = createContainer(() => {
   const [highlightedKitsuneCards, setHighlightedKitsuneCards] = useState<
     Set<KitsuneCard>
   >(new Set());
+  const [
+    isSelectingKitsuneCardToReplaceWith,
+    setIsSelectingKitsuneCardToReplaceWith,
+  ] = useState<boolean>(false);
 
   const drawKitsuneCard = useCallback(async () => {
     board.drawKitsuneCard(turns);
@@ -73,6 +77,7 @@ export const BoardContainer = createContainer(() => {
     setHighlightedKitsuneCards(() => {
       const newHighlightedKitsuneCards = new Set<KitsuneCard>();
       const player = isPlayerTurn ? board.player : board.opponent;
+      console.log("player: ", player);
       const kitsuneCards = [
         ...(player?.kitsuneCardsInHand || []),
         ...(player?.kitsuneCardsInPlay || []),

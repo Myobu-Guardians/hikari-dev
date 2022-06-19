@@ -21,8 +21,8 @@ export default function KitsuneCardsInDeck(props: Props) {
   const boardContainer = BoardContainer.useContainer();
   const cards =
     (props.isOpponent
-      ? boardContainer.board.opponent?.kitsunCardsInDeck
-      : boardContainer.board.player?.kitsunCardsInDeck) || [];
+      ? boardContainer.board.opponent?.kitsuneCardsInDeck
+      : boardContainer.board.player?.kitsuneCardsInDeck) || [];
 
   const canDraw =
     (boardContainer.isPlayerTurn && !props.isOpponent) ||

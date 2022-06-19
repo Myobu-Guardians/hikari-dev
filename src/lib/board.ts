@@ -9,7 +9,7 @@ import { generateUUID, shuffleArray } from "./utils";
 
 export interface Player {
   id: string;
-  kitsunCardsInDeck: KitsuneCard[];
+  kitsuneCardsInDeck: KitsuneCard[];
   kitsuneCardsInHand: KitsuneCard[];
   kitsuneCardsInPlay: KitsuneCard[];
   gamePoints: number;
@@ -57,7 +57,7 @@ export class GameBoard {
 
     this.player = {
       id: generateUUID(),
-      kitsunCardsInDeck: kitsuneCardsInDeck.slice(
+      kitsuneCardsInDeck: kitsuneCardsInDeck.slice(
         0,
         kitsuneCardsInDeck.length / 2
       ),
@@ -68,7 +68,7 @@ export class GameBoard {
     };
     this.opponent = {
       id: generateUUID(),
-      kitsunCardsInDeck: kitsuneCardsInDeck.slice(
+      kitsuneCardsInDeck: kitsuneCardsInDeck.slice(
         kitsuneCardsInDeck.length / 2,
         kitsuneCardsInDeck.length
       ),
@@ -87,9 +87,9 @@ export class GameBoard {
     }
 
     const randomIndex = Math.floor(
-      Math.random() * (player.kitsunCardsInDeck.length || 0)
+      Math.random() * (player.kitsuneCardsInDeck.length || 0)
     );
-    const pickedKitsuneCards = player.kitsunCardsInDeck.splice(randomIndex, 1);
+    const pickedKitsuneCards = player.kitsuneCardsInDeck.splice(randomIndex, 1);
     if (pickedKitsuneCards && pickedKitsuneCards[0]) {
       player.kitsuneCardsInHand.push(pickedKitsuneCards[0]);
     }

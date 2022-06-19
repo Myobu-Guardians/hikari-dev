@@ -26,6 +26,10 @@ export default function KitsuneCardsInPlay(props: Props) {
       ? boardContainer.board.opponent?.kitsuneCardsInPlay
       : boardContainer.board.player?.kitsuneCardsInPlay) || [];
 
+  const canSelect =
+    (boardContainer.isPlayerTurn && !props.isOpponent) ||
+    (!boardContainer.isPlayerTurn && props.isOpponent);
+
   return (
     <div
       className="absolute"
@@ -56,7 +60,7 @@ export default function KitsuneCardsInPlay(props: Props) {
               key={`kitsune-card-in-play-${index}-` + card.imageSrc}
               className={
                 (boardContainer.highlightedKitsuneCards.has(card)
-                  ? "cursor-pointer border-[8px] border-blue-500 transition-all duration-300"
+                  ? "cursor-pointer transition-all duration-300"
                   : "cursor-not-allowed") + " "
               }
               onClick={() => {
@@ -65,14 +69,17 @@ export default function KitsuneCardsInPlay(props: Props) {
                 }
               }}
               title={
-                earningPoints > 0
+                earningPoints > 0 && canSelect
                   ? `Activate to earn ${earningPoints} points`
                   : ""
               }
             >
               <KitsuneCardComponent
                 kitsuneCard={card}
-                earningPoints={earningPoints}
+                earningPoints={
+                  earningPoints > 0 && canSelect ? earningPoints : undefined
+                }
+                isInPlay={true}
               ></KitsuneCardComponent>
             </div>
           );
