@@ -40,10 +40,13 @@ export const OpponentKitsuneCardsInDeckTop = 20;
 export const OpponentKitsuneCardsInPlayLeft = 300;
 export const OpponentKitsuneCardsInPlayTop = 0;
 
-export const OpponentKitsuneCardsInHandLeft = KitsuneCardsInDeckLeft;
-export const OpponentKitsuneCardsInHandTop = 10;
+export const OpponentKitsuneCardsInHandLeft = KitsuneCardsInDeckLeft - 20;
+export const OpponentKitsuneCardsInHandTop = 0;
 
 export const OfferingCardSize = 90;
 
 export const KitsuneCardWidth = 735 / 6.5;
 export const KitsuneCardHeight = 1185 / 6.5;
+
+export const KitsuneCardNumberWidth = 26;
+export const KitsuneCardSymbolSize = 24;

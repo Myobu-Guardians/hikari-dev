@@ -6,7 +6,7 @@ import { BoardContainer } from "./containers/board";
 
 function App() {
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 select-none font-assasin">
       <BoardContainer.Provider>
         <Board></Board>
       </BoardContainer.Provider>

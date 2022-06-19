@@ -8,7 +8,7 @@ import {
   OfferingCardsInDeckWidth,
   OfferingCardSize,
 } from "../lib/constants";
-import OfferingCardBack from "../assets/images/offerings/back.jpg";
+import OfferingCardBack from "../assets/images/offerings/back.png";
 import { asciiStringToNumber } from "../lib/utils";
 
 export default function OfferingCardsInDeck() {
