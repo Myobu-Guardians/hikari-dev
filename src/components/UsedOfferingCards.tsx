@@ -9,7 +9,7 @@ import {
   UsedOfferingCardsInDeckWidth,
 } from "../lib/constants";
 import { asciiStringToNumber } from "../lib/utils";
-import OfferingCardBack from "../assets/images/offerings/back.jpg";
+import OfferingCardBack from "../assets/images/offerings/back.png";
 
 export default function UsedOfferingCards() {
   const gameContainer = GameContainer.useContainer();

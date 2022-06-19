@@ -16,6 +16,7 @@ import KitsuneCardComponent from "./KitsuneCard";
 
 interface Props {
   isOpponent?: boolean;
+  showOpponentsCards?: boolean;
 }
 export default function KitsuneCardsInHand(props: Props) {
   const gameContainer = GameContainer.useContainer();
@@ -49,27 +50,35 @@ export default function KitsuneCardsInHand(props: Props) {
         // backgroundColor: "rgba(0, 0, 0, 0.5)",
       }}
     >
-      {props.isOpponent ? (
-        new Array(Math.min(cards.length, 3))
-          .fill(null)
-          .map((val: any, index: number) => {
-            return (
-              <div
-                key={`kitsune-cards-in-deck-${index}`}
-                className={`absolute card shadow-sm shadow-black rounded-sm scale-90`}
-                style={{ left: index * 20 }}
-              >
-                <img
-                  src={KitsuneCardBack}
-                  alt={"Kitsune cards in hands"}
+      {props.isOpponent && !props.showOpponentsCards ? (
+        <div>
+          {new Array(Math.min(cards.length, 3))
+            .fill(null)
+            .map((val: any, index: number) => {
+              const mid = Math.floor(cards.length / 2);
+              return (
+                <div
+                  key={`kitsune-cards-in-deck-${index}`}
+                  className={`absolute card shadow-sm shadow-black rounded-sm`}
                   style={{
-                    width: gameContainer.zoom * KitsuneCardWidth * 0.8,
-                    height: gameContainer.zoom * KitsuneCardHeight * 0.8,
+                    left: (index * gameContainer.zoom * KitsuneCardWidth) / 2,
+                    transform: `rotate(${(index - mid) * 10}deg) scale(75%)`,
+                    width: gameContainer.zoom * KitsuneCardWidth,
+                    height: gameContainer.zoom * KitsuneCardHeight,
                   }}
-                ></img>
-              </div>
-            );
-          })
+                >
+                  <img
+                    src={KitsuneCardBack}
+                    alt={"Kitsune cards in hands"}
+                    style={{
+                      width: gameContainer.zoom * KitsuneCardWidth,
+                      height: gameContainer.zoom * KitsuneCardHeight,
+                    }}
+                  ></img>
+                </div>
+              );
+            })}
+        </div>
       ) : (
         <div>
           {cards.map((card, index: number) => {

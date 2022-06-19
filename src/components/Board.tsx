@@ -23,7 +23,13 @@ export default function Board() {
           height: `${BoardHeight * gameContainer.zoom}px`,
         }}
       >
-        <img src={HikariBoard}></img>
+        <img
+          src={HikariBoard}
+          style={{
+            width: `${BoardWidth * gameContainer.zoom}px`,
+            height: `${BoardHeight * gameContainer.zoom}px`,
+          }}
+        ></img>
 
         {/* Offering cards */}
         <OfferingCardsInDeck></OfferingCardsInDeck>
@@ -43,7 +49,10 @@ export default function Board() {
           <>
             <KitsuneCardsInDeck isOpponent={true}></KitsuneCardsInDeck>
             <KitsuneCardsInPlay isOpponent={true}></KitsuneCardsInPlay>
-            <KitsuneCardsInHand isOpponent={true}></KitsuneCardsInHand>
+            <KitsuneCardsInHand
+              isOpponent={true}
+              showOpponentsCards={false}
+            ></KitsuneCardsInHand>
           </>
         )}
       </div>
