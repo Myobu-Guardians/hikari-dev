@@ -1,13 +1,21 @@
 {
   "files": {
     "main.css": "/hikari-dev/static/css/main.e9f2fd45.css",
-    "main.js": "/hikari-dev/static/js/main.5a6d24d1.js",
+    "main.js": "/hikari-dev/static/js/main.d15b121c.js",
     "static/js/787.c67eddf0.chunk.js": "/hikari-dev/static/js/787.c67eddf0.chunk.js",
     "static/media/Hikari Playing Board with Items.png": "/hikari-dev/static/media/Hikari Playing Board with Items.1fbe314f282aadfa6bb0.png",
     "static/media/back.png": "/hikari-dev/static/media/back.b338c1f36b17c3ed8e9d.png",
     "static/media/dark.png": "/hikari-dev/static/media/dark.3b05e632ea43d19ebea9.png",
     "static/media/light.png": "/hikari-dev/static/media/light.6b5ff954a0e15ea54257.png",
-    "static/media/tail-1.jpeg": "/hikari-dev/static/media/tail-1.7036d6469b59260d4b2a.jpeg",
+    "static/media/tail-9.jpeg": "/hikari-dev/static/media/tail-9.4c5a734ae0eedb0b8cf1.jpeg",
+    "static/media/tail-7.jpeg": "/hikari-dev/static/media/tail-7.69dd25c3b7077dc394d0.jpeg",
+    "static/media/tail-6.jpeg": "/hikari-dev/static/media/tail-6.243f6302918c2f772efc.jpeg",
+    "static/media/tail-4.jpeg": "/hikari-dev/static/media/tail-4.63a0e81f1a88b84a75de.jpeg",
+    "static/media/tail-3.jpeg": "/hikari-dev/static/media/tail-3.fdb5152dfa7089fe03dc.jpeg",
+    "static/media/tail-5.jpeg": "/hikari-dev/static/media/tail-5.4fe6af647967aeb8812a.jpeg",
+    "static/media/tail-2.jpeg": "/hikari-dev/static/media/tail-2.6b93a8405aaf6f8c1ab4.jpeg",
+    "static/media/tail-1.jpeg": "/hikari-dev/static/media/tail-1.800d88562090e5572e76.jpeg",
+    "static/media/tail-8.jpeg": "/hikari-dev/static/media/tail-8.61c4685239ed7f7b2e2d.jpeg",
     "static/media/music-instrument-9.jpg": "/hikari-dev/static/media/music-instrument-9.4837c85431f500b69c79.jpg",
     "static/media/music-instrument-3.jpg": "/hikari-dev/static/media/music-instrument-3.609c40a358d71a3a7681.jpg",
     "static/media/treasure-8.jpg": "/hikari-dev/static/media/treasure-8.3829b4515a7b18297eeb.jpg",
@@ -81,11 +89,11 @@
     "static/media/4.png": "/hikari-dev/static/media/4.aeb12ef4f204f05984cd.png",
     "index.html": "/hikari-dev/index.html",
     "main.e9f2fd45.css.map": "/hikari-dev/static/css/main.e9f2fd45.css.map",
-    "main.5a6d24d1.js.map": "/hikari-dev/static/js/main.5a6d24d1.js.map",
+    "main.d15b121c.js.map": "/hikari-dev/static/js/main.d15b121c.js.map",
     "787.c67eddf0.chunk.js.map": "/hikari-dev/static/js/787.c67eddf0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e9f2fd45.css",
-    "static/js/main.5a6d24d1.js"
+    "static/js/main.d15b121c.js"
   ]
 }
