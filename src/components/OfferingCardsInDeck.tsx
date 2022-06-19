@@ -17,7 +17,7 @@ export default function OfferingCardsInDeck() {
 
   return (
     <div
-      className="absolute tooltip"
+      className="absolute tooltip cursor-not-allowed"
       data-tip="Offering cards in deck"
       style={{
         width: gameContainer.zoom * OfferingCardsInDeckWidth,

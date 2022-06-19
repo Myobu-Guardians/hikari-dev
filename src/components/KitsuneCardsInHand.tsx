@@ -27,13 +27,14 @@ export default function KitsuneCardsInHand(props: Props) {
       ? boardContainer.board.opponent?.kitsunCardsInHand
       : boardContainer.board.player?.kitsunCardsInHand) || [];
 
+  const canSelect =
+    (boardContainer.isPlayerTurn && !props.isOpponent) ||
+    (!boardContainer.isPlayerTurn && props.isOpponent);
+
   return (
     <div
-      className={
-        "absolute tooltip " +
-        (props.isOpponent ? "tooltip-right" : "tooltip-top")
-      }
-      data-tip="Kitsune cards in hand"
+      className={"absolute"}
+      title="Kitsune cards in hand"
       style={{
         width: gameContainer.zoom * KitsuneCardsInHandWidth,
         height: gameContainer.zoom * KitsuneCardsInHandHeight,
@@ -59,7 +60,10 @@ export default function KitsuneCardsInHand(props: Props) {
               return (
                 <div
                   key={`kitsune-cards-in-deck-${index}`}
-                  className={`absolute card shadow-sm shadow-black rounded-sm`}
+                  className={
+                    `absolute card shadow-sm shadow-black rounded-sm ` +
+                    (canSelect ? "" : "cursor-not-allowed")
+                  }
                   style={{
                     left: (index * gameContainer.zoom * KitsuneCardWidth) / 2,
                     transform: `rotate(${(index - mid) * 10}deg) scale(75%)`,
@@ -86,7 +90,14 @@ export default function KitsuneCardsInHand(props: Props) {
             return (
               <div
                 key={`kitsune-card-in-hand-${index}-` + card.imageSrc}
-                className={"absolute"}
+                className={
+                  "absolute " +
+                  (canSelect ? "cursor-pointer" : "cursor-not-allowed") +
+                  " " +
+                  (boardContainer.highlightedKitsuneCards.has(card)
+                    ? "border-[8px] border-blue-500 transition-all duration-300"
+                    : "")
+                }
                 style={{
                   left: (index * gameContainer.zoom * KitsuneCardWidth) / 2,
                   transform: `rotate(${(index - mid) * 10}deg) scale(75%)`,

@@ -12,6 +12,9 @@ import OfferingCardComponent from "./OfferingCard";
 export default function OfferingCardsInPlay() {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
+
+  let canSelect = true; // TODO: if remote and opponent then false
+
   return (
     <div
       className="absolute"
@@ -23,10 +26,22 @@ export default function OfferingCardsInPlay() {
         // backgroundColor: "rgb(233 30 99 / 36%)",
       }}
     >
-      <div className="w-full flex flex-row items-center justify-evenly">
+      <div className={"w-full flex flex-row items-center justify-evenly "}>
         {boardContainer.board.offeringCardsInPlay.map((offeringCard) => {
           return (
-            <div key={offeringCard.imageSrc}>
+            <div
+              key={offeringCard.imageSrc}
+              onClick={() => {
+                if (canSelect) {
+                  boardContainer.toggleOfferingCard(offeringCard);
+                }
+              }}
+              className={
+                boardContainer.selectedOfferingCards.has(offeringCard)
+                  ? "border-[6px] box-border border-orange-400 transition-all duration-200"
+                  : ""
+              }
+            >
               <OfferingCardComponent
                 offeringCard={offeringCard}
               ></OfferingCardComponent>

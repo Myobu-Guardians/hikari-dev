@@ -6,6 +6,8 @@ import {
   KitsuneCardsInPlayLeft,
   KitsuneCardsInPlayTop,
   KitsuneCardsInPlayWidth,
+  KitsuneCardWidth,
+  NumOfKitsuneCardsInPlay,
   OpponentKitsuneCardsInPlayLeft,
   OpponentKitsuneCardsInPlayTop,
 } from "../lib/constants";
@@ -51,6 +53,30 @@ export default function KitsuneCardsInPlay(props: Props) {
             </div>
           );
         })}
+        {!props.isOpponent &&
+          new Array(Math.max(0, NumOfKitsuneCardsInPlay - cards.length))
+            .fill(null)
+            .map((val: any, index: number) => {
+              return (
+                <div
+                  key={`empty-slot-${index}`}
+                  className={`border-4 border-dashed border-white text-white relative`}
+                  style={{
+                    width: gameContainer.zoom * KitsuneCardWidth,
+                    height: (221 / 137) * gameContainer.zoom * KitsuneCardWidth,
+                  }}
+                >
+                  <div
+                    className="absolute bottom-0 right-2"
+                    style={{
+                      fontSize: gameContainer.zoom * 16,
+                    }}
+                  >
+                    Activated<br></br>Kitsune
+                  </div>
+                </div>
+              );
+            })}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
   KitsuneCardHeight,
@@ -25,13 +26,19 @@ function SpellTrigger(props: Props) {
     <div className="flex flex-col items-center absolute top-2 w-full">
       <div className="flex flex-row items-center justify-center">
         {intersperse(
-          spellTrigger.map((spells) => {
+          spellTrigger.map((spells, index) => {
             return (
-              <div className="flex flex-row items-center justify-center">
+              <div
+                className="flex flex-row items-center justify-center"
+                key={`spells-${props.kitsuneCard.id}-${index}`}
+              >
                 {intersperse(
-                  spells.map((spell) => {
+                  spells.map((spell, index2) => {
                     return (
-                      <div className="flex flex-row items-center justify-center">
+                      <div
+                        className="flex flex-row items-center justify-center"
+                        key={`spells-${props.kitsuneCard.id}-${index}-${index2}`}
+                      >
                         <img
                           src={getSymbolImageSrcFromSymbol(spell)}
                           alt={spell}
@@ -46,15 +53,18 @@ function SpellTrigger(props: Props) {
                       </div>
                     );
                   }),
-                  <div className="font-bold mx-0.5">{"+"}</div>
+                  <div className="font-bold text-white">{"+"}</div>
                 )}
               </div>
             );
           }),
-          <div className="font-bold mx-0.5">{"/"}</div>
+          <div className="font-bold text-white">{"/"}</div>
         )}
       </div>
-      <div className="font-bold" style={{ fontSize: gameContainer.zoom * 8 }}>
+      <div
+        className="font-bold text-white px-2"
+        style={{ fontSize: gameContainer.zoom * 8 }}
+      >
         {spell}
       </div>
     </div>
@@ -65,7 +75,9 @@ export default function KitsuneCardComponent(props: Props) {
   const gameContainer = GameContainer.useContainer();
   return (
     <div
-      className="card shadow-black hover:shadow-lg hover:shadow-black hover:scale-125 hover:z-50 transform transition duration-300 rounded-sm m-2 glass shadow-md cursor-pointer"
+      className={
+        "card shadow-black hover:shadow-lg hover:shadow-black hover:scale-125 hover:z-50 transform transition duration-300 rounded-sm glass shadow-md"
+      }
       style={{ width: gameContainer.zoom * KitsuneCardWidth }}
     >
       <img

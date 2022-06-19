@@ -1,15 +1,19 @@
 import { NumOfOfferingCardsInPlay } from "./constants";
-import { exampleKitsuneCard, KitsuneCard } from "./kitsune";
+import { createKitsuneCards, exampleKitsuneCard, KitsuneCard } from "./kitsune";
 import { OfferingCard, createOfferingCards } from "./offering";
+import { generateUUID, shuffleArray } from "./utils";
 
 export interface Player {
+  id: string;
   kitsunCardsInDeck: KitsuneCard[];
   kitsunCardsInHand: KitsuneCard[];
   kitsunCardsInPlay: KitsuneCard[];
   gamePoints: number;
+  turnRemainder: 0 | 1;
 }
 
 export class GameBoard {
+  kitsuneCardsInDeck: KitsuneCard[] = [];
   offeringCardsInDeck: OfferingCard[] = [];
   offeringCardsInPlay: OfferingCard[] = [];
   usedOfferingCards: OfferingCard[] = [];
@@ -17,14 +21,13 @@ export class GameBoard {
   opponent?: Player = undefined;
 
   constructor() {
+    this.kitsuneCardsInDeck = createKitsuneCards();
     this.offeringCardsInDeck = createOfferingCards();
     this.offeringCardsInPlay = [];
     this.usedOfferingCards = [];
 
     this.drawOfferingCards();
-
-    // TODO: Delete below
-    this.createFakeKitsuneCards();
+    this.initializePlayers();
   }
 
   public drawOfferingCards() {
@@ -42,23 +45,54 @@ export class GameBoard {
     }
   }
 
-  private createFakeKitsuneCards() {
-    const fakeKitsuneCards: KitsuneCard[] = [
-      exampleKitsuneCard,
-      exampleKitsuneCard,
-      exampleKitsuneCard,
-    ];
+  private initializePlayers() {
+    const kitsuneCardsInDeck = shuffleArray(this.kitsuneCardsInDeck);
+
     this.player = {
-      kitsunCardsInDeck: fakeKitsuneCards,
-      kitsunCardsInHand: fakeKitsuneCards,
-      kitsunCardsInPlay: fakeKitsuneCards,
-      gamePoints: 4,
+      id: generateUUID(),
+      kitsunCardsInDeck: kitsuneCardsInDeck.splice(
+        0,
+        kitsuneCardsInDeck.length / 2
+      ),
+      kitsunCardsInHand: [],
+      kitsunCardsInPlay: [],
+      gamePoints: 0,
+      turnRemainder: 0,
     };
     this.opponent = {
-      kitsunCardsInDeck: fakeKitsuneCards,
-      kitsunCardsInHand: fakeKitsuneCards,
-      kitsunCardsInPlay: fakeKitsuneCards,
-      gamePoints: 6,
+      id: generateUUID(),
+      kitsunCardsInDeck: kitsuneCardsInDeck.splice(
+        kitsuneCardsInDeck.length / 2,
+        kitsuneCardsInDeck.length
+      ),
+      kitsunCardsInHand: [],
+      kitsunCardsInPlay: [],
+      gamePoints: 0,
+      turnRemainder: 1,
     };
+  }
+
+  public drawKitsuneCard(turns: number) {
+    const player =
+      turns % 2 === this.player?.turnRemainder ? this.player : this.opponent;
+    if (!player) {
+      return;
+    }
+
+    const randomIndex = Math.floor(
+      Math.random() * (player.kitsunCardsInDeck.length || 0)
+    );
+    const pickedKitsuneCards = player.kitsunCardsInDeck.splice(randomIndex, 1);
+    if (pickedKitsuneCards && pickedKitsuneCards[0]) {
+      player.kitsunCardsInHand.push(pickedKitsuneCards[0]);
+    }
+  }
+
+  public discardOfferingCard(offeringCard: OfferingCard) {
+    this.usedOfferingCards.push(offeringCard);
+    this.offeringCardsInPlay = this.offeringCardsInPlay.filter(
+      (card) => card.id !== offeringCard.id
+    );
+    this.drawOfferingCards();
   }
 }

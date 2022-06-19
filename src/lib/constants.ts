@@ -3,6 +3,7 @@ export const BoardHeight = 510;
 
 export const NumOfOfferingCardsInPlay = 4;
 export const NumOfKitsuneCardsInPlay = 3;
+export const WinPoints = 12;
 
 export const OfferingCardsInDeckLeft = 795;
 export const OfferingCardsInDeckTop = 195;
@@ -50,3 +51,6 @@ export const KitsuneCardHeight = 1185 / 6.5;
 
 export const KitsuneCardNumberWidth = 26;
 export const KitsuneCardSymbolSize = 24;
+
+export const BoardGamePointsLeft = 950;
+export const BoardGamePointsTop = 190;
