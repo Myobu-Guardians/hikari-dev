@@ -154,9 +154,12 @@ export class GameBoard {
     if (!player) {
       return false;
     }
+
+    /*
     if (player.kitsuneCardsInPlay.length >= NumOfKitsuneCardsInPlay) {
       return false;
     }
+    */
 
     const earningPoints = this.calculateEarningPoints(
       kitsuneCard,
@@ -166,7 +169,10 @@ export class GameBoard {
       return false;
     }
 
-    if (player.kitsuneCardsInPlay.indexOf(kitsuneCard) < 0) {
+    if (
+      player.kitsuneCardsInPlay.indexOf(kitsuneCard) < 0 &&
+      player.kitsuneCardsInPlay.length < NumOfKitsuneCardsInPlay
+    ) {
       player.kitsuneCardsInPlay.push(kitsuneCard);
     }
     player.kitsuneCardsInHand = player.kitsuneCardsInHand.filter(
