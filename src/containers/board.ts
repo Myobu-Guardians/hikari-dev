@@ -128,6 +128,10 @@ export const BoardContainer = createContainer(() => {
     }
   }, [isSelectingKitsuneCardToReplace]);
 
+  useEffect(() => {
+    // TODO: game over
+  }, [board.player?.gamePoints, board.opponent?.gamePoints]);
+
   return {
     board,
     turns,

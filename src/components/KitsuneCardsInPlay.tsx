@@ -60,10 +60,10 @@ export default function KitsuneCardsInPlay(props: Props) {
               key={`kitsune-card-in-play-${index}-` + card.imageSrc}
               className={
                 boardContainer.isSelectingKitsuneCardToReplace && canSelect
-                  ? "cursor-pointer border-4 border-blue-400"
+                  ? "cursor-pointer"
                   : (boardContainer.highlightedKitsuneCards.has(card)
                       ? "cursor-pointer transition-all duration-300"
-                      : "cursor-not-allowed") + " "
+                      : "cursor-not-allowed") + " relative"
               }
               onClick={() => {
                 if (
@@ -91,11 +91,15 @@ export default function KitsuneCardsInPlay(props: Props) {
                   earningPoints > 0 && canSelect ? earningPoints : undefined
                 }
                 isInPlay={true}
+                showReplaceHint={
+                  canSelect && boardContainer.isSelectingKitsuneCardToReplace
+                }
               ></KitsuneCardComponent>
             </div>
           );
         })}
-        {!props.isOpponent &&
+        {
+          /*!props.isOpponent &&*/
           new Array(Math.max(0, NumOfKitsuneCardsInPlay - cards.length))
             .fill(null)
             .map((val: any, index: number) => {
@@ -118,7 +122,8 @@ export default function KitsuneCardsInPlay(props: Props) {
                   </div>
                 </div>
               );
-            })}
+            })
+        }
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ interface Props {
   kitsuneCard: KitsuneCard;
   earningPoints?: number;
   isInPlay?: boolean; // true => in play, false => in hand
+  showReplaceHint?: boolean;
 }
 
 function SpellTrigger(props: Props) {
@@ -55,12 +56,26 @@ function SpellTrigger(props: Props) {
                       </div>
                     );
                   }),
-                  <div className="font-bold text-white">{"+"}</div>
+                  <div
+                    className="font-bold text-white"
+                    style={{
+                      fontSize: gameContainer.zoom * 12,
+                    }}
+                  >
+                    {"+"}
+                  </div>
                 )}
               </div>
             );
           }),
-          <div className="font-bold text-white">{"/"}</div>
+          <div
+            className="font-bold text-white"
+            style={{
+              fontSize: gameContainer.zoom * 12,
+            }}
+          >
+            {"/"}
+          </div>
         )}
       </div>
       <div
@@ -97,25 +112,30 @@ export default function KitsuneCardComponent(props: Props) {
           height: gameContainer.zoom * KitsuneCardHeight,
         }}
       ></img>
+      {/* Card number */}
       <img
         src={getNumberImageSrcFromNumber(props.kitsuneCard.number)}
         alt={props.kitsuneCard.number.toString()}
-        className={"absolute left-2"}
+        className={"absolute"}
         style={{
           width: gameContainer.zoom * KitsuneCardNumberWidth,
           bottom: gameContainer.zoom * (4 + deltaHeight),
+          left: gameContainer.zoom * 8,
         }}
       ></img>
+      {/* Card symbol */}
       <img
         src={getSymbolImageSrcFromSymbol(props.kitsuneCard.symbol)}
         alt={props.kitsuneCard.symbol}
-        className={"absolute " + (props.isInPlay ? "right-3" : "left-3")}
+        className={"absolute "}
         style={{
           width: gameContainer.zoom * KitsuneCardSymbolSize,
           height: gameContainer.zoom * KitsuneCardSymbolSize,
           bottom: props.isInPlay
             ? gameContainer.zoom * (12 + deltaHeight)
             : gameContainer.zoom * (36 + deltaHeight),
+          right: props.isInPlay ? gameContainer.zoom * 8 : "auto",
+          left: props.isInPlay ? "auto" : gameContainer.zoom * 8,
         }}
       ></img>
       <SpellTrigger kitsuneCard={props.kitsuneCard}></SpellTrigger>
@@ -129,6 +149,16 @@ export default function KitsuneCardComponent(props: Props) {
           {`+ ${props.earningPoints} ${
             props.earningPoints === 1 ? "point" : "points"
           }`}
+        </div>
+      ) : null}
+      {props.showReplaceHint ? (
+        <div
+          className="absolute bottom-0 text-white w-full text-center bg-orange-400"
+          style={{
+            fontSize: gameContainer.zoom * 12,
+          }}
+        >
+          Replace this card
         </div>
       ) : null}
     </div>
