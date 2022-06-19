@@ -1,4 +1,5 @@
 import React from "react";
+import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
   KitsuneCardHeight,
@@ -15,6 +16,8 @@ import { intersperse } from "../lib/utils";
 
 interface Props {
   kitsuneCard: KitsuneCard;
+  earningPoints?: number;
+  isInPlay?: boolean; // true => in play, false => in hand
 }
 
 function SpellTrigger(props: Props) {
@@ -25,13 +28,19 @@ function SpellTrigger(props: Props) {
     <div className="flex flex-col items-center absolute top-2 w-full">
       <div className="flex flex-row items-center justify-center">
         {intersperse(
-          spellTrigger.map((spells) => {
+          spellTrigger.map((spells, index) => {
             return (
-              <div className="flex flex-row items-center justify-center">
+              <div
+                className="flex flex-row items-center justify-center"
+                key={`spells-${props.kitsuneCard.id}-${index}`}
+              >
                 {intersperse(
-                  spells.map((spell) => {
+                  spells.map((spell, index2) => {
                     return (
-                      <div className="flex flex-row items-center justify-center">
+                      <div
+                        className="flex flex-row items-center justify-center"
+                        key={`spells-${props.kitsuneCard.id}-${index}-${index2}`}
+                      >
                         <img
                           src={getSymbolImageSrcFromSymbol(spell)}
                           alt={spell}
@@ -46,15 +55,18 @@ function SpellTrigger(props: Props) {
                       </div>
                     );
                   }),
-                  <div className="font-bold mx-0.5">{"+"}</div>
+                  <div className="font-bold text-white">{"+"}</div>
                 )}
               </div>
             );
           }),
-          <div className="font-bold mx-0.5">{"/"}</div>
+          <div className="font-bold text-white">{"/"}</div>
         )}
       </div>
-      <div className="font-bold" style={{ fontSize: gameContainer.zoom * 8 }}>
+      <div
+        className="font-bold text-white py-2 px-4"
+        style={{ fontSize: gameContainer.zoom * 8 }}
+      >
         {spell}
       </div>
     </div>
@@ -63,9 +75,12 @@ function SpellTrigger(props: Props) {
 
 export default function KitsuneCardComponent(props: Props) {
   const gameContainer = GameContainer.useContainer();
+  const deltaHeight = props.earningPoints && props.earningPoints > 0 ? 12 : 0;
   return (
     <div
-      className="card shadow-black hover:shadow-lg hover:shadow-black hover:scale-125 hover:z-50 transform transition duration-300 rounded-sm m-2 glass shadow-md cursor-pointer"
+      className={
+        "card shadow-black hover:shadow-lg hover:shadow-black hover:z-50 transform transition duration-300 rounded-sm glass shadow-md"
+      }
       style={{ width: gameContainer.zoom * KitsuneCardWidth }}
     >
       <img
@@ -84,21 +99,32 @@ export default function KitsuneCardComponent(props: Props) {
       <img
         src={getNumberImageSrcFromNumber(props.kitsuneCard.number)}
         alt={props.kitsuneCard.number.toString()}
-        className={"absolute left-2 bottom-1"}
+        className={"absolute left-2"}
         style={{
           width: gameContainer.zoom * KitsuneCardNumberWidth,
+          bottom: gameContainer.zoom * (4 + deltaHeight),
         }}
       ></img>
       <img
         src={getSymbolImageSrcFromSymbol(props.kitsuneCard.symbol)}
         alt={props.kitsuneCard.symbol}
-        className={"absolute right-3 bottom-4"}
+        className={"absolute " + (props.isInPlay ? "right-3" : "left-3")}
         style={{
           width: gameContainer.zoom * KitsuneCardSymbolSize,
           height: gameContainer.zoom * KitsuneCardSymbolSize,
+          bottom: props.isInPlay
+            ? gameContainer.zoom * (12 + deltaHeight)
+            : gameContainer.zoom * (36 + deltaHeight),
         }}
       ></img>
       <SpellTrigger kitsuneCard={props.kitsuneCard}></SpellTrigger>
+      {props.earningPoints && props.earningPoints > 0 ? (
+        <div className="w-full text-center absolute bottom-0 z-200 text-white bg-orange-500">
+          {`+ ${props.earningPoints} ${
+            props.earningPoints === 1 ? "point" : "points"
+          }`}
+        </div>
+      ) : null}
     </div>
   );
 }

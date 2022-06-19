@@ -21,16 +21,21 @@ export default function KitsuneCardsInDeck(props: Props) {
   const boardContainer = BoardContainer.useContainer();
   const cards =
     (props.isOpponent
-      ? boardContainer.board.opponent?.kitsunCardsInDeck
-      : boardContainer.board.player?.kitsunCardsInDeck) || [];
+      ? boardContainer.board.opponent?.kitsuneCardsInDeck
+      : boardContainer.board.player?.kitsuneCardsInDeck) || [];
+
+  const canDraw =
+    (boardContainer.isPlayerTurn && !props.isOpponent) ||
+    (!boardContainer.isPlayerTurn && props.isOpponent);
 
   return (
     <div
       className={
-        "absolute tooltip " +
-        (props.isOpponent ? "tooltip-bottom" : "tooltip-right")
+        "absolute " +
+        (props.isOpponent ? "tooltip-bottom" : "tooltip-right") +
+        " " +
+        (canDraw ? "cursor-pointer" : "cursor-not-allowed")
       }
-      data-tip="Kitsune cards in deck"
       style={{
         width: gameContainer.zoom * KitsuneCardsInDeckWidth,
         height: gameContainer.zoom * KitsuneCardsInDeckHeight,
@@ -49,13 +54,24 @@ export default function KitsuneCardsInDeck(props: Props) {
     >
       {new Array(Math.min(cards.length, 3))
         .fill(null)
-        .map((val: any, index: number) => {
+        .map((val: any, index: number, self) => {
           return (
             <div
               key={`kitsune-cards-in-deck-${index}`}
-              className={`absolute card shadow-sm shadow-black rounded-sm`}
+              className={
+                `absolute card shadow-sm shadow-black rounded-sm ` +
+                (canDraw && index === self.length - 1
+                  ? "hover:border-orange-400 hover:border-4 hover:transition-all tooltip"
+                  : "")
+              }
               style={{
                 transform: `rotate(${index * 10}deg)`,
+              }}
+              title={canDraw ? "Draw a card" : ""}
+              onClick={() => {
+                if (canDraw) {
+                  boardContainer.drawKitsuneCard();
+                }
               }}
             >
               <img
