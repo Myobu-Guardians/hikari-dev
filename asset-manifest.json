@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/hikari-dev/static/css/main.e2a3b826.css",
-    "main.js": "/hikari-dev/static/js/main.bec96c91.js",
+    "main.css": "/hikari-dev/static/css/main.e9f2fd45.css",
+    "main.js": "/hikari-dev/static/js/main.5a6d24d1.js",
     "static/js/787.c67eddf0.chunk.js": "/hikari-dev/static/js/787.c67eddf0.chunk.js",
     "static/media/Hikari Playing Board with Items.png": "/hikari-dev/static/media/Hikari Playing Board with Items.1fbe314f282aadfa6bb0.png",
     "static/media/back.png": "/hikari-dev/static/media/back.b338c1f36b17c3ed8e9d.png",
@@ -80,12 +80,12 @@
     "static/media/2.png": "/hikari-dev/static/media/2.8f7aef419a7ee65b8d96.png",
     "static/media/4.png": "/hikari-dev/static/media/4.aeb12ef4f204f05984cd.png",
     "index.html": "/hikari-dev/index.html",
-    "main.e2a3b826.css.map": "/hikari-dev/static/css/main.e2a3b826.css.map",
-    "main.bec96c91.js.map": "/hikari-dev/static/js/main.bec96c91.js.map",
+    "main.e9f2fd45.css.map": "/hikari-dev/static/css/main.e9f2fd45.css.map",
+    "main.5a6d24d1.js.map": "/hikari-dev/static/js/main.5a6d24d1.js.map",
     "787.c67eddf0.chunk.js.map": "/hikari-dev/static/js/787.c67eddf0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e2a3b826.css",
-    "static/js/main.bec96c91.js"
+    "static/css/main.e9f2fd45.css",
+    "static/js/main.5a6d24d1.js"
   ]
 }
