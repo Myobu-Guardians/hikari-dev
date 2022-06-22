@@ -26,7 +26,9 @@ export default function KitsuneCardsInDeck(props: Props) {
 
   const canDraw =
     (boardContainer.isPlayerTurn && !props.isOpponent) ||
-    (!boardContainer.isPlayerTurn && props.isOpponent);
+    (!boardContainer.isPlayerTurn &&
+      props.isOpponent &&
+      boardContainer.board.gameMode === "local");
 
   return (
     <div

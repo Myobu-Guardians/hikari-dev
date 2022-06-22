@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@0xgg/korona@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@0xgg/korona/-/korona-0.0.1.tgz#3df0e54628eaaf88d81d9de6a93f156b050ec852"
-  integrity sha512-Z1CmugZEWLpZgHZsrEhq6e9l/fyhK/JJs+veiyqShqie5LVJ0qyu6y43xmVZrLpI0W15FCUEHOUKTzNKEJNGmA==
+"@0xgg/korona@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@0xgg/korona/-/korona-0.0.3.tgz#347eec4e79aaaff3287a33dd24cf8811a7a91a7a"
+  integrity sha512-MTldz9te6IdsWXXnL6ZgsKjPXrFm25uBskmiBWWfOO99RkcGDH53p1QyNY4GEES8iVrilQEAbw4Jo3FuaYq/KA==
   dependencies:
-    peerjs "^1.2.0"
+    peerjs "^1.4.6"
 
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
@@ -6505,7 +6505,7 @@ peerjs-js-binarypack@1.0.1:
   resolved "https://registry.yarnpkg.com/peerjs-js-binarypack/-/peerjs-js-binarypack-1.0.1.tgz#80fa2b61c794a6b16d64253700405e476ada29be"
   integrity sha512-N6aeia3NhdpV7kiGxJV5xQiZZCVEEVjRz2T2C6UZQiBkHWHzUv/oWA4myQLcwBwO8LUoR1KWW5oStvwVesmfCg==
 
-peerjs@^1.2.0:
+peerjs@^1.4.6:
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/peerjs/-/peerjs-1.4.6.tgz#781f335f4043fcd686dc19acd3341db0570f7e72"
   integrity sha512-0XA105/9yBFGxfpyCjlI1bcBiyPmXHs8+UDvO2j1WGnY+FXilMn35+P/3t8HzKnUnR1SX0PRkDSk8kM17ciNxA==

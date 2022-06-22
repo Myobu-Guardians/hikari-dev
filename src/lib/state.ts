@@ -3,15 +3,23 @@ import { OfferingCard } from "./offering";
 import { SpellId } from "./spells";
 
 export type GameBoardState = {
+  id: string;
+  turns: number;
   offeringCardsInDeck: OfferingCard[];
+  offeringCardsInPlay: OfferingCard[];
+  usedOfferingCards: OfferingCard[];
   playerA: Player;
   playerB: Player;
-  turns: number;
 };
 
 export type GameStateAction =
   | {
       type: "CreateBoard";
+      board: GameBoardState;
+    }
+  | {
+      type: "UpdateBoard";
+      playerId: string; // The id of player that initiated this action
       board: GameBoardState;
     }
   | {
