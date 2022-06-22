@@ -2,8 +2,9 @@ export const BoardWidth = 1024;
 export const BoardHeight = 510;
 
 export const NumOfOfferingCardsInPlay = 4;
-export const NumOfKitsuneCardsInPlay = 3;
+export const NumOfKitsuneCardsInPlay = 2;
 export const NumOfKitsuneCardsInDeckPerPlayer = 6;
+export const MaxKitsuneCardNumber = 5;
 export const WinPoints = 12;
 
 export const OfferingCardsInDeckLeft = 795;

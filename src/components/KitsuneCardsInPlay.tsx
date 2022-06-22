@@ -106,10 +106,11 @@ export default function KitsuneCardsInPlay(props: Props) {
               return (
                 <div
                   key={`empty-slot-${index}`}
-                  className={`border-4 border-dashed border-white text-white relative`}
+                  className={`border-dashed border-white text-white relative`}
                   style={{
                     width: gameContainer.zoom * KitsuneCardWidth,
                     height: (221 / 137) * gameContainer.zoom * KitsuneCardWidth,
+                    borderWidth: gameContainer.zoom * 3,
                   }}
                 >
                   <div

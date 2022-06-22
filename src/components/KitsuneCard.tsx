@@ -23,8 +23,8 @@ interface Props {
 
 function SpellTrigger(props: Props) {
   const gameContainer = GameContainer.useContainer();
-  const spell = props.kitsuneCard.spell;
-  const spellTrigger = props.kitsuneCard.spellTrigger;
+  const spellDescription = props.kitsuneCard.spell?.description || "";
+  const spellTrigger = props.kitsuneCard.spell?.trigger || [];
   return (
     <div className="flex flex-col items-center absolute top-2 w-full">
       <div className="flex flex-row items-center justify-center">
@@ -82,7 +82,7 @@ function SpellTrigger(props: Props) {
         className="font-bold text-white py-2 px-4"
         style={{ fontSize: gameContainer.zoom * 8 }}
       >
-        {spell}
+        {spellDescription}
       </div>
     </div>
   );
@@ -124,20 +124,22 @@ export default function KitsuneCardComponent(props: Props) {
         }}
       ></img>
       {/* Card symbol */}
-      <img
-        src={getSymbolImageSrcFromSymbol(props.kitsuneCard.symbol)}
-        alt={props.kitsuneCard.symbol}
-        className={"absolute "}
-        style={{
-          width: gameContainer.zoom * KitsuneCardSymbolSize,
-          height: gameContainer.zoom * KitsuneCardSymbolSize,
-          bottom: props.isInPlay
-            ? gameContainer.zoom * (12 + deltaHeight)
-            : gameContainer.zoom * (36 + deltaHeight),
-          right: props.isInPlay ? gameContainer.zoom * 8 : "auto",
-          left: props.isInPlay ? "auto" : gameContainer.zoom * 8,
-        }}
-      ></img>
+      {props.kitsuneCard.symbol && (
+        <img
+          src={getSymbolImageSrcFromSymbol(props.kitsuneCard.symbol)}
+          alt={props.kitsuneCard.symbol}
+          className={"absolute "}
+          style={{
+            width: gameContainer.zoom * KitsuneCardSymbolSize,
+            height: gameContainer.zoom * KitsuneCardSymbolSize,
+            bottom: props.isInPlay
+              ? gameContainer.zoom * (12 + deltaHeight)
+              : gameContainer.zoom * (36 + deltaHeight),
+            right: props.isInPlay ? gameContainer.zoom * 8 : "auto",
+            left: props.isInPlay ? "auto" : gameContainer.zoom * 8,
+          }}
+        ></img>
+      )}
       <SpellTrigger kitsuneCard={props.kitsuneCard}></SpellTrigger>
       {!boardContainer.isSelectingKitsuneCardToReplace &&
       props.earningPoints &&

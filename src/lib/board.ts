@@ -3,18 +3,10 @@ import {
   NumOfKitsuneCardsInPlay,
   NumOfOfferingCardsInPlay,
 } from "./constants";
-import { createKitsuneCards, exampleKitsuneCard, KitsuneCard } from "./kitsune";
+import { createKitsuneCards, KitsuneCard } from "./kitsune";
 import { OfferingCard, createOfferingCards } from "./offering";
+import { Player } from "./player";
 import { generateUUID, shuffleArray } from "./utils";
-
-export interface Player {
-  id: string;
-  kitsuneCardsInDeck: KitsuneCard[];
-  kitsuneCardsInHand: KitsuneCard[];
-  kitsuneCardsInPlay: KitsuneCard[];
-  gamePoints: number;
-  turnRemainder: 0 | 1;
-}
 
 export class GameBoard {
   kitsuneCardsInDeck: KitsuneCard[] = [];
