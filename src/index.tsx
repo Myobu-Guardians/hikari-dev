@@ -4,16 +4,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { GameContainer } from "./containers/game";
+import "toastr/build/toastr.min.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <GameContainer.Provider>
-      <App></App>
-    </GameContainer.Provider>
-  </React.StrictMode>
+  <GameContainer.Provider>
+    <App></App>
+  </GameContainer.Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

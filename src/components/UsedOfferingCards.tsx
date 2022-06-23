@@ -30,7 +30,7 @@ export default function UsedOfferingCards() {
       {(canDiscard || boardContainer.board.usedOfferingCards.length === 0) && (
         <div
           className={
-            "absolute border-4 border-dashed text-white text-center " +
+            "absolute border-dashed text-white text-center " +
             (canDiscard
               ? "cursor-pointer border-red-500 z-50"
               : "cursor-not-allowed border-white")
@@ -38,6 +38,7 @@ export default function UsedOfferingCards() {
           style={{
             width: gameContainer.zoom * OfferingCardSize,
             height: gameContainer.zoom * OfferingCardSize,
+            borderWidth: gameContainer.zoom * 3,
           }}
         >
           <div
@@ -69,7 +70,7 @@ export default function UsedOfferingCards() {
                   (boardContainer.board.usedOfferingCards.length -
                     index +
                     asciiStringToNumber(
-                      boardContainer.board.usedOfferingCards[index].imageSrc
+                      boardContainer.board.usedOfferingCards[index].type
                     )) *
                   10
                 }deg)`,

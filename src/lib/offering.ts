@@ -67,21 +67,79 @@ import IncenseSymbol from "../assets/images/symbols/incense.png";
 import MusicInstrumentSymbol from "../assets/images/symbols/music-instrument.png";
 import PlantSymbol from "../assets/images/symbols/plant.png";
 import TreasureSymbol from "../assets/images/symbols/treasure.png";
+import OfferingCardBack from "../assets/images/offerings/back.png";
 
 export enum OfferingSymbol {
-  Beverage = "Beverage",
-  Food = "Food",
-  Incense = "Incense",
-  MusicInstrument = "MusicInstrument",
-  Plant = "Plant",
-  Treasure = "Treasure",
+  Beverage = "b",
+  Food = "f",
+  Incense = "i",
+  MusicInstrument = "m",
+  Plant = "p",
+  Treasure = "t",
+}
+
+export enum OfferingCardType {
+  Beverage1 = "b1",
+  Beverage2 = "b2",
+  Beverage3 = "b3",
+  Beverage4 = "b4",
+  Beverage5 = "b5",
+  Beverage6 = "b6",
+  Beverage7 = "b7",
+  Beverage8 = "b8",
+  Beverage9 = "b9",
+  Food1 = "f1",
+  Food2 = "f2",
+  Food3 = "f3",
+  Food4 = "f4",
+  Food5 = "f5",
+  Food6 = "f6",
+  Food7 = "f7",
+  Food8 = "f8",
+  Food9 = "f9",
+  Incense1 = "i1",
+  Incense2 = "i2",
+  Incense3 = "i3",
+  Incense4 = "i4",
+  Incense5 = "i5",
+  Incense6 = "i6",
+  Incense7 = "i7",
+  Incense8 = "i8",
+  Incense9 = "i9",
+  MusicInstrument1 = "m1",
+  MusicInstrument2 = "m2",
+  MusicInstrument3 = "m3",
+  MusicInstrument4 = "m4",
+  MusicInstrument5 = "m5",
+  MusicInstrument6 = "m6",
+  MusicInstrument7 = "m7",
+  MusicInstrument8 = "m8",
+  MusicInstrument9 = "m9",
+  Plant1 = "p1",
+  Plant2 = "p2",
+  Plant3 = "p3",
+  Plant4 = "p4",
+  Plant5 = "p5",
+  Plant6 = "p6",
+  Plant7 = "p7",
+  Plant8 = "p8",
+  Plant9 = "p9",
+  Treasure1 = "t1",
+  Treasure2 = "t2",
+  Treasure3 = "t3",
+  Treasure4 = "t4",
+  Treasure5 = "t5",
+  Treasure6 = "t6",
+  Treasure7 = "t7",
+  Treasure8 = "t8",
+  Treasure9 = "t9",
 }
 
 export interface OfferingCard {
   id: string;
+  type: OfferingCardType;
   symbol: OfferingSymbol;
   number: number;
-  imageSrc: string;
 }
 
 export function getNumberImageSrcFromNumber(number: number): string {
@@ -128,6 +186,121 @@ export function getSymbolImageSrcFromSymbol(symbol: OfferingSymbol): string {
   }
 }
 
+export function getOfferingCardImageSrc(offeringCard: OfferingCard): string {
+  switch (offeringCard.type) {
+    case OfferingCardType.Beverage1:
+      return Beverage1;
+    case OfferingCardType.Beverage2:
+      return Beverage2;
+    case OfferingCardType.Beverage3:
+      return Beverage3;
+    case OfferingCardType.Beverage4:
+      return Beverage4;
+    case OfferingCardType.Beverage5:
+      return Beverage5;
+    case OfferingCardType.Beverage6:
+      return Beverage6;
+    case OfferingCardType.Beverage7:
+      return Beverage7;
+    case OfferingCardType.Beverage8:
+      return Beverage8;
+    case OfferingCardType.Beverage9:
+      return Beverage9;
+    case OfferingCardType.Food1:
+      return Food1;
+    case OfferingCardType.Food2:
+      return Food2;
+    case OfferingCardType.Food3:
+      return Food3;
+    case OfferingCardType.Food4:
+      return Food4;
+    case OfferingCardType.Food5:
+      return Food5;
+    case OfferingCardType.Food6:
+      return Food6;
+    case OfferingCardType.Food7:
+      return Food7;
+    case OfferingCardType.Food8:
+      return Food8;
+    case OfferingCardType.Food9:
+      return Food9;
+    case OfferingCardType.Incense1:
+      return Incense1;
+    case OfferingCardType.Incense2:
+      return Incense2;
+    case OfferingCardType.Incense3:
+      return Incense3;
+    case OfferingCardType.Incense4:
+      return Incense4;
+    case OfferingCardType.Incense5:
+      return Incense5;
+    case OfferingCardType.Incense6:
+      return Incense6;
+    case OfferingCardType.Incense7:
+      return Incense7;
+    case OfferingCardType.Incense8:
+      return Incense8;
+    case OfferingCardType.Incense9:
+      return Incense9;
+    case OfferingCardType.MusicInstrument1:
+      return MusicInstrument1;
+    case OfferingCardType.MusicInstrument2:
+      return MusicInstrument2;
+    case OfferingCardType.MusicInstrument3:
+      return MusicInstrument3;
+    case OfferingCardType.MusicInstrument4:
+      return MusicInstrument4;
+    case OfferingCardType.MusicInstrument5:
+      return MusicInstrument5;
+    case OfferingCardType.MusicInstrument6:
+      return MusicInstrument6;
+    case OfferingCardType.MusicInstrument7:
+      return MusicInstrument7;
+    case OfferingCardType.MusicInstrument8:
+      return MusicInstrument8;
+    case OfferingCardType.MusicInstrument9:
+      return MusicInstrument9;
+    case OfferingCardType.Plant1:
+      return Plant1;
+    case OfferingCardType.Plant2:
+      return Plant2;
+    case OfferingCardType.Plant3:
+      return Plant3;
+    case OfferingCardType.Plant4:
+      return Plant4;
+    case OfferingCardType.Plant5:
+      return Plant5;
+    case OfferingCardType.Plant6:
+      return Plant6;
+    case OfferingCardType.Plant7:
+      return Plant7;
+    case OfferingCardType.Plant8:
+      return Plant8;
+    case OfferingCardType.Plant9:
+      return Plant9;
+    case OfferingCardType.Treasure1:
+      return Treasure1;
+    case OfferingCardType.Treasure2:
+      return Treasure2;
+    case OfferingCardType.Treasure3:
+      return Treasure3;
+    case OfferingCardType.Treasure4:
+      return Treasure4;
+    case OfferingCardType.Treasure5:
+      return Treasure5;
+    case OfferingCardType.Treasure6:
+      return Treasure6;
+    case OfferingCardType.Treasure7:
+      return Treasure7;
+    case OfferingCardType.Treasure8:
+      return Treasure8;
+    case OfferingCardType.Treasure9:
+      return Treasure9;
+    default:
+      return OfferingCardBack;
+  }
+}
+
 export function createOfferingCards(): OfferingCard[] {
   return [
     // Beverage
@@ -135,333 +308,332 @@ export function createOfferingCards(): OfferingCard[] {
       id: "Beverage 1",
       symbol: OfferingSymbol.Beverage,
       number: 1,
-      imageSrc: Beverage1,
+      type: OfferingCardType.Beverage1,
     },
     {
       id: "Beverage 2",
       symbol: OfferingSymbol.Beverage,
       number: 2,
-      imageSrc: Beverage2,
+      type: OfferingCardType.Beverage2,
     },
     {
       id: "Beverage 3",
       symbol: OfferingSymbol.Beverage,
       number: 3,
-      imageSrc: Beverage3,
+      type: OfferingCardType.Beverage3,
     },
     {
       id: "Beverage 4",
       symbol: OfferingSymbol.Beverage,
       number: 4,
-      imageSrc: Beverage4,
+      type: OfferingCardType.Beverage4,
     },
     {
       id: "Beverage 5",
       symbol: OfferingSymbol.Beverage,
       number: 5,
-      imageSrc: Beverage5,
+      type: OfferingCardType.Beverage5,
     },
     {
       id: "Beverage 6",
       symbol: OfferingSymbol.Beverage,
       number: 6,
-      imageSrc: Beverage6,
+      type: OfferingCardType.Beverage6,
     },
     {
       id: "Beverage 7",
       symbol: OfferingSymbol.Beverage,
       number: 7,
-      imageSrc: Beverage7,
+      type: OfferingCardType.Beverage7,
     },
     {
       id: "Beverage 8",
       symbol: OfferingSymbol.Beverage,
       number: 8,
-      imageSrc: Beverage8,
+      type: OfferingCardType.Beverage8,
     },
     {
       id: "Beverage 9",
       symbol: OfferingSymbol.Beverage,
       number: 9,
-      imageSrc: Beverage9,
+      type: OfferingCardType.Beverage9,
     },
     // Food
     {
       id: "Food 1",
       symbol: OfferingSymbol.Food,
       number: 1,
-      imageSrc: Food1,
+      type: OfferingCardType.Food1,
     },
     {
       id: "Food 2",
       symbol: OfferingSymbol.Food,
       number: 2,
-      imageSrc: Food2,
+      type: OfferingCardType.Food2,
     },
     {
       id: "Food 3",
       symbol: OfferingSymbol.Food,
       number: 3,
-      imageSrc: Food3,
+      type: OfferingCardType.Food3,
     },
     {
       id: "Food 4",
       symbol: OfferingSymbol.Food,
       number: 4,
-      imageSrc: Food4,
+      type: OfferingCardType.Food4,
     },
     {
       id: "Food 5",
       symbol: OfferingSymbol.Food,
       number: 5,
-      imageSrc: Food5,
+      type: OfferingCardType.Food5,
     },
     {
       id: "Food 6",
       symbol: OfferingSymbol.Food,
       number: 6,
-      imageSrc: Food6,
+      type: OfferingCardType.Food6,
     },
     {
       id: "Food 7",
       symbol: OfferingSymbol.Food,
       number: 7,
-      imageSrc: Food7,
+      type: OfferingCardType.Food7,
     },
     {
       id: "Food 8",
       symbol: OfferingSymbol.Food,
       number: 8,
-      imageSrc: Food8,
+      type: OfferingCardType.Food8,
     },
     {
       id: "Food 9",
       symbol: OfferingSymbol.Food,
       number: 9,
-      imageSrc: Food9,
+      type: OfferingCardType.Food9,
     },
     // Incense
     {
       id: "Incense 1",
       symbol: OfferingSymbol.Incense,
       number: 1,
-      imageSrc: Incense1,
+      type: OfferingCardType.Incense1,
     },
     {
       id: "Incense 2",
       symbol: OfferingSymbol.Incense,
       number: 2,
-      imageSrc: Incense2,
+      type: OfferingCardType.Incense2,
     },
     {
       id: "Incense 3",
       symbol: OfferingSymbol.Incense,
       number: 3,
-      imageSrc: Incense3,
+      type: OfferingCardType.Incense3,
     },
     {
       id: "Incense 4",
 
       symbol: OfferingSymbol.Incense,
       number: 4,
-      imageSrc: Incense4,
+      type: OfferingCardType.Incense4,
     },
     {
       id: "Incense 5",
       symbol: OfferingSymbol.Incense,
       number: 5,
-      imageSrc: Incense5,
+      type: OfferingCardType.Incense5,
     },
     {
       id: "Incense 6",
       symbol: OfferingSymbol.Incense,
       number: 6,
-      imageSrc: Incense6,
+      type: OfferingCardType.Incense6,
     },
     {
       id: "Incense 7",
       symbol: OfferingSymbol.Incense,
       number: 7,
-      imageSrc: Incense7,
+      type: OfferingCardType.Incense7,
     },
     {
       id: "Incense 8",
       symbol: OfferingSymbol.Incense,
       number: 8,
-      imageSrc: Incense8,
+      type: OfferingCardType.Incense8,
     },
     {
       id: "Incense 9",
       symbol: OfferingSymbol.Incense,
       number: 9,
-      imageSrc: Incense9,
+      type: OfferingCardType.Incense9,
     },
     // MusicInstrument
     {
       id: "MusicInstrument 1",
       symbol: OfferingSymbol.MusicInstrument,
       number: 1,
-      imageSrc: MusicInstrument1,
+      type: OfferingCardType.MusicInstrument1,
     },
     {
       id: "MusicInstrument 2",
       symbol: OfferingSymbol.MusicInstrument,
       number: 2,
-      imageSrc: MusicInstrument2,
+      type: OfferingCardType.MusicInstrument2,
     },
     {
       id: "MusicInstrument 3",
       symbol: OfferingSymbol.MusicInstrument,
       number: 3,
-      imageSrc: MusicInstrument3,
+      type: OfferingCardType.MusicInstrument3,
     },
     {
       id: "MusicInstrument 4",
       symbol: OfferingSymbol.MusicInstrument,
       number: 4,
-      imageSrc: MusicInstrument4,
+      type: OfferingCardType.MusicInstrument4,
     },
     {
       id: "MusicInstrument 5",
       symbol: OfferingSymbol.MusicInstrument,
       number: 5,
-      imageSrc: MusicInstrument5,
+      type: OfferingCardType.MusicInstrument5,
     },
     {
       id: "MusicInstrument 6",
       symbol: OfferingSymbol.MusicInstrument,
       number: 6,
-      imageSrc: MusicInstrument6,
+      type: OfferingCardType.MusicInstrument6,
     },
     {
       id: "MusicInstrument 7",
       symbol: OfferingSymbol.MusicInstrument,
       number: 7,
-      imageSrc: MusicInstrument7,
+      type: OfferingCardType.MusicInstrument7,
     },
     {
       id: "MusicInstrument 8",
       symbol: OfferingSymbol.MusicInstrument,
       number: 8,
 
-      imageSrc: MusicInstrument8,
+      type: OfferingCardType.MusicInstrument8,
     },
     {
       id: "MusicInstrument 9",
       symbol: OfferingSymbol.MusicInstrument,
       number: 9,
-      imageSrc: MusicInstrument9,
+      type: OfferingCardType.MusicInstrument9,
     },
     // Plant
     {
       id: "Plant 1",
       symbol: OfferingSymbol.Plant,
       number: 1,
-      imageSrc: Plant1,
+      type: OfferingCardType.Plant1,
     },
     {
       id: "Plant 2",
       symbol: OfferingSymbol.Plant,
       number: 2,
-      imageSrc: Plant2,
+      type: OfferingCardType.Plant2,
     },
     {
       id: "Plant 3",
       symbol: OfferingSymbol.Plant,
       number: 3,
-
-      imageSrc: Plant3,
+      type: OfferingCardType.Plant3,
     },
     {
       id: "Plant 4",
       symbol: OfferingSymbol.Plant,
       number: 4,
-      imageSrc: Plant4,
+      type: OfferingCardType.Plant4,
     },
     {
       id: "Plant 5",
       symbol: OfferingSymbol.Plant,
       number: 5,
-      imageSrc: Plant5,
+      type: OfferingCardType.Plant5,
     },
     {
       id: "Plant 6",
       symbol: OfferingSymbol.Plant,
       number: 6,
-      imageSrc: Plant6,
+      type: OfferingCardType.Plant6,
     },
     {
       id: "Plant 7",
       symbol: OfferingSymbol.Plant,
       number: 7,
-      imageSrc: Plant7,
+      type: OfferingCardType.Plant7,
     },
     {
       id: "Plant 8",
       symbol: OfferingSymbol.Plant,
       number: 8,
-      imageSrc: Plant8,
+      type: OfferingCardType.Plant8,
     },
     {
       id: "Plant 9",
       symbol: OfferingSymbol.Plant,
       number: 9,
-      imageSrc: Plant9,
+      type: OfferingCardType.Plant9,
     },
     // Treasure
     {
       id: "Treasure 1",
       symbol: OfferingSymbol.Treasure,
       number: 1,
-      imageSrc: Treasure1,
+      type: OfferingCardType.Treasure1,
     },
     {
       id: "Treasure 2",
       symbol: OfferingSymbol.Treasure,
       number: 2,
-      imageSrc: Treasure2,
+      type: OfferingCardType.Treasure2,
     },
     {
       id: "Treasure 3",
       symbol: OfferingSymbol.Treasure,
       number: 3,
-      imageSrc: Treasure3,
+      type: OfferingCardType.Treasure3,
     },
     {
       id: "Treasure 4",
       symbol: OfferingSymbol.Treasure,
       number: 4,
-      imageSrc: Treasure4,
+      type: OfferingCardType.Treasure4,
     },
     {
       id: "Treasure 5",
       symbol: OfferingSymbol.Treasure,
       number: 5,
-      imageSrc: Treasure5,
+      type: OfferingCardType.Treasure5,
     },
     {
       id: "Treasure 6",
       symbol: OfferingSymbol.Treasure,
       number: 6,
-      imageSrc: Treasure6,
+      type: OfferingCardType.Treasure6,
     },
     {
       id: "Treasure 7",
       symbol: OfferingSymbol.Treasure,
       number: 7,
-      imageSrc: Treasure7,
+      type: OfferingCardType.Treasure7,
     },
     {
       id: "Treasure 8",
       symbol: OfferingSymbol.Treasure,
       number: 8,
-      imageSrc: Treasure8,
+      type: OfferingCardType.Treasure8,
     },
     {
       id: "Treasure 9",
       symbol: OfferingSymbol.Treasure,
       number: 9,
-      imageSrc: Treasure9,
+      type: OfferingCardType.Treasure9,
     },
   ];
 }

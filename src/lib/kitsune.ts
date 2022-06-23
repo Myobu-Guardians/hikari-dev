@@ -8,22 +8,112 @@ import Tail6 from "../assets/images/kitsunes/tail-6.jpeg";
 import Tail7 from "../assets/images/kitsunes/tail-7.jpeg";
 import Tail8 from "../assets/images/kitsunes/tail-8.jpeg";
 import Tail9 from "../assets/images/kitsunes/tail-9.jpeg";
-
+import KitsuneCardBack from "../assets/images/kitsunes/back.jpg";
 import LightBorder from "../assets/images/borders/light.png";
 import DarkBorder from "../assets/images/borders/dark.png";
+import { MaxKitsuneCardNumber } from "./constants";
+import { getSpellById, Spell } from "./spells";
+
+export enum KitsuneCardType {
+  Tail1Light = "t1l",
+  Tail2Light = "t2l",
+  Tail3Light = "t3l",
+  Tail4Light = "t4l",
+  Tail5Light = "t5l",
+  Tail6Light = "t6l",
+  Tail7Light = "t7l",
+  Tail8Light = "t8l",
+  Tail9Light = "t9l",
+
+  Tail1Dark = "t1d",
+  Tail2Dark = "t2d",
+  Tail3Dark = "t3d",
+  Tail4Dark = "t4d",
+  Tail5Dark = "t5d",
+  Tail6Dark = "t6d",
+  Tail7Dark = "t7d",
+  Tail8Dark = "t8d",
+  Tail9Dark = "t9d",
+}
+
+export function getKitsuneCardBorderImageSrc(card: KitsuneCard) {
+  if (
+    card.type === KitsuneCardType.Tail1Light ||
+    card.type === KitsuneCardType.Tail2Light ||
+    card.type === KitsuneCardType.Tail3Light ||
+    card.type === KitsuneCardType.Tail4Light ||
+    card.type === KitsuneCardType.Tail5Light ||
+    card.type === KitsuneCardType.Tail6Light ||
+    card.type === KitsuneCardType.Tail7Light ||
+    card.type === KitsuneCardType.Tail8Light ||
+    card.type === KitsuneCardType.Tail9Light
+  ) {
+    return LightBorder;
+  } else {
+    return DarkBorder;
+  }
+}
+
+export function getKitsuneCardImageSrc(card: KitsuneCard) {
+  if (
+    card.type === KitsuneCardType.Tail1Light ||
+    card.type === KitsuneCardType.Tail1Dark
+  ) {
+    return Tail1;
+  } else if (
+    card.type === KitsuneCardType.Tail2Light ||
+    card.type === KitsuneCardType.Tail2Dark
+  ) {
+    return Tail2;
+  } else if (
+    card.type === KitsuneCardType.Tail3Light ||
+    card.type === KitsuneCardType.Tail3Dark
+  ) {
+    return Tail3;
+  } else if (
+    card.type === KitsuneCardType.Tail4Light ||
+    card.type === KitsuneCardType.Tail4Dark
+  ) {
+    return Tail4;
+  } else if (
+    card.type === KitsuneCardType.Tail5Light ||
+    card.type === KitsuneCardType.Tail5Dark
+  ) {
+    return Tail5;
+  } else if (
+    card.type === KitsuneCardType.Tail6Light ||
+    card.type === KitsuneCardType.Tail6Dark
+  ) {
+    return Tail6;
+  } else if (
+    card.type === KitsuneCardType.Tail7Light ||
+    card.type === KitsuneCardType.Tail7Dark
+  ) {
+    return Tail7;
+  } else if (
+    card.type === KitsuneCardType.Tail8Light ||
+    card.type === KitsuneCardType.Tail8Dark
+  ) {
+    return Tail8;
+  } else if (
+    card.type === KitsuneCardType.Tail9Light ||
+    card.type === KitsuneCardType.Tail9Dark
+  ) {
+    return Tail9;
+  } else {
+    return KitsuneCardBack;
+  }
+}
 
 export interface KitsuneCard {
-  id: string;
-  symbol: OfferingSymbol;
-  number: number;
-  imageSrc: string;
-  borderSrc: string;
-  spell: string;
-  /**
-   * [[A], [B]] means A || B
-   * [[A, B], [C]] means (A && B) || C
+  /*
+   * Might be the NFT address in the future
    */
-  spellTrigger: OfferingSymbol[][];
+  id: string;
+  type: KitsuneCardType;
+  symbol?: OfferingSymbol;
+  number: number;
+  spell?: Spell;
 }
 
 export function createKitsuneCards(): KitsuneCard[] {
@@ -31,189 +121,130 @@ export function createKitsuneCards(): KitsuneCard[] {
     /* Light */
     {
       id: "tail-1-light",
+      type: KitsuneCardType.Tail1Light,
       symbol: OfferingSymbol.Plant,
       number: 1,
-      imageSrc: Tail1,
-      borderSrc: LightBorder,
-      spell: "Gain one point",
-      spellTrigger: [
-        [OfferingSymbol.MusicInstrument],
-        [OfferingSymbol.Incense],
-      ],
+      spell: getSpellById("tail-1-light-spell"),
     },
     {
       id: "tail-2-light",
+      type: KitsuneCardType.Tail2Light,
       symbol: OfferingSymbol.MusicInstrument,
       number: 2,
-      imageSrc: Tail2,
-      borderSrc: LightBorder,
-      spell: "Increase any card number by three",
-      spellTrigger: [[OfferingSymbol.Plant], [OfferingSymbol.Incense]],
+      spell: getSpellById("tail-2-light-spell"),
     },
     {
       id: "tail-3-light",
+      type: KitsuneCardType.Tail3Light,
       symbol: OfferingSymbol.Incense,
       number: 3,
-      imageSrc: Tail3,
-      borderSrc: LightBorder,
-      spell: "When you activate any card, you can cast any spell",
-      spellTrigger: [],
+      spell: getSpellById("tail-3-light-spell"),
     },
     {
       id: "tail-4-light",
+      type: KitsuneCardType.Tail4Light,
       symbol: OfferingSymbol.Plant,
       number: 4,
-      imageSrc: Tail4,
-      borderSrc: LightBorder,
-      spell: "Add any symbol to target card",
-      spellTrigger: [[OfferingSymbol.MusicInstrument, OfferingSymbol.Incense]],
+      spell: getSpellById("tail-4-light-spell"),
     },
     {
       id: "tail-5-light",
+      type: KitsuneCardType.Tail5Light,
       symbol: OfferingSymbol.MusicInstrument,
       number: 5,
-      imageSrc: Tail5,
-      borderSrc: LightBorder,
-      spell: "When any Flora Offering is placed, you can activate any card",
-      spellTrigger: [[OfferingSymbol.Plant]],
+      spell: getSpellById("tail-5-light-spell"),
     },
     {
       id: "tail-6-light",
+      type: KitsuneCardType.Tail6Light,
       symbol: OfferingSymbol.Incense,
       number: 6,
-      imageSrc: Tail6,
-      borderSrc: LightBorder,
-      spell: "Replace this card with any card in your hand",
-      spellTrigger: [],
+      spell: getSpellById("tail-6-light-spell"),
     },
     {
       id: "tail-7-light",
+      type: KitsuneCardType.Tail7Light,
       symbol: OfferingSymbol.Plant,
       number: 7,
-      imageSrc: Tail7,
-      borderSrc: LightBorder,
-      spell: "Gain three points",
-      spellTrigger: [
-        [
-          OfferingSymbol.MusicInstrument,
-          OfferingSymbol.Plant,
-          OfferingSymbol.Incense,
-        ],
-      ],
+      spell: getSpellById("tail-7-light-spell"),
     },
     {
       id: "tail-8-light",
+      type: KitsuneCardType.Tail8Light,
       symbol: OfferingSymbol.MusicInstrument,
       number: 8,
-      imageSrc: Tail8,
-      borderSrc: LightBorder,
-      spell:
-        "When you cast a spell, you can remove any number or effects from any card",
-      spellTrigger: [],
+      spell: getSpellById("tail-8-light-spell"),
     },
     {
       id: "tail-9-light",
+      type: KitsuneCardType.Tail9Light,
       symbol: OfferingSymbol.Incense,
       number: 9,
-      imageSrc: Tail9,
-      borderSrc: LightBorder,
-      spell: "Draw three offerings, then put them back in any order",
-      spellTrigger: [[OfferingSymbol.Incense]],
+      spell: getSpellById("tail-9-light-spell"),
     },
-
     /* Dark */
     {
       id: "tail-1-dark",
+      type: KitsuneCardType.Tail1Dark,
       symbol: OfferingSymbol.Beverage,
       number: 1,
-      imageSrc: Tail1,
-      borderSrc: DarkBorder,
-      spell: "Enemy loses one point",
-      spellTrigger: [[OfferingSymbol.Food], [OfferingSymbol.Treasure]],
+      spell: getSpellById("tail-1-dark-spell"),
     },
     {
       id: "tail-2-dark",
+      type: KitsuneCardType.Tail2Dark,
       symbol: OfferingSymbol.Food,
       number: 2,
-      imageSrc: Tail2,
-      borderSrc: DarkBorder,
-      spell: "Decrease any card number by three",
-      spellTrigger: [[OfferingSymbol.Treasure], [OfferingSymbol.Beverage]],
+      spell: getSpellById("tail-2-dark-spell"),
     },
     {
       id: "tail-3-dark",
+      type: KitsuneCardType.Tail3Dark,
       symbol: OfferingSymbol.Treasure,
       number: 3,
-      imageSrc: Tail3,
-      borderSrc: DarkBorder,
-      spell: "When enemy activates their card, you can cast any spell",
-      spellTrigger: [],
+      spell: getSpellById("tail-3-dark-spell"),
     },
     {
       id: "tail-4-dark",
+      type: KitsuneCardType.Tail4Dark,
       symbol: OfferingSymbol.Beverage,
       number: 4,
-      imageSrc: Tail4,
-      borderSrc: DarkBorder,
-      spell: "Remove any symbol from target card",
-      spellTrigger: [[OfferingSymbol.Treasure], [OfferingSymbol.Food]],
+      spell: getSpellById("tail-4-dark-spell"),
     },
     {
       id: "tail-5-dark",
+      type: KitsuneCardType.Tail5Dark,
       symbol: OfferingSymbol.Food,
       number: 5,
-      imageSrc: Tail5,
-      borderSrc: DarkBorder,
-      spell: "When any Bounty Offering is placed, you can cast any spell",
-      spellTrigger: [[OfferingSymbol.Treasure]],
+      spell: getSpellById("tail-5-dark-spell"),
     },
     {
       id: "tail-6-dark",
+      type: KitsuneCardType.Tail6Dark,
       symbol: OfferingSymbol.Treasure,
       number: 6,
-      imageSrc: Tail6,
-      borderSrc: DarkBorder,
-      spell: "Look at the enemies hand",
-      spellTrigger: [[OfferingSymbol.Food], [OfferingSymbol.Beverage]],
+      spell: getSpellById("tail-6-dark-spell"),
     },
     {
       id: "tail-7-dark",
+      type: KitsuneCardType.Tail7Dark,
       symbol: OfferingSymbol.Beverage,
       number: 7,
-      imageSrc: Tail7,
-      borderSrc: DarkBorder,
-      spell: "Return target card to its owners hand",
-      spellTrigger: [[OfferingSymbol.Food], [OfferingSymbol.Treasure]],
+      spell: getSpellById("tail-7-dark-spell"),
     },
     {
       id: "tail-8-dark",
+      type: KitsuneCardType.Tail8Dark,
       symbol: OfferingSymbol.Food,
       number: 8,
-      imageSrc: Tail8,
-      borderSrc: DarkBorder,
-      spell: "Enemy loses three points",
-      spellTrigger: [
-        [OfferingSymbol.Food, OfferingSymbol.Beverage, OfferingSymbol.Treasure],
-      ],
+      spell: getSpellById("tail-8-dark-spell"),
     },
     {
       id: "tail-9-dark",
+      type: KitsuneCardType.Tail9Dark,
       symbol: OfferingSymbol.Treasure,
       number: 9,
-      imageSrc: Tail9,
-      borderSrc: DarkBorder,
-      spell: "Discard all Offerings",
-      spellTrigger: [[OfferingSymbol.Treasure]],
+      spell: getSpellById("tail-9-dark-spell"),
     },
-  ];
+  ].filter((card) => card.number <= MaxKitsuneCardNumber);
 }
-
-export const exampleKitsuneCard: KitsuneCard = {
-  id: "tail-1-dark",
-  symbol: OfferingSymbol.Beverage,
-  number: 1,
-  imageSrc: Tail1,
-  borderSrc: DarkBorder,
-  spell: "Enemy loses one point",
-  spellTrigger: [[OfferingSymbol.Food], [OfferingSymbol.Beverage]],
-};

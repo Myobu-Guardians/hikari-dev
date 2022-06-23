@@ -39,7 +39,7 @@ export default function OfferingCardsInDeck() {
                   (boardContainer.board.offeringCardsInDeck.length -
                     index +
                     asciiStringToNumber(
-                      boardContainer.board.offeringCardsInDeck[index].imageSrc
+                      boardContainer.board.offeringCardsInDeck[index].type
                     )) *
                   10
                 }deg)`,

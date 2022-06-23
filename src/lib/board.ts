@@ -1,37 +1,30 @@
+import { randomID } from "@0xgg/korona";
 import {
   NumOfKitsuneCardsInDeckPerPlayer,
   NumOfKitsuneCardsInPlay,
   NumOfOfferingCardsInPlay,
+  PlayerId,
 } from "./constants";
-import { createKitsuneCards, exampleKitsuneCard, KitsuneCard } from "./kitsune";
+import { createKitsuneCards, KitsuneCard } from "./kitsune";
 import { OfferingCard, createOfferingCards } from "./offering";
+import { Player } from "./player";
+import { GameBoardState } from "./state";
 import { generateUUID, shuffleArray } from "./utils";
 
-export interface Player {
-  id: string;
-  kitsuneCardsInDeck: KitsuneCard[];
-  kitsuneCardsInHand: KitsuneCard[];
-  kitsuneCardsInPlay: KitsuneCard[];
-  gamePoints: number;
-  turnRemainder: 0 | 1;
-}
+export type GameMode = "remote" | "local";
 
 export class GameBoard {
-  kitsuneCardsInDeck: KitsuneCard[] = [];
+  id = randomID();
   offeringCardsInDeck: OfferingCard[] = [];
   offeringCardsInPlay: OfferingCard[] = [];
   usedOfferingCards: OfferingCard[] = [];
   player?: Player = undefined;
   opponent?: Player = undefined;
+  turns: number = 0;
+  gameMode: GameMode = "local";
 
   constructor() {
-    this.kitsuneCardsInDeck = createKitsuneCards();
-    this.offeringCardsInDeck = createOfferingCards();
-    this.offeringCardsInPlay = [];
-    this.usedOfferingCards = [];
-
-    this.drawOfferingCards();
-    this.initializePlayers();
+    this.initializeBoardForLocalPlay();
   }
 
   public drawOfferingCards() {
@@ -49,14 +42,84 @@ export class GameBoard {
     }
   }
 
-  private initializePlayers() {
-    const kitsuneCardsInDeck = shuffleArray(this.kitsuneCardsInDeck).slice(
+  public initializeBoardForLocalPlay() {
+    this.id = randomID();
+    const kitsuneCardsInDeck = createKitsuneCards();
+    this.offeringCardsInDeck = createOfferingCards();
+    this.offeringCardsInPlay = [];
+    this.usedOfferingCards = [];
+    this.turns = 0;
+    this.gameMode = "local";
+
+    this.drawOfferingCards();
+    this.initializePlayers(kitsuneCardsInDeck);
+  }
+
+  public initializeBoardForPvP(hostId: string, guestId: string) {
+    this.id = randomID();
+    const kitsuneCardsInDeck = createKitsuneCards();
+    this.offeringCardsInDeck = createOfferingCards();
+    this.offeringCardsInPlay = [];
+    this.usedOfferingCards = [];
+    this.turns = 0;
+    this.gameMode = "remote";
+
+    this.drawOfferingCards();
+
+    let playerId = hostId;
+    let opponentId = guestId;
+    this.initializePlayers(kitsuneCardsInDeck, playerId, opponentId);
+  }
+
+  public saveState(): GameBoardState | null {
+    if (!this.player || !this.opponent) {
+      return null;
+    }
+
+    return {
+      id: this.id,
+      turns: this.turns,
+      offeringCardsInDeck: this.offeringCardsInDeck,
+      offeringCardsInPlay: this.offeringCardsInPlay,
+      usedOfferingCards: this.usedOfferingCards,
+      playerA: this.player,
+      playerB: this.opponent,
+    };
+  }
+
+  public loadState(boardState: GameBoardState) {
+    this.id = boardState.id;
+    this.turns = boardState.turns;
+    this.offeringCardsInDeck = boardState.offeringCardsInDeck;
+    this.offeringCardsInPlay = boardState.offeringCardsInPlay;
+    this.usedOfferingCards = boardState.usedOfferingCards;
+    this.gameMode = "remote";
+    if (PlayerId === boardState.playerA.id) {
+      this.player = boardState.playerA;
+      this.opponent = boardState.playerB;
+    } else if (PlayerId === boardState.playerB.id) {
+      this.player = boardState.playerB;
+      this.opponent = boardState.playerA;
+    } else {
+      this.player = boardState.playerA;
+      this.opponent = boardState.playerB;
+    }
+  }
+
+  private initializePlayers(
+    kitsuneCards: KitsuneCard[],
+    playerId?: string,
+    opponentId?: string
+  ) {
+    const kitsuneCardsInDeck = shuffleArray(kitsuneCards).slice(
       0,
       NumOfKitsuneCardsInDeckPerPlayer * 2
     );
 
+    let flag = Math.random() < 0.5;
+
     this.player = {
-      id: generateUUID(),
+      id: playerId || PlayerId,
       kitsuneCardsInDeck: kitsuneCardsInDeck.slice(
         0,
         kitsuneCardsInDeck.length / 2
@@ -64,10 +127,10 @@ export class GameBoard {
       kitsuneCardsInHand: [],
       kitsuneCardsInPlay: [],
       gamePoints: 0,
-      turnRemainder: 0,
+      turnRemainder: flag ? 0 : 1,
     };
     this.opponent = {
-      id: generateUUID(),
+      id: opponentId || generateUUID(),
       kitsuneCardsInDeck: kitsuneCardsInDeck.slice(
         kitsuneCardsInDeck.length / 2,
         kitsuneCardsInDeck.length
@@ -75,7 +138,7 @@ export class GameBoard {
       kitsuneCardsInHand: [],
       kitsuneCardsInPlay: [],
       gamePoints: 0,
-      turnRemainder: 1,
+      turnRemainder: flag ? 1 : 0,
     };
   }
 
@@ -92,6 +155,7 @@ export class GameBoard {
     const pickedKitsuneCards = player.kitsuneCardsInDeck.splice(randomIndex, 1);
     if (pickedKitsuneCards && pickedKitsuneCards[0]) {
       player.kitsuneCardsInHand.push(pickedKitsuneCards[0]);
+      return pickedKitsuneCards[0];
     }
   }
 
@@ -200,5 +264,17 @@ export class GameBoard {
     }
 
     return true;
+  }
+
+  public nextTurn() {
+    this.turns += 1;
+  }
+
+  public getPreviousActionInitiatorId() {
+    if ((this.turns - 1) % 2 === this.player?.turnRemainder) {
+      return this.player.id;
+    } else {
+      return this.opponent?.id || "";
+    }
   }
 }

@@ -10,7 +10,6 @@ import {
   KitsuneCardsInHandTop,
   KitsuneCardsInHandWidth,
   KitsuneCardWidth,
-  NumOfKitsuneCardsInPlay,
   OpponentKitsuneCardsInHandLeft,
   OpponentKitsuneCardsInHandTop,
 } from "../lib/constants";
@@ -34,7 +33,9 @@ export default function KitsuneCardsInHand(props: Props) {
 
   const canSelect =
     (boardContainer.isPlayerTurn && !props.isOpponent) ||
-    (!boardContainer.isPlayerTurn && props.isOpponent);
+    (!boardContainer.isPlayerTurn &&
+      props.isOpponent &&
+      boardContainer.board.gameMode === "local");
 
   return (
     <div
@@ -98,7 +99,7 @@ export default function KitsuneCardsInHand(props: Props) {
             );
             return (
               <div
-                key={`kitsune-card-in-hand-${index}-` + card.imageSrc}
+                key={`kitsune-card-in-hand-${index}-` + card.id}
                 className={
                   "absolute " +
                   (boardContainer.highlightedKitsuneCards.has(card)
