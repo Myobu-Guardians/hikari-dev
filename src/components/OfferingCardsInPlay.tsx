@@ -32,7 +32,7 @@ export default function OfferingCardsInPlay() {
         {boardContainer.board.offeringCardsInPlay.map((offeringCard) => {
           return (
             <div
-              key={offeringCard.imageSrc}
+              key={offeringCard.id}
               onClick={() => {
                 if (canSelect) {
                   boardContainer.toggleOfferingCard(offeringCard);

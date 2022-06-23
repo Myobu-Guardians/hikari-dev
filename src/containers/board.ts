@@ -115,13 +115,16 @@ export const BoardContainer = createContainer(() => {
   }, [board]);
 
   useEffect(() => {
-    setIsPlayerTurn(turns % 2 === board.player?.turnRemainder);
+    setIsPlayerTurn(
+      turns % 2 === board.player?.turnRemainder &&
+        (board.player.id === playerId || board.gameMode === "local")
+    );
     setSelectedOfferingCards(new Set());
     setHighlightedKitsuneCards(new Set());
 
     setIsSelectingKitsuneCardToReplace(false);
     setSelectedKitsuneCardToActivate(null);
-  }, [board, turns, boardId]);
+  }, [board, turns, boardId, playerId]);
 
   useEffect(() => {
     setHighlightedKitsuneCards(() => {

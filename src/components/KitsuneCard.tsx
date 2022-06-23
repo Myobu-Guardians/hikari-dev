@@ -7,7 +7,11 @@ import {
   KitsuneCardSymbolSize,
   KitsuneCardWidth,
 } from "../lib/constants";
-import { KitsuneCard } from "../lib/kitsune";
+import {
+  getKitsuneCardBorderImageSrc,
+  getKitsuneCardImageSrc,
+  KitsuneCard,
+} from "../lib/kitsune";
 import {
   getNumberImageSrcFromNumber,
   getSymbolImageSrcFromSymbol,
@@ -100,12 +104,12 @@ export default function KitsuneCardComponent(props: Props) {
       style={{ width: gameContainer.zoom * KitsuneCardWidth }}
     >
       <img
-        src={props.kitsuneCard.borderSrc}
+        src={getKitsuneCardBorderImageSrc(props.kitsuneCard)}
         alt={"Border"}
         className={"absolute"}
       ></img>
       <img
-        src={props.kitsuneCard.imageSrc}
+        src={getKitsuneCardImageSrc(props.kitsuneCard)}
         alt={props.kitsuneCard.id}
         style={{
           width: gameContainer.zoom * KitsuneCardWidth,

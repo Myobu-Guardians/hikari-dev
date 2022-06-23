@@ -70,7 +70,7 @@ export default function UsedOfferingCards() {
                   (boardContainer.board.usedOfferingCards.length -
                     index +
                     asciiStringToNumber(
-                      boardContainer.board.usedOfferingCards[index].imageSrc
+                      boardContainer.board.usedOfferingCards[index].type
                     )) *
                   10
                 }deg)`,

@@ -57,7 +57,7 @@ export default function KitsuneCardsInPlay(props: Props) {
           );
           return (
             <div
-              key={`kitsune-card-in-play-${index}-` + card.imageSrc}
+              key={`kitsune-card-in-play-${index}-` + card.id}
               className={
                 boardContainer.isSelectingKitsuneCardToReplace && canSelect
                   ? "cursor-pointer"
