@@ -64,4 +64,9 @@ export type GameStateAction =
   | {
       type: "ClickOfferingCard";
       playerId: string;
+    }
+  | {
+      type: "SendMessage";
+      from: string;
+      message: string;
     };

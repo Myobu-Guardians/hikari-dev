@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from "react";
+import React, { useState } from "react";
 import { GameContainer } from "../containers/game";
 import {
   BoardGamePointsLeft,
@@ -101,8 +101,10 @@ function GamePoints() {
 }
 
 export default function Board() {
+  const [message, setMessage] = useState<string>("");
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
+
   return (
     <div className="container mx-auto px-4">
       <div
@@ -147,6 +149,34 @@ export default function Board() {
                 ? `Your Id: ${boardContainer.playerId}`
                 : "Connecting to Myobu Metaverse"}
             </div>
+            {boardContainer.playerId &&
+              boardContainer.board.gameMode === "remote" && (
+                <div>
+                  <input
+                    type="text"
+                    className="input absolute right-2 input-bordered input-ghost border-orange-500 text-white"
+                    style={{
+                      fontSize: gameContainer.zoom * 12,
+                      width: gameContainer.zoom * 128,
+                      height: gameContainer.zoom * 36,
+                      bottom: gameContainer.zoom * 36,
+                      borderWidth: gameContainer.zoom * 2,
+                    }}
+                    placeholder="Send message"
+                    value={message}
+                    onChange={(event) => {
+                      setMessage(event.target.value);
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.which === 13 && message.length) {
+                        // Pressed enter key
+                        boardContainer.sendMessage(message);
+                        setMessage("");
+                      }
+                    }}
+                  ></input>
+                </div>
+              )}
           </>
         )}
         {/* Opponent */}

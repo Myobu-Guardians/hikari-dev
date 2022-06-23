@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { GameContainer } from "./containers/game";
+import "toastr/build/toastr.min.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

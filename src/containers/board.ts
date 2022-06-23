@@ -6,6 +6,7 @@ import { KitsuneCard } from "../lib/kitsune";
 import { OfferingCard } from "../lib/offering";
 import { Korona } from "@0xgg/korona";
 import { GameStateAction } from "../lib/state";
+import toastr from "toastr";
 
 export const BoardContainer = createContainer(() => {
   const [peer, setPeer] = useState<Korona | null>(null);
@@ -110,6 +111,21 @@ export const BoardContainer = createContainer(() => {
     [board, selectedOfferingCards, turns, getPlayer, broadcastBoardState]
   );
 
+  const sendMessage = useCallback(
+    (message: string) => {
+      if (peer) {
+        const action: GameStateAction = {
+          type: "SendMessage",
+          from: playerId,
+          message,
+        };
+        peer.send(action);
+        toastr.info(message, playerId);
+      }
+    },
+    [peer, playerId]
+  );
+
   useEffect(() => {
     (window as any)["board"] = board;
   }, [board]);
@@ -200,6 +216,10 @@ export const BoardContainer = createContainer(() => {
               board.loadState(boardState);
               setTurns(board.turns);
               setBoardId(board.id);
+            } else if (stateAction.type === "SendMessage") {
+              toastr.info(stateAction.message, stateAction.from, {
+                timeOut: 8000,
+              });
             }
           }
         },
@@ -277,5 +297,6 @@ export const BoardContainer = createContainer(() => {
     // p2p
     playerId,
     opponentId,
+    sendMessage,
   };
 });
