@@ -24,9 +24,11 @@
   "scripts": {
     "git-info": "echo export default \"{\\\"logMessage\\\": \\\"$(git log -1 --oneline)\\\",\\\"hash\\\":\\\"$(git rev-parse HEAD)\\\"}\"  > src/git_commit.js",
     "start": "react-scripts start",
-    "build": "yarn git-info && react-scripts build",
+    "build": "yarn git-info && react-scripts build && yarn build:service-worker",
+    "build:service-worker": "gulp service-worker",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -49,7 +51,12 @@
   "devDependencies": {
     "@types/toastr": "^2.1.39",
     "autoprefixer": "^10.4.7",
+    "gulp": "^4.0.2",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sass": "^5.1.0",
+    "husky": "^8.0.1",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.3"
+    "tailwindcss": "^3.1.3",
+    "workbox-build": "^6.5.3"
   }
 }

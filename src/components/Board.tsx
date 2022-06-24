@@ -19,11 +19,17 @@ import { BoardContainer } from "../containers/board";
 import { copyToClipboard } from "../lib/utils";
 
 export function HelpModal() {
+  const gameContainer = GameContainer.useContainer();
   return (
     <div>
       <label
         htmlFor="help-modal"
-        className="btn btn-primary btn-sm modal-button absolute top-2 right-2 z-50"
+        className="btn btn-primary btn-sm modal-button absolute z-50"
+        style={{
+          top: gameContainer.zoom * 4,
+          right: gameContainer.zoom * 16,
+          fontSize: gameContainer.zoom * 12,
+        }}
       >
         Help ?
       </label>
