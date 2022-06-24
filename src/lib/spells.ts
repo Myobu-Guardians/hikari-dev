@@ -31,6 +31,7 @@ export interface Spell {
 }
 
 const spells: Map<SpellId, Spell> = new Map();
+// Light
 spells.set("tail-1-light-spell", {
   id: "tail-1-light-spell",
   description: "Gain one point",
@@ -83,6 +84,7 @@ spells.set("tail-9-light-spell", {
   description: "Draw three offerings, then put them back in any order",
   trigger: [[OfferingSymbol.Incense]],
 });
+// Dark
 spells.set("tail-1-dark-spell", {
   id: "tail-1-dark-spell",
   description: "Enemy loses one point",

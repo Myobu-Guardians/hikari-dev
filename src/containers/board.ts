@@ -27,6 +27,10 @@ export const BoardContainer = createContainer(() => {
     useState<KitsuneCard | null>(null);
   const [castingSpellsOfKitsuneCards, setCastingSpellsOfKitsuneCards] =
     useState<KitsuneCard[]>([]);
+  const [
+    isSelectingKitsuneCardToCastSpellAt,
+    setIsSelectingKitsuneCardToCastSpellAt,
+  ] = useState<boolean>(false);
 
   const [playerId, setPlayerId] = useState<string>("");
   const [opponentId, setOpponentId] = useState<string>("");
@@ -140,6 +144,52 @@ export const BoardContainer = createContainer(() => {
       }
     },
     [selectedOfferingCards]
+  );
+  const cancelCastingSpell = useCallback(() => {
+    setIsSelectingKitsuneCardToCastSpellAt(false);
+    setCastingSpellsOfKitsuneCards((cards) => cards.slice(1));
+  }, []);
+
+  const castSpellAtKitsuneCard = useCallback(
+    (targetKitsuneCard: KitsuneCard) => {
+      const card = castingSpellsOfKitsuneCards[0];
+      if (!card) {
+        return alert("Error: castSpellAtKitsuneCard no card to cast spell");
+      }
+      if (card.spell?.id === "tail-2-light-spell") {
+        /** Increase any card number by three */
+        board.castTail2LightSpell(
+          targetKitsuneCard,
+          Array.from(selectedOfferingCards),
+          turns
+        );
+        board.nextTurn();
+        setTurns(board.turns);
+        cancelCastingSpell();
+        broadcastBoardState();
+      } else if (card.spell?.id === "tail-2-dark-spell") {
+        /** Decrease any card number by three */
+        board.castTail2DarkSpell(
+          targetKitsuneCard,
+          Array.from(selectedOfferingCards),
+          turns
+        );
+        board.nextTurn();
+        setTurns(board.turns);
+        cancelCastingSpell();
+        broadcastBoardState();
+      } else {
+        alert(`Error: castSpellAtKitsuneCard invalid spell ${card.spell?.id}`);
+      }
+    },
+    [
+      selectedOfferingCards,
+      castingSpellsOfKitsuneCards,
+      board,
+      broadcastBoardState,
+      turns,
+      cancelCastingSpell,
+    ]
   );
 
   useEffect(() => {
@@ -295,11 +345,14 @@ export const BoardContainer = createContainer(() => {
   }, [board]);
 
   useEffect(() => {
-    if (castingSpellsOfKitsuneCards.length) {
+    if (
+      castingSpellsOfKitsuneCards.length > 0 &&
+      !isSelectingKitsuneCardToCastSpellAt
+    ) {
       const card = castingSpellsOfKitsuneCards[0];
       // Gain one point
       if (card.spell?.id === "tail-1-light-spell") {
-        board.castTail1LightSkill(Array.from(selectedOfferingCards), turns);
+        board.castTail1LightSpell(Array.from(selectedOfferingCards), turns);
         setCastingSpellsOfKitsuneCards((castingSpellsOfKitsuneCards) =>
           castingSpellsOfKitsuneCards.slice(1)
         );
@@ -307,15 +360,34 @@ export const BoardContainer = createContainer(() => {
         setTurns(board.turns);
         broadcastBoardState();
       }
-      // Enemy loses one point
-      else if (card.spell?.id === "tail-1-dark-spell") {
-        board.castTail1DarkSkill(Array.from(selectedOfferingCards), turns);
+      // Increase any card number by three
+      else if (card.spell?.id === "tail-2-light-spell") {
+        setIsSelectingKitsuneCardToCastSpellAt(true);
+      }
+      // Gain three points
+      else if (card.spell?.id === "tail-7-light-spell") {
+        board.castTail7LightSpell(Array.from(selectedOfferingCards), turns);
         setCastingSpellsOfKitsuneCards((castingSpellsOfKitsuneCards) =>
           castingSpellsOfKitsuneCards.slice(1)
         );
         board.nextTurn();
         setTurns(board.turns);
         broadcastBoardState();
+      } // Enemy loses one point
+      else if (card.spell?.id === "tail-1-dark-spell") {
+        board.castTail1DarkSpell(Array.from(selectedOfferingCards), turns);
+        setCastingSpellsOfKitsuneCards((castingSpellsOfKitsuneCards) =>
+          castingSpellsOfKitsuneCards.slice(1)
+        );
+        board.nextTurn();
+        setTurns(board.turns);
+        broadcastBoardState();
+      }
+      // Decrease any card number by three
+      else if (card.spell?.id === "tail-2-dark-spell") {
+        setIsSelectingKitsuneCardToCastSpellAt(true);
+      } else {
+        alert(`Spell ${card.spell?.id} not implemented`);
       }
     }
   }, [
@@ -324,6 +396,7 @@ export const BoardContainer = createContainer(() => {
     selectedOfferingCards,
     castingSpellsOfKitsuneCards,
     broadcastBoardState,
+    isSelectingKitsuneCardToCastSpellAt,
   ]);
 
   return {
@@ -343,6 +416,10 @@ export const BoardContainer = createContainer(() => {
     selectedKitsuneCardToActivate,
 
     castSpell,
+    castSpellAtKitsuneCard,
+    cancelCastingSpell,
+    isSelectingKitsuneCardToCastSpellAt,
+    castingSpellsOfKitsuneCards,
 
     // p2p
     playerId,

@@ -34,6 +34,12 @@ export default function OfferingCardsInPlay() {
             <div
               key={offeringCard.id}
               onClick={() => {
+                if (
+                  boardContainer.isSelectingKitsuneCardToReplace ||
+                  boardContainer.isSelectingKitsuneCardToCastSpellAt
+                ) {
+                  return;
+                }
                 if (canSelect) {
                   boardContainer.toggleOfferingCard(offeringCard);
                 }

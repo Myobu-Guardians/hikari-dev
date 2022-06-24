@@ -204,6 +204,62 @@ export default function Board() {
             </div>
           </>
         )}
+        {/* Activate a kitsune card and replace one in play */}
+        {boardContainer.isSelectingKitsuneCardToReplace && (
+          <div>
+            <div
+              className="text-white p-4 fixed text-center flex flex-row items-center"
+              style={{
+                fontSize: gameContainer.zoom * 18,
+                width: (gameContainer.zoom * BoardWidth) / 2,
+                height: gameContainer.zoom * 80,
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
+                left: gameContainer.zoom * 250,
+                top: gameContainer.zoom * (BoardHeight / 2 - 40),
+              }}
+            >
+              Please select the Kitsune card to replace with
+              <button
+                className="btn btn-sm btn-primary ml-2"
+                onClick={() => {
+                  boardContainer.setIsSelectingKitsuneCardToReplace(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+        {/* Casting spell, selecting target Kitsune card */}
+        {boardContainer.isSelectingKitsuneCardToCastSpellAt &&
+          boardContainer.castingSpellsOfKitsuneCards.length > 0 && (
+            <div>
+              <div
+                className="text-white p-4 fixed text-center flex flex-row items-center"
+                style={{
+                  fontSize: gameContainer.zoom * 18,
+                  width: (gameContainer.zoom * BoardWidth) / 2,
+                  height: gameContainer.zoom * 80,
+                  backgroundColor: "rgba(0, 0, 0, 0.8)",
+                  left: gameContainer.zoom * 250,
+                  top: gameContainer.zoom * (BoardHeight / 2 - 40),
+                }}
+              >
+                {
+                  boardContainer.castingSpellsOfKitsuneCards[0].spell
+                    ?.description
+                }
+                <button
+                  className="btn btn-sm btn-primary ml-2"
+                  onClick={() => {
+                    boardContainer.cancelCastingSpell();
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
       </div>
     </div>
   );

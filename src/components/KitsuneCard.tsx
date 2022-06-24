@@ -22,7 +22,7 @@ interface Props {
   kitsuneCard: KitsuneCard;
   earningPoints?: number;
   isInPlay?: boolean; // true => in play, false => in hand
-  showReplaceHint?: boolean;
+  showHint?: string;
   showCastSpell?: boolean;
 }
 
@@ -186,14 +186,14 @@ export default function KitsuneCardComponent(props: Props) {
           }`}
         </div>
       ) : null}
-      {props.showReplaceHint ? (
+      {props.showHint ? (
         <div
           className="absolute bottom-0 text-white w-full text-center bg-orange-400"
           style={{
             fontSize: gameContainer.zoom * 12,
           }}
         >
-          Replace this card
+          {props.showHint}
         </div>
       ) : null}
     </div>

@@ -102,7 +102,11 @@ export default function KitsuneCardsInHand(props: Props) {
                 key={`kitsune-card-in-hand-${index}-` + card.id}
                 className={
                   "absolute " +
-                  (boardContainer.highlightedKitsuneCards.has(card)
+                  (boardContainer.highlightedKitsuneCards.has(card) &&
+                  !(
+                    boardContainer.isSelectingKitsuneCardToCastSpellAt ||
+                    boardContainer.isSelectingKitsuneCardToReplace
+                  )
                     ? "cursor-pointer"
                     : "cursor-not-allowed") +
                   " " +
@@ -133,6 +137,12 @@ export default function KitsuneCardsInHand(props: Props) {
                   setMouseOverCard(null);
                 }}
                 onClick={() => {
+                  if (
+                    boardContainer.isSelectingKitsuneCardToCastSpellAt ||
+                    boardContainer.isSelectingKitsuneCardToReplace
+                  ) {
+                    return;
+                  }
                   if (boardContainer.highlightedKitsuneCards.has(card)) {
                     boardContainer.placeAndActivateKitsuneCard(card);
                   }
@@ -147,6 +157,7 @@ export default function KitsuneCardsInHand(props: Props) {
                   kitsuneCard={card}
                   earningPoints={
                     !boardContainer.isSelectingKitsuneCardToReplace &&
+                    !boardContainer.isSelectingKitsuneCardToCastSpellAt &&
                     earningPoints &&
                     canSelect
                       ? earningPoints
@@ -163,31 +174,6 @@ export default function KitsuneCardsInHand(props: Props) {
               </div>
             );
           })}
-        </div>
-      )}
-      {boardContainer.isSelectingKitsuneCardToReplace && (
-        <div>
-          <div
-            className="text-white p-4 fixed text-center flex flex-row items-center"
-            style={{
-              fontSize: gameContainer.zoom * 18,
-              width: (gameContainer.zoom * BoardWidth) / 2,
-              height: gameContainer.zoom * 80,
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
-              left: gameContainer.zoom * 250,
-              top: gameContainer.zoom * (BoardHeight / 2 - 40),
-            }}
-          >
-            Please select the Kitsune card to replace with
-            <button
-              className="btn btn-sm btn-primary ml-2"
-              onClick={() => {
-                boardContainer.setIsSelectingKitsuneCardToReplace(false);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
         </div>
       )}
     </div>

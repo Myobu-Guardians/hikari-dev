@@ -283,7 +283,7 @@ export class GameBoard {
    * @param offeringCards
    * @param turns
    */
-  public castTail1LightSkill(offeringCards: OfferingCard[], turns: number) {
+  public castTail1LightSpell(offeringCards: OfferingCard[], turns: number) {
     const player =
       turns % 2 === this.player?.turnRemainder ? this.player : this.opponent;
     if (!player) {
@@ -296,15 +296,78 @@ export class GameBoard {
   }
 
   /**
+   * Increase any card number by three
+   * @param targetKitsuneCard
+   * @param offeringCards
+   * @param turns
+   * @returns
+   */
+  public castTail2LightSpell(
+    targetKitsuneCard: KitsuneCard,
+    offeringCards: OfferingCard[],
+    turns: number
+  ) {
+    const player =
+      turns % 2 === this.player?.turnRemainder ? this.player : this.opponent;
+    if (!player) {
+      return;
+    }
+    targetKitsuneCard.number = Math.min(targetKitsuneCard.number + 3, 9); // Can't greater than 9
+    offeringCards.forEach((offeringCard) => {
+      this.discardOfferingCard(offeringCard);
+    });
+  }
+
+  /**
+   * Gain three points
+   * @param offeringCards
+   * @param turns
+   */
+  public castTail7LightSpell(offeringCards: OfferingCard[], turns: number) {
+    const player =
+      turns % 2 === this.player?.turnRemainder ? this.player : this.opponent;
+    if (!player) {
+      return;
+    }
+    player.gamePoints += 3;
+    offeringCards.forEach((offeringCard) => {
+      this.discardOfferingCard(offeringCard);
+    });
+  }
+
+  /**
    * Enemy loses one point
    */
-  public castTail1DarkSkill(offeringCards: OfferingCard[], turns: number) {
+  public castTail1DarkSpell(offeringCards: OfferingCard[], turns: number) {
     const player =
       turns % 2 === this.player?.turnRemainder ? this.opponent : this.player;
     if (!player) {
       return;
     }
     player.gamePoints = Math.max(player.gamePoints - 1, 0);
+    offeringCards.forEach((offeringCard) => {
+      this.discardOfferingCard(offeringCard);
+    });
+  }
+
+  /**
+   * Decrease any card number by three
+   * @param targetKitsuneCard
+   * @param offeringCards
+   * @param turns
+   * @returns
+   */
+  public castTail2DarkSpell(
+    targetKitsuneCard: KitsuneCard,
+    offeringCards: OfferingCard[],
+    turns: number
+  ) {
+    const player =
+      turns % 2 === this.player?.turnRemainder ? this.player : this.opponent;
+    if (!player) {
+      return;
+    }
+    targetKitsuneCard.number = Math.max(targetKitsuneCard.number - 3, 1); // TODO: Can it be below 1?
     offeringCards.forEach((offeringCard) => {
       this.discardOfferingCard(offeringCard);
     });

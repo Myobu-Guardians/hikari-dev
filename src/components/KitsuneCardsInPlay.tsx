@@ -66,7 +66,9 @@ export default function KitsuneCardsInPlay(props: Props) {
             <div
               key={`kitsune-card-in-play-${index}-` + card.id}
               className={
-                boardContainer.isSelectingKitsuneCardToReplace && canSelect
+                boardContainer.isSelectingKitsuneCardToCastSpellAt
+                  ? "cursor-pointer"
+                  : boardContainer.isSelectingKitsuneCardToReplace && canSelect
                   ? "cursor-pointer"
                   : (boardContainer.highlightedKitsuneCards.has(card)
                       ? "cursor-pointer transition-all duration-300"
@@ -84,6 +86,8 @@ export default function KitsuneCardsInPlay(props: Props) {
                   );
                 } else if (boardContainer.highlightedKitsuneCards.has(card)) {
                   boardContainer.placeAndActivateKitsuneCard(card);
+                } else if (boardContainer.isSelectingKitsuneCardToCastSpellAt) {
+                  boardContainer.castSpellAtKitsuneCard(card);
                 }
               }}
               title={
@@ -96,17 +100,23 @@ export default function KitsuneCardsInPlay(props: Props) {
                 kitsuneCard={card}
                 earningPoints={
                   !boardContainer.isSelectingKitsuneCardToReplace &&
+                  !boardContainer.isSelectingKitsuneCardToCastSpellAt &&
                   earningPoints > 0 &&
                   canSelect
                     ? earningPoints
                     : undefined
                 }
                 isInPlay={true}
-                showReplaceHint={
+                showHint={
                   canSelect && boardContainer.isSelectingKitsuneCardToReplace
+                    ? "Replace this card"
+                    : boardContainer.isSelectingKitsuneCardToCastSpellAt
+                    ? "Target this card"
+                    : ""
                 }
                 showCastSpell={
                   !boardContainer.isSelectingKitsuneCardToReplace &&
+                  !boardContainer.isSelectingKitsuneCardToCastSpellAt &&
                   canCastSpell_
                 }
               ></KitsuneCardComponent>
