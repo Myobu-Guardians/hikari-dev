@@ -4,7 +4,10 @@ import "./App.css";
 import Board from "./components/Board";
 import ServiceWorkerWrapper from "./components/ServiceWorkerWrapper";
 import { BoardContainer } from "./containers/board";
-import { GameContainer } from "./containers/game";
+// @ts-ignore
+import PWAPrompt from "react-ios-pwa-prompt";
+const is = require("is_js");
+(window as any)["is"] = is;
 
 function App() {
   useEffect(() => {
@@ -30,6 +33,11 @@ function App() {
         <Board></Board>
       </BoardContainer.Provider>
       <ServiceWorkerWrapper></ServiceWorkerWrapper>
+      {is.safari() ? (
+        <div className="z-50 font-sans text-black">
+          <PWAPrompt></PWAPrompt>
+        </div>
+      ) : null}
     </div>
   );
 }

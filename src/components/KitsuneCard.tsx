@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
@@ -29,6 +29,37 @@ function SpellTrigger(props: Props) {
   const gameContainer = GameContainer.useContainer();
   const spellDescription = props.kitsuneCard.spell?.description || "";
   const spellTrigger = props.kitsuneCard.spell?.trigger || [];
+
+  const plus = useMemo(
+    () => (
+      <div
+        className="font-bold text-white"
+        style={{
+          fontSize: gameContainer.zoom * 12,
+        }}
+        key={"plus"}
+      >
+        {"+"}
+      </div>
+    ),
+    [gameContainer.zoom]
+  );
+
+  const slash = useMemo(
+    () => (
+      <div
+        className="font-bold text-white"
+        style={{
+          fontSize: gameContainer.zoom * 12,
+        }}
+        key="slash"
+      >
+        {"/"}
+      </div>
+    ),
+    [gameContainer.zoom]
+  );
+
   return (
     <div className="flex flex-col items-center absolute top-2 w-full">
       <div className="flex flex-row items-center justify-center">
@@ -60,26 +91,12 @@ function SpellTrigger(props: Props) {
                       </div>
                     );
                   }),
-                  <div
-                    className="font-bold text-white"
-                    style={{
-                      fontSize: gameContainer.zoom * 12,
-                    }}
-                  >
-                    {"+"}
-                  </div>
+                  plus
                 )}
               </div>
             );
           }),
-          <div
-            className="font-bold text-white"
-            style={{
-              fontSize: gameContainer.zoom * 12,
-            }}
-          >
-            {"/"}
-          </div>
+          slash
         )}
       </div>
       <div
