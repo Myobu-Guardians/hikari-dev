@@ -34,7 +34,12 @@ function App() {
     };
   }, []);
   return (
-    <DeviceOrientation lockOrientation={"landscape"}>
+    <DeviceOrientation
+      lockOrientation={"landscape"}
+      onOrientationChange={() => {
+        gameContainer.resize();
+      }}
+    >
       {/* Will only be in DOM in landscape */}
       <Orientation orientation="landscape" alwaysRender={true}>
         <div className="container mx-auto px-4 select-none font-assasin">
