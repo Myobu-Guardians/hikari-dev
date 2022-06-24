@@ -14,7 +14,9 @@ import OfferingCardBack from "../assets/images/offerings/back.png";
 export default function UsedOfferingCards() {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
-  const canDiscard = boardContainer.selectedOfferingCards.size === 1;
+  const canDiscard =
+    boardContainer.selectedOfferingCards.size === 1 &&
+    (boardContainer.isPlayerTurn || boardContainer.board.gameMode === "local");
 
   return (
     <div
@@ -40,16 +42,16 @@ export default function UsedOfferingCards() {
             height: gameContainer.zoom * OfferingCardSize,
             borderWidth: gameContainer.zoom * 3,
           }}
+          onClick={() => {
+            if (canDiscard) {
+              boardContainer.discardSelectedOfferingCard();
+            }
+          }}
         >
           <div
             className="absolute bottom-2 left-6"
             style={{
               fontSize: gameContainer.zoom * 16,
-            }}
-            onClick={() => {
-              if (canDiscard) {
-                boardContainer.discardSelectedOfferingCard();
-              }
             }}
           >
             {canDiscard ? "Click here to discard" : "Used Offering"}

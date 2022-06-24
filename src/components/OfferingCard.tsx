@@ -9,7 +9,7 @@ interface Props {
 export default function OfferingCardComponent(props: Props) {
   const gameContainer = GameContainer.useContainer();
   return (
-    <div className="card shadow-black hover:shadow-lg hover:shadow-black rounded-sm glass shadow-md cursor-pointer">
+    <div className="card shadow-black hover:shadow-lg hover:shadow-black rounded-sm glass shadow-md backdrop-blur-sm">
       <img
         src={getOfferingCardImageSrc(props.offeringCard)}
         alt={props.offeringCard.id}

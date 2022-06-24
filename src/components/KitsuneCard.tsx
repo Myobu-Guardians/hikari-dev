@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
@@ -22,13 +22,47 @@ interface Props {
   kitsuneCard: KitsuneCard;
   earningPoints?: number;
   isInPlay?: boolean; // true => in play, false => in hand
-  showReplaceHint?: boolean;
+  showHint?: string;
+  showCastSpell?: boolean;
+  isOpponent?: boolean;
 }
 
 function SpellTrigger(props: Props) {
   const gameContainer = GameContainer.useContainer();
+  const boardContainer = BoardContainer.useContainer();
   const spellDescription = props.kitsuneCard.spell?.description || "";
   const spellTrigger = props.kitsuneCard.spell?.trigger || [];
+
+  const plus = useMemo(
+    () => (
+      <div
+        className="font-bold text-white"
+        style={{
+          fontSize: gameContainer.zoom * 12,
+        }}
+        key={"plus"}
+      >
+        {"+"}
+      </div>
+    ),
+    [gameContainer.zoom]
+  );
+
+  const slash = useMemo(
+    () => (
+      <div
+        className="font-bold text-white"
+        style={{
+          fontSize: gameContainer.zoom * 12,
+        }}
+        key="slash"
+      >
+        {"/"}
+      </div>
+    ),
+    [gameContainer.zoom]
+  );
+
   return (
     <div className="flex flex-col items-center absolute top-2 w-full">
       <div className="flex flex-row items-center justify-center">
@@ -60,26 +94,12 @@ function SpellTrigger(props: Props) {
                       </div>
                     );
                   }),
-                  <div
-                    className="font-bold text-white"
-                    style={{
-                      fontSize: gameContainer.zoom * 12,
-                    }}
-                  >
-                    {"+"}
-                  </div>
+                  plus
                 )}
               </div>
             );
           }),
-          <div
-            className="font-bold text-white"
-            style={{
-              fontSize: gameContainer.zoom * 12,
-            }}
-          >
-            {"/"}
-          </div>
+          slash
         )}
       </div>
       <div
@@ -88,18 +108,43 @@ function SpellTrigger(props: Props) {
       >
         {spellDescription}
       </div>
+      {props.showCastSpell && (
+        <div
+          className={
+            "w-full text-white transition-all text-center py-2 " +
+            ((boardContainer.isPlayerTurn && !props.isOpponent) ||
+            boardContainer.board.gameMode === "local"
+              ? "cursor-pointer"
+              : "cursor-not-allowed") +
+            " " +
+            (!props.isOpponent
+              ? "bg-orange-500 hover:bg-orange-600"
+              : "bg-blue-500")
+          }
+          style={{ fontSize: gameContainer.zoom * 12 }}
+          onClick={() => {
+            if (
+              boardContainer.isPlayerTurn ||
+              boardContainer.board.gameMode === "local"
+            ) {
+              boardContainer.castSpell(props.kitsuneCard);
+            }
+          }}
+        >
+          Cast Spell
+        </div>
+      )}
     </div>
   );
 }
 
 export default function KitsuneCardComponent(props: Props) {
   const gameContainer = GameContainer.useContainer();
-  const boardContainer = BoardContainer.useContainer();
   const deltaHeight = props.earningPoints && props.earningPoints > 0 ? 12 : 0;
   return (
     <div
       className={
-        "card shadow-black hover:shadow-lg hover:shadow-black hover:z-50 transform transition duration-300 rounded-sm glass shadow-md"
+        "card shadow-black hover:shadow-lg hover:shadow-black hover:z-50 transform transition duration-300 rounded-sm glass shadow-md backdrop-blur-sm"
       }
       style={{ width: gameContainer.zoom * KitsuneCardWidth }}
     >
@@ -144,12 +189,17 @@ export default function KitsuneCardComponent(props: Props) {
           }}
         ></img>
       )}
-      <SpellTrigger kitsuneCard={props.kitsuneCard}></SpellTrigger>
-      {!boardContainer.isSelectingKitsuneCardToReplace &&
-      props.earningPoints &&
-      props.earningPoints > 0 ? (
+      <SpellTrigger
+        kitsuneCard={props.kitsuneCard}
+        showCastSpell={props.showCastSpell}
+        isOpponent={props.isOpponent}
+      ></SpellTrigger>
+      {props.earningPoints && props.earningPoints > 0 ? (
         <div
-          className="w-full text-center absolute bottom-0 z-200 text-white bg-orange-500"
+          className={
+            "w-full text-center absolute bottom-0 z-200 text-white " +
+            (!props.isOpponent ? "bg-orange-500" : "bg-blue-500")
+          }
           style={{ fontSize: gameContainer.zoom * 12 }}
         >
           {`+ ${props.earningPoints} ${
@@ -157,14 +207,17 @@ export default function KitsuneCardComponent(props: Props) {
           }`}
         </div>
       ) : null}
-      {props.showReplaceHint ? (
+      {props.showHint ? (
         <div
-          className="absolute bottom-0 text-white w-full text-center bg-orange-400"
+          className={
+            "absolute bottom-0 text-white w-full text-center " +
+            (!props.isOpponent ? "bg-orange-500" : "bg-blue-500")
+          }
           style={{
             fontSize: gameContainer.zoom * 12,
           }}
         >
-          Replace this card
+          {props.showHint}
         </div>
       ) : null}
     </div>

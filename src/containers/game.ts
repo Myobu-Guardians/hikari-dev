@@ -8,9 +8,17 @@ export const GameContainer = createContainer(() => {
 
   useEffect(() => {
     const resize = () => {
+      var orientation =
+        (window.screen.orientation || {}).type ||
+        (window.screen as any).mozOrientation ||
+        (window.screen as any).msOrientation ||
+        "landscape-primary";
+
       const width = window.innerWidth;
       const height = window.innerHeight;
-      const zoom = Math.min(width / BoardWidth, height / BoardHeight);
+      const zoom = orientation.match(/^landscape/)
+        ? Math.min(width / BoardWidth, height / BoardHeight)
+        : Math.min(width / BoardHeight, height / BoardWidth);
       setNeedsRotation(width < height);
       setZoom(zoom);
     };

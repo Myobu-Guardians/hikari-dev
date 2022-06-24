@@ -14,8 +14,7 @@ export default function OfferingCardsInPlay() {
   const boardContainer = BoardContainer.useContainer();
 
   let canSelect =
-    boardContainer.isPlayerTurn ||
-    (!boardContainer.isPlayerTurn && boardContainer.board.gameMode === "local"); // TODO: if remote and opponent then false
+    boardContainer.isPlayerTurn || boardContainer.board.gameMode === "local"; // TODO: if remote and opponent then false
 
   return (
     <div
@@ -34,14 +33,25 @@ export default function OfferingCardsInPlay() {
             <div
               key={offeringCard.id}
               onClick={() => {
+                if (
+                  boardContainer.isSelectingKitsuneCardToReplace ||
+                  boardContainer.isSelectingKitsuneCardToCastSpellAt
+                ) {
+                  return;
+                }
                 if (canSelect) {
                   boardContainer.toggleOfferingCard(offeringCard);
                 }
               }}
               className={
-                boardContainer.selectedOfferingCards.has(offeringCard)
-                  ? "border-[6px] box-border border-orange-400 transition-all duration-200"
-                  : ""
+                (canSelect ? "cursor-pointer" : "cursor-not-allowed") +
+                " " +
+                (boardContainer.selectedOfferingCards.has(offeringCard)
+                  ? `border-[6px] box-border transition-all duration-200 ` +
+                    (boardContainer.isPlayerTurn
+                      ? "border-orange-400"
+                      : "border-blue-400")
+                  : "")
               }
             >
               <OfferingCardComponent

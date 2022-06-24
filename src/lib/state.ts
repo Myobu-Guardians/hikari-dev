@@ -23,6 +23,10 @@ export type GameStateAction =
       board: GameBoardState;
     }
   | {
+      type: "ClickOfferingCard";
+      cardId: string;
+    }
+  | {
       type: "DrawKitsuneCard";
       playerId: string;
       kitsuneCardId: string;
@@ -59,10 +63,6 @@ export type GameStateAction =
     }
   | {
       type: "ClickKitsuneCard";
-      playerId: string;
-    }
-  | {
-      type: "ClickOfferingCard";
       playerId: string;
     }
   | {
