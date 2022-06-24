@@ -16,7 +16,10 @@ export default function UsedOfferingCards() {
   const boardContainer = BoardContainer.useContainer();
   const canDiscard =
     boardContainer.selectedOfferingCards.size === 1 &&
-    (boardContainer.isPlayerTurn || boardContainer.board.gameMode === "local");
+    (boardContainer.isPlayerTurn ||
+      boardContainer.board.gameMode === "local") &&
+    !boardContainer.isSelectingKitsuneCardToReplace &&
+    !boardContainer.isSelectingKitsuneCardToCastSpellAt;
 
   return (
     <div
@@ -34,7 +37,10 @@ export default function UsedOfferingCards() {
           className={
             "absolute border-dashed text-white text-center " +
             (canDiscard
-              ? "cursor-pointer border-red-500 z-50"
+              ? "cursor-pointer z-50 " +
+                (boardContainer.isPlayerTurn
+                  ? "border-orange-500"
+                  : "border-blue-500")
               : "cursor-not-allowed border-white")
           }
           style={{

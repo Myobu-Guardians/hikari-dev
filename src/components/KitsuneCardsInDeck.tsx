@@ -60,7 +60,10 @@ export default function KitsuneCardsInDeck(props: Props) {
               className={
                 `absolute card shadow-sm shadow-black rounded-sm ` +
                 (canDraw && index === self.length - 1
-                  ? "hover:border-orange-400 hover:border-4 hover:transition-all "
+                  ? "hover:border-4 hover:transition-all " +
+                    (!props.isOpponent
+                      ? "hover:border-orange-500"
+                      : "hover:border-blue-500")
                   : "")
               }
               style={{

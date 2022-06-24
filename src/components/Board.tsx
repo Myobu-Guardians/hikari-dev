@@ -84,7 +84,7 @@ function GamePoints() {
         }
         style={{
           fontSize:
-            gameContainer.zoom * (!boardContainer.isPlayerTurn ? 48 : 36),
+            gameContainer.zoom * (!boardContainer.isPlayerTurn ? 64 : 36),
         }}
       >
         {boardContainer.board.opponent?.gamePoints || "0"}
@@ -97,7 +97,7 @@ function GamePoints() {
         }
         style={{
           fontSize:
-            gameContainer.zoom * (boardContainer.isPlayerTurn ? 48 : 36),
+            gameContainer.zoom * (boardContainer.isPlayerTurn ? 64 : 36),
         }}
       >
         {boardContainer.board.player?.gamePoints || "0"}
