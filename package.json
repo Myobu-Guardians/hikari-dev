@@ -16,6 +16,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-ios-pwa-prompt": "^1.8.4",
+    "react-screen-orientation": "^0.0.4",
     "react-scripts": "5.0.1",
     "toastr": "^2.1.4",
     "typescript": "^4.7.4",
@@ -29,6 +30,7 @@
     "build": "yarn git-info && react-scripts build && yarn build:service-worker",
     "build:local": "yarn git-info && node before-build.js http://127.0.0.1:8080 && react-scripts build && node after-build.js && yarn build:service-worker",
     "build:service-worker": "gulp service-worker",
+    "build:splash-screen": "cd public && npx pwa-asset-generator logo.png ./assets -i ./index.html -m manifest.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install"
@@ -59,6 +61,7 @@
     "gulp-sass": "^5.1.0",
     "husky": "^8.0.1",
     "postcss": "^8.4.14",
+    "pwa-asset-generator": "^6.1.0",
     "tailwindcss": "^3.1.3",
     "workbox-build": "^6.5.3"
   }
