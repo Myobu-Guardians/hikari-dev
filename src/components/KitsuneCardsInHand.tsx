@@ -146,7 +146,11 @@ export default function KitsuneCardsInHand(props: Props) {
                 <KitsuneCardComponent
                   kitsuneCard={card}
                   earningPoints={
-                    earningPoints && canSelect ? earningPoints : undefined
+                    !boardContainer.isSelectingKitsuneCardToReplace &&
+                    earningPoints &&
+                    canSelect
+                      ? earningPoints
+                      : undefined
                   }
                   isInPlay={
                     mouseOverCard === card ||

@@ -7,6 +7,7 @@ import { OfferingCard } from "../lib/offering";
 import { Korona } from "@0xgg/korona";
 import { GameStateAction } from "../lib/state";
 import toastr from "toastr";
+import { canCastSpell } from "../lib/spellFn";
 
 export const BoardContainer = createContainer(() => {
   const [peer, setPeer] = useState<Korona | null>(null);
@@ -24,6 +25,9 @@ export const BoardContainer = createContainer(() => {
     useState<boolean>(false);
   const [selectedKitsuneCardToActivate, setSelectedKitsuneCardToActivate] =
     useState<KitsuneCard | null>(null);
+  const [castingSpellsOfKitsuneCards, setCastingSpellsOfKitsuneCards] =
+    useState<KitsuneCard[]>([]);
+
   const [playerId, setPlayerId] = useState<string>("");
   const [opponentId, setOpponentId] = useState<string>("");
 
@@ -124,6 +128,18 @@ export const BoardContainer = createContainer(() => {
       }
     },
     [peer, playerId]
+  );
+
+  const castSpell = useCallback(
+    (kitsuneCard: KitsuneCard) => {
+      if (canCastSpell(kitsuneCard, Array.from(selectedOfferingCards))) {
+        setCastingSpellsOfKitsuneCards((castingSpellsOfKitsuneCards) => [
+          ...castingSpellsOfKitsuneCards,
+          kitsuneCard,
+        ]);
+      }
+    },
+    [selectedOfferingCards]
   );
 
   useEffect(() => {
@@ -278,6 +294,38 @@ export const BoardContainer = createContainer(() => {
     };
   }, [board]);
 
+  useEffect(() => {
+    if (castingSpellsOfKitsuneCards.length) {
+      const card = castingSpellsOfKitsuneCards[0];
+      // Gain one point
+      if (card.spell?.id === "tail-1-light-spell") {
+        board.castTail1LightSkill(Array.from(selectedOfferingCards), turns);
+        setCastingSpellsOfKitsuneCards((castingSpellsOfKitsuneCards) =>
+          castingSpellsOfKitsuneCards.slice(1)
+        );
+        board.nextTurn();
+        setTurns(board.turns);
+        broadcastBoardState();
+      }
+      // Enemy loses one point
+      else if (card.spell?.id === "tail-1-dark-spell") {
+        board.castTail1DarkSkill(Array.from(selectedOfferingCards), turns);
+        setCastingSpellsOfKitsuneCards((castingSpellsOfKitsuneCards) =>
+          castingSpellsOfKitsuneCards.slice(1)
+        );
+        board.nextTurn();
+        setTurns(board.turns);
+        broadcastBoardState();
+      }
+    }
+  }, [
+    board,
+    turns,
+    selectedOfferingCards,
+    castingSpellsOfKitsuneCards,
+    broadcastBoardState,
+  ]);
+
   return {
     board,
     turns,
@@ -293,6 +341,8 @@ export const BoardContainer = createContainer(() => {
     isSelectingKitsuneCardToReplace,
     setIsSelectingKitsuneCardToReplace,
     selectedKitsuneCardToActivate,
+
+    castSpell,
 
     // p2p
     playerId,

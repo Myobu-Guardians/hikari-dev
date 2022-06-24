@@ -12,6 +12,7 @@ import {
   OpponentKitsuneCardsInPlayTop,
 } from "../lib/constants";
 import { KitsuneCard } from "../lib/kitsune";
+import { canCastSpell } from "../lib/spellFn";
 import KitsuneCardComponent from "./KitsuneCard";
 
 interface Props {
@@ -55,6 +56,12 @@ export default function KitsuneCardsInPlay(props: Props) {
             card,
             Array.from(boardContainer.selectedOfferingCards)
           );
+          const canCastSpell_ =
+            canSelect &&
+            canCastSpell(
+              card,
+              Array.from(boardContainer.selectedOfferingCards)
+            );
           return (
             <div
               key={`kitsune-card-in-play-${index}-` + card.id}
@@ -88,11 +95,19 @@ export default function KitsuneCardsInPlay(props: Props) {
               <KitsuneCardComponent
                 kitsuneCard={card}
                 earningPoints={
-                  earningPoints > 0 && canSelect ? earningPoints : undefined
+                  !boardContainer.isSelectingKitsuneCardToReplace &&
+                  earningPoints > 0 &&
+                  canSelect
+                    ? earningPoints
+                    : undefined
                 }
                 isInPlay={true}
                 showReplaceHint={
                   canSelect && boardContainer.isSelectingKitsuneCardToReplace
+                }
+                showCastSpell={
+                  !boardContainer.isSelectingKitsuneCardToReplace &&
+                  canCastSpell_
                 }
               ></KitsuneCardComponent>
             </div>

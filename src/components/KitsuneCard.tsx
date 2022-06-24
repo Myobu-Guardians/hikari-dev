@@ -23,10 +23,12 @@ interface Props {
   earningPoints?: number;
   isInPlay?: boolean; // true => in play, false => in hand
   showReplaceHint?: boolean;
+  showCastSpell?: boolean;
 }
 
 function SpellTrigger(props: Props) {
   const gameContainer = GameContainer.useContainer();
+  const boardContainer = BoardContainer.useContainer();
   const spellDescription = props.kitsuneCard.spell?.description || "";
   const spellTrigger = props.kitsuneCard.spell?.trigger || [];
 
@@ -105,6 +107,15 @@ function SpellTrigger(props: Props) {
       >
         {spellDescription}
       </div>
+      {props.showCastSpell && (
+        <div
+          className="w-full text-white bg-orange-500 hover:bg-orange-600 transition-all text-center py-2 cursor-pointer"
+          style={{ fontSize: gameContainer.zoom * 12 }}
+          onClick={() => boardContainer.castSpell(props.kitsuneCard)}
+        >
+          Cast Spell
+        </div>
+      )}
     </div>
   );
 }
@@ -161,10 +172,11 @@ export default function KitsuneCardComponent(props: Props) {
           }}
         ></img>
       )}
-      <SpellTrigger kitsuneCard={props.kitsuneCard}></SpellTrigger>
-      {!boardContainer.isSelectingKitsuneCardToReplace &&
-      props.earningPoints &&
-      props.earningPoints > 0 ? (
+      <SpellTrigger
+        kitsuneCard={props.kitsuneCard}
+        showCastSpell={props.showCastSpell}
+      ></SpellTrigger>
+      {props.earningPoints && props.earningPoints > 0 ? (
         <div
           className="w-full text-center absolute bottom-0 z-200 text-white bg-orange-500"
           style={{ fontSize: gameContainer.zoom * 12 }}
