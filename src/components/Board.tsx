@@ -192,7 +192,7 @@ export default function Board() {
             <KitsuneCardsInPlay isOpponent={true}></KitsuneCardsInPlay>
             <KitsuneCardsInHand
               isOpponent={true}
-              showOpponentsCards={false}
+              showOpponentsCards={boardContainer.board.gameMode === "local"}
             ></KitsuneCardsInHand>
             <div
               className="absolute top-12 right-4 text-white"
