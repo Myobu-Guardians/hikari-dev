@@ -12,7 +12,7 @@ if ("function" === typeof importScripts) {
     /* custom cache rules*/
     const handler = workbox.precaching.createHandlerBoundToURL(
       `${
-        self.location.hostname.match(/myobu-guardians\./i) ? "/hikari" : "" // Check GitHub Pages
+        self.location.hostname.match(/myobu-guardians\./i) ? "/hikari-dev" : "" // Check GitHub Pages
       }/index.html`
     );
     const navigationRoute = new workbox.routing.NavigationRoute(handler, {
