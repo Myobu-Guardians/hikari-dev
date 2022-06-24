@@ -55,7 +55,7 @@ export const BoardContainer = createContainer(() => {
     broadcastBoardState();
   }, [board, turns, broadcastBoardState]);
 
-  const toggleOfferingCard = useCallback((offeringCard: OfferingCard) => {
+  const toggleOfferingCard_ = useCallback((offeringCard: OfferingCard) => {
     setSelectedOfferingCards((selectedOfferingCards) => {
       const newSelectedOfferingCards = new Set(selectedOfferingCards);
       if (newSelectedOfferingCards.has(offeringCard)) {
@@ -67,8 +67,25 @@ export const BoardContainer = createContainer(() => {
     });
   }, []);
 
+  const toggleOfferingCard = useCallback(
+    (offeringCard: OfferingCard) => {
+      toggleOfferingCard_(offeringCard);
+      if (peer) {
+        const action: GameStateAction = {
+          type: "ClickOfferingCard",
+          cardId: offeringCard.id,
+        };
+        peer.send(action);
+      }
+    },
+    [peer, toggleOfferingCard_]
+  );
+
   const discardSelectedOfferingCard = useCallback(() => {
-    if (selectedOfferingCards.size === 1) {
+    if (
+      selectedOfferingCards.size === 1 &&
+      (board.gameMode === "local" || isPlayerTurn)
+    ) {
       const offeringCards = Array.from(selectedOfferingCards);
       offeringCards.forEach((offeringCard) => {
         board.discardOfferingCard(offeringCard);
@@ -78,7 +95,7 @@ export const BoardContainer = createContainer(() => {
 
       broadcastBoardState();
     }
-  }, [selectedOfferingCards, board, broadcastBoardState]);
+  }, [selectedOfferingCards, board, isPlayerTurn, broadcastBoardState]);
 
   const getPlayer = useCallback(() => {
     if (isPlayerTurn) {
@@ -286,6 +303,13 @@ export const BoardContainer = createContainer(() => {
               toastr.info(stateAction.message, stateAction.from, {
                 timeOut: 8000,
               });
+            } else if (stateAction.type === "ClickOfferingCard") {
+              const offeringCard = board.offeringCardsInPlay.find(
+                (c) => c.id === stateAction.cardId
+              );
+              if (offeringCard) {
+                toggleOfferingCard_(offeringCard);
+              }
             }
           }
         },

@@ -33,10 +33,7 @@ export default function KitsuneCardsInDeck(props: Props) {
   return (
     <div
       className={
-        "absolute " +
-        (props.isOpponent ? "tooltip-bottom" : "tooltip-right") +
-        " " +
-        (canDraw ? "cursor-pointer" : "cursor-not-allowed")
+        "absolute " + (canDraw ? "cursor-pointer" : "cursor-not-allowed")
       }
       style={{
         width: gameContainer.zoom * KitsuneCardsInDeckWidth,
@@ -63,7 +60,7 @@ export default function KitsuneCardsInDeck(props: Props) {
               className={
                 `absolute card shadow-sm shadow-black rounded-sm ` +
                 (canDraw && index === self.length - 1
-                  ? "hover:border-orange-400 hover:border-4 hover:transition-all tooltip"
+                  ? "hover:border-orange-400 hover:border-4 hover:transition-all "
                   : "")
               }
               style={{

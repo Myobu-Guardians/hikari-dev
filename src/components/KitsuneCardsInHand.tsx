@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
-  BoardHeight,
-  BoardWidth,
   KitsuneCardHeight,
   KitsuneCardsInHandHeight,
   KitsuneCardsInHandLeft,
@@ -170,6 +168,7 @@ export default function KitsuneCardsInHand(props: Props) {
                       ? true
                       : false
                   }
+                  isOpponent={props.isOpponent}
                 ></KitsuneCardComponent>
               </div>
             );

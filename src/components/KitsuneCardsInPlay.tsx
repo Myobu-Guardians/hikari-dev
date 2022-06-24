@@ -28,8 +28,7 @@ export default function KitsuneCardsInPlay(props: Props) {
       : boardContainer.board.player?.kitsuneCardsInPlay) || [];
 
   const canSelect =
-    (boardContainer.isPlayerTurn && !props.isOpponent) ||
-    (!boardContainer.isPlayerTurn && props.isOpponent);
+    boardContainer.isPlayerTurn || boardContainer.board.gameMode === "local";
 
   return (
     <div
@@ -56,12 +55,10 @@ export default function KitsuneCardsInPlay(props: Props) {
             card,
             Array.from(boardContainer.selectedOfferingCards)
           );
-          const canCastSpell_ =
-            canSelect &&
-            canCastSpell(
-              card,
-              Array.from(boardContainer.selectedOfferingCards)
-            );
+          const canCastSpell_ = canCastSpell(
+            card,
+            Array.from(boardContainer.selectedOfferingCards)
+          );
           return (
             <div
               key={`kitsune-card-in-play-${index}-` + card.id}
@@ -75,8 +72,10 @@ export default function KitsuneCardsInPlay(props: Props) {
                       : "cursor-not-allowed") + " relative"
               }
               onClick={() => {
+                if (!canSelect) {
+                  return;
+                }
                 if (
-                  canSelect &&
                   boardContainer.isSelectingKitsuneCardToReplace &&
                   boardContainer.selectedKitsuneCardToActivate
                 ) {
@@ -90,25 +89,19 @@ export default function KitsuneCardsInPlay(props: Props) {
                   boardContainer.castSpellAtKitsuneCard(card);
                 }
               }}
-              title={
-                earningPoints > 0 && canSelect
-                  ? `Activate to earn ${earningPoints} points`
-                  : ""
-              }
             >
               <KitsuneCardComponent
                 kitsuneCard={card}
                 earningPoints={
                   !boardContainer.isSelectingKitsuneCardToReplace &&
                   !boardContainer.isSelectingKitsuneCardToCastSpellAt &&
-                  earningPoints > 0 &&
-                  canSelect
+                  earningPoints > 0
                     ? earningPoints
                     : undefined
                 }
                 isInPlay={true}
                 showHint={
-                  canSelect && boardContainer.isSelectingKitsuneCardToReplace
+                  boardContainer.isSelectingKitsuneCardToReplace
                     ? "Replace this card"
                     : boardContainer.isSelectingKitsuneCardToCastSpellAt
                     ? "Target this card"
@@ -119,6 +112,7 @@ export default function KitsuneCardsInPlay(props: Props) {
                   !boardContainer.isSelectingKitsuneCardToCastSpellAt &&
                   canCastSpell_
                 }
+                isOpponent={props.isOpponent}
               ></KitsuneCardComponent>
             </div>
           );
