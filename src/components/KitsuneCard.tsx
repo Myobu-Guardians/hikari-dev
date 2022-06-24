@@ -113,7 +113,9 @@ function SpellTrigger(props: Props) {
           className={
             "w-full text-white transition-all text-center py-2 " +
             ((boardContainer.isPlayerTurn && !props.isOpponent) ||
-            boardContainer.board.gameMode === "local"
+            (!boardContainer.isPlayerTurn &&
+              props.isOpponent &&
+              boardContainer.board.gameMode === "local")
               ? "cursor-pointer"
               : "cursor-not-allowed") +
             " " +
@@ -124,8 +126,10 @@ function SpellTrigger(props: Props) {
           style={{ fontSize: gameContainer.zoom * 12 }}
           onClick={() => {
             if (
-              boardContainer.isPlayerTurn ||
-              boardContainer.board.gameMode === "local"
+              (boardContainer.isPlayerTurn && !props.isOpponent) ||
+              (!boardContainer.isPlayerTurn &&
+                props.isOpponent &&
+                boardContainer.board.gameMode === "local")
             ) {
               boardContainer.castSpell(props.kitsuneCard);
             }
