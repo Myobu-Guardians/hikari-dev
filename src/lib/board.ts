@@ -185,7 +185,11 @@ export class GameBoard {
       // Sum of number matches
       let points = offeringCards.length;
       for (let i = 0; i < offeringCards.length; i++) {
-        if (offeringCards[i].symbol === kitsuneCard.symbol) {
+        if (
+          !!kitsuneCard.symbols.find(
+            (symbol) => symbol === offeringCards[i].symbol
+          )
+        ) {
           points += 1;
         }
       }
@@ -194,7 +198,9 @@ export class GameBoard {
       let symbolMatches = true;
       for (const offeringCard of offeringCards) {
         // Symbol matches
-        if (kitsuneCard.symbol !== offeringCard.symbol) {
+        if (
+          !kitsuneCard.symbols.find((symbol) => symbol === offeringCard.symbol)
+        ) {
           symbolMatches = false;
           break;
         }
