@@ -114,6 +114,10 @@ export interface KitsuneCard {
   symbols: OfferingSymbol[];
   number: number;
   spell?: Spell;
+  /**
+   * the number of times the card has been activated
+   */
+  ac?: number;
 }
 
 export function createKitsuneCards(): KitsuneCard[] {

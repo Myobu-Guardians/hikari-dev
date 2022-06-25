@@ -269,6 +269,8 @@ export class GameBoard {
       this.discardOfferingCard(offeringCards[i]);
     }
 
+    kitsuneCard.ac = (kitsuneCard.ac || 0) + 1;
+
     return true;
   }
 

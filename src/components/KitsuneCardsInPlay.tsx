@@ -71,6 +71,8 @@ export default function KitsuneCardsInPlay(props: Props) {
                   : boardContainer.isSelectingKitsuneCardToReplace && canSelect
                   ? "cursor-pointer"
                   : boardContainer.isSelectingKitsuneCardToCastSpell &&
+                    boardContainer.castingPassiveSpellOfKitsuneCard?.id !==
+                      card.id &&
                     canSelect
                   ? "cursor-pointer"
                   : (boardContainer.highlightedKitsuneCards.has(card)
@@ -138,6 +140,13 @@ export default function KitsuneCardsInPlay(props: Props) {
                   canCastSpell_
                 }
                 isOpponent={props.isOpponent}
+                displayBorderColor={
+                  !!(
+                    boardContainer.castingPassiveSpellOfKitsuneCard &&
+                    card.id ===
+                      boardContainer.castingPassiveSpellOfKitsuneCard.id
+                  ) && !boardContainer.isSelectingKitsuneCardToCastSpellAt
+                }
               ></KitsuneCardComponent>
             </div>
           );

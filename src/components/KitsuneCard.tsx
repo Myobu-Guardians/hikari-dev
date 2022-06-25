@@ -25,6 +25,7 @@ interface Props {
   showHint?: string;
   showCastSpell?: boolean;
   isOpponent?: boolean;
+  displayBorderColor?: boolean;
 }
 
 function SpellTrigger(props: Props) {
@@ -124,10 +125,12 @@ function SpellTrigger(props: Props) {
             " " +
             (!props.isOpponent
               ? "bg-orange-500 hover:bg-orange-600"
-              : "bg-blue-500")
+              : "bg-blue-500 hover:bg-blue-600")
           }
           style={{ fontSize: gameContainer.zoom * 12 }}
-          onClick={() => {
+          onClick={(event) => {
+            event.stopPropagation();
+            event.preventDefault();
             if (
               (boardContainer.isPlayerTurn && !props.isOpponent) ||
               (!boardContainer.isPlayerTurn &&
@@ -150,9 +153,14 @@ export default function KitsuneCardComponent(props: Props) {
   return (
     <div
       className={
-        "card shadow-black hover:shadow-lg hover:shadow-black hover:z-50 transform transition duration-300 rounded-sm glass shadow-md backdrop-blur-sm"
+        "card shadow-black hover:shadow-lg hover:shadow-black hover:z-50 transform transition duration-300 rounded-sm glass shadow-md backdrop-blur-sm "
       }
-      style={{ width: gameContainer.zoom * KitsuneCardWidth }}
+      style={{
+        width: gameContainer.zoom * KitsuneCardWidth,
+        border: props.displayBorderColor
+          ? `4px solid ${props.isOpponent ? `#3B82F6` : `#f97316`}`
+          : "none",
+      }}
     >
       <img
         src={getKitsuneCardBorderImageSrc(props.kitsuneCard)}
@@ -179,32 +187,31 @@ export default function KitsuneCardComponent(props: Props) {
         }}
       ></img>
       {/* Card symbol */}
-      {props.kitsuneCard.symbols.length && (
-        <div
-          className={"absolute "}
-          style={{
-            bottom: props.isInPlay
-              ? gameContainer.zoom * (12 + deltaHeight)
-              : gameContainer.zoom * (36 + deltaHeight),
-            right: props.isInPlay ? gameContainer.zoom * 8 : "auto",
-            left: props.isInPlay ? "auto" : gameContainer.zoom * 8,
-          }}
-        >
-          {props.kitsuneCard.symbols.map((symbol, index) => {
-            return (
-              <img
-                src={getSymbolImageSrcFromSymbol(symbol)}
-                alt={symbol}
-                key={`${props.kitsuneCard.id}-symbol-${index}`}
-                style={{
-                  width: gameContainer.zoom * KitsuneCardSymbolSize,
-                  height: gameContainer.zoom * KitsuneCardSymbolSize,
-                }}
-              ></img>
-            );
-          })}
-        </div>
-      )}
+      <div
+        className={"absolute "}
+        style={{
+          bottom: props.isInPlay
+            ? gameContainer.zoom * (12 + deltaHeight)
+            : gameContainer.zoom * (36 + deltaHeight),
+          right: props.isInPlay ? gameContainer.zoom * 8 : "auto",
+          left: props.isInPlay ? "auto" : gameContainer.zoom * 8,
+        }}
+      >
+        {props.kitsuneCard.symbols.map((symbol, index) => {
+          return (
+            <img
+              src={getSymbolImageSrcFromSymbol(symbol)}
+              alt={symbol}
+              key={`${props.kitsuneCard.id}-symbol-${index}`}
+              style={{
+                width: gameContainer.zoom * KitsuneCardSymbolSize,
+                height: gameContainer.zoom * KitsuneCardSymbolSize,
+              }}
+            ></img>
+          );
+        })}
+      </div>
+
       <SpellTrigger
         kitsuneCard={props.kitsuneCard}
         showCastSpell={props.showCastSpell}

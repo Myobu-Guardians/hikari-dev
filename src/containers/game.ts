@@ -4,7 +4,6 @@ import { BoardHeight, BoardWidth } from "../lib/constants";
 
 export const GameContainer = createContainer(() => {
   const [zoom, setZoom] = useState<number>(1);
-  const [needsRotation, setNeedsRotation] = useState<boolean>(false);
 
   const resize = useCallback(() => {
     const orientation =
@@ -18,7 +17,6 @@ export const GameContainer = createContainer(() => {
     const zoom = orientation.match(/^landscape/)
       ? Math.min(width / BoardWidth, height / BoardHeight)
       : Math.min(width / BoardHeight, height / BoardWidth);
-    setNeedsRotation(width < height);
     setZoom(zoom);
   }, []);
 
@@ -32,7 +30,6 @@ export const GameContainer = createContainer(() => {
 
   return {
     zoom,
-    needsRotation,
     resize,
   };
 });
