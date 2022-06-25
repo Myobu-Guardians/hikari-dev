@@ -25,7 +25,7 @@
   },
   "homepage": "https://myobu-guardians.github.io/hikari-dev/",
   "scripts": {
-    "git-info": "echo export default \"{\\\"logMessage\\\": \\\"$(git log -1 --oneline)\\\",\\\"hash\\\":\\\"$(git rev-parse HEAD)\\\"}\"  > src/git_commit.js",
+    "git-info": "echo \"export interface GitCommit { logMessage:string, hash:string }; export const gitCommit: GitCommit = {\\\"logMessage\\\": \\\"$(git log -1 --oneline)\\\",\\\"hash\\\":\\\"$(git rev-parse HEAD)\\\"}\"  > src/git_commit.ts",
     "start": "react-scripts start",
     "build": "yarn git-info && react-scripts build && yarn build:service-worker",
     "build:local": "yarn git-info && node before-build.js http://127.0.0.1:8080 && react-scripts build && node after-build.js && yarn build:service-worker",

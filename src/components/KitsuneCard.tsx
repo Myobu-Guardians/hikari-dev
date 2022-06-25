@@ -179,32 +179,31 @@ export default function KitsuneCardComponent(props: Props) {
         }}
       ></img>
       {/* Card symbol */}
-      {props.kitsuneCard.symbols.length && (
-        <div
-          className={"absolute "}
-          style={{
-            bottom: props.isInPlay
-              ? gameContainer.zoom * (12 + deltaHeight)
-              : gameContainer.zoom * (36 + deltaHeight),
-            right: props.isInPlay ? gameContainer.zoom * 8 : "auto",
-            left: props.isInPlay ? "auto" : gameContainer.zoom * 8,
-          }}
-        >
-          {props.kitsuneCard.symbols.map((symbol, index) => {
-            return (
-              <img
-                src={getSymbolImageSrcFromSymbol(symbol)}
-                alt={symbol}
-                key={`${props.kitsuneCard.id}-symbol-${index}`}
-                style={{
-                  width: gameContainer.zoom * KitsuneCardSymbolSize,
-                  height: gameContainer.zoom * KitsuneCardSymbolSize,
-                }}
-              ></img>
-            );
-          })}
-        </div>
-      )}
+      <div
+        className={"absolute "}
+        style={{
+          bottom: props.isInPlay
+            ? gameContainer.zoom * (12 + deltaHeight)
+            : gameContainer.zoom * (36 + deltaHeight),
+          right: props.isInPlay ? gameContainer.zoom * 8 : "auto",
+          left: props.isInPlay ? "auto" : gameContainer.zoom * 8,
+        }}
+      >
+        {props.kitsuneCard.symbols.map((symbol, index) => {
+          return (
+            <img
+              src={getSymbolImageSrcFromSymbol(symbol)}
+              alt={symbol}
+              key={`${props.kitsuneCard.id}-symbol-${index}`}
+              style={{
+                width: gameContainer.zoom * KitsuneCardSymbolSize,
+                height: gameContainer.zoom * KitsuneCardSymbolSize,
+              }}
+            ></img>
+          );
+        })}
+      </div>
+
       <SpellTrigger
         kitsuneCard={props.kitsuneCard}
         showCastSpell={props.showCastSpell}

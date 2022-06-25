@@ -9,6 +9,7 @@ import { GameBoardState, GameStateAction } from "../lib/state";
 import toastr from "toastr";
 import { canCastSpell } from "../lib/spellFn";
 import { Player } from "../lib/player";
+import { gitCommit } from "../git_commit";
 
 export const BoardContainer = createContainer(() => {
   const [peer, setPeer] = useState<Korona | null>(null);
@@ -323,6 +324,10 @@ export const BoardContainer = createContainer(() => {
       const currentBoardState = boardStates[boardStates.length - 1];
       const previousBoardState = boardStates[boardStates.length - 2];
 
+      if (currentBoardState.turns - previousBoardState.turns !== 1) {
+        return;
+      }
+
       // Get the difference between the two boards
       // Get
       //   1. newly activated kitsune cards
@@ -487,6 +492,39 @@ export const BoardContainer = createContainer(() => {
               setTurns(board.turns);
               setBoardId(board.id);
               setBoardStates([boardState]);
+            } else if (stateAction.type === "CheckGameVersion") {
+              if (stateAction.gitCommit.hash !== gitCommit.hash) {
+                peer.send({
+                  type: "GameVersionsMismatch",
+                  gitCommit: gitCommit,
+                });
+                alert("Game version is out of date. Please refresh the page.");
+              } else {
+                peer.send({
+                  type: "StartGame",
+                });
+              }
+            } else if (stateAction.type === "GameVersionsMismatch") {
+              alert("Game version is out of date. Please refresh the page.");
+              // TODO: probably don't need to do this ^^
+            } else if (stateAction.type === "StartGame") {
+              console.log("initialize remote game");
+              board.initializeBoardForPvP(playerId, opponentId);
+              const boardState = board.saveState();
+              if (boardState === null) {
+                alert("Failed to initialize remote game");
+              } else {
+                setBoardStates([boardState]);
+                const action: GameStateAction = {
+                  type: "CreateBoard",
+                  board: boardState,
+                };
+                console.log(action);
+                peer.send(action);
+
+                setTurns(0);
+                setBoardId(boardState.id);
+              }
             } else if (stateAction.type === "UpdateBoard") {
               // TODO: Validate it is the right user
               const boardState = stateAction.board;
@@ -513,29 +551,23 @@ export const BoardContainer = createContainer(() => {
         },
         onPeerJoined(peerId) {
           console.log("peer joined: ", peerId, peer.network);
-          if (peer.network.length === 2) {
+          if (peer.network.length === 1) {
+            // Yourself
+          } else if (peer.network.length === 2) {
+            // Opponent joined
             if (!opponentId && peerId !== playerId) {
               opponentId = peerId;
               setOpponentId(opponentId);
-              console.log("initialize remote game");
 
-              board.initializeBoardForPvP(playerId, opponentId);
-              const boardState = board.saveState();
-              if (boardState === null) {
-                alert("Failed to initialize remote game");
-              } else {
-                setBoardStates([boardState]);
-                const action: GameStateAction = {
-                  type: "CreateBoard",
-                  board: boardState,
-                };
-                console.log(action);
-                peer.send(action);
+              const stateAction: GameStateAction = {
+                type: "CheckGameVersion",
+                gitCommit: gitCommit,
+              };
 
-                setTurns(0);
-                setBoardId(boardState.id);
-              }
+              peer.send(stateAction);
             }
+          } else {
+            // Viewer joined
           }
         },
         onPeerLeft(peerId) {
@@ -549,11 +581,22 @@ export const BoardContainer = createContainer(() => {
           }
         },
         createDataForInitialSync() {
-          const boardState = board.saveState();
-          return {
-            type: "CreateBoard",
-            board: boardState,
-          };
+          console.log("createDataForInitialSync: ", peer.network.length);
+          if (peer.network.length === 2) {
+            // opponent
+            const stateAction: GameStateAction = {
+              type: "CheckGameVersion",
+              gitCommit: gitCommit,
+            };
+            return stateAction;
+          } else {
+            // viewers
+            const boardState = board.saveState();
+            return {
+              type: "CreateBoard",
+              board: boardState,
+            };
+          }
         },
       });
     }

@@ -18,6 +18,7 @@ import KitsuneCardsInHand from "./KitsuneCardsInHand";
 import { BoardContainer } from "../containers/board";
 import { copyToClipboard } from "../lib/utils";
 import { getSymbolImageSrcFromSymbol, OfferingSymbol } from "../lib/offering";
+import { gitCommit } from "../git_commit";
 
 interface ModifySymbolProps {}
 function ModifySymbol(props: ModifySymbolProps) {
@@ -113,6 +114,18 @@ export function HelpModal() {
       <div className="modal font-sans">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Game rules</h3>
+          <p className="text-sm mt-4">
+            Code version:{" "}
+            <strong className="text-blue-400">
+              <a
+                href={`https://github.com/Myobu-Guardians/hikari-dev/commit/${gitCommit.hash}`}
+                target={"_blank"}
+                rel={"noopener noreferrer"}
+              >
+                {gitCommit.logMessage}
+              </a>
+            </strong>
+          </p>
           <p className="py-4">
             What you can do on your turn (only one action per turn):
           </p>

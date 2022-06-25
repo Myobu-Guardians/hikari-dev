@@ -1,6 +1,7 @@
 import { Player } from "./player";
 import { OfferingCard } from "./offering";
 import { SpellId } from "./spells";
+import { GitCommit } from "../git_commit";
 
 export type GameBoardState = {
   id: string;
@@ -13,6 +14,17 @@ export type GameBoardState = {
 };
 
 export type GameStateAction =
+  | {
+      type: "CheckGameVersion";
+      gitCommit: GitCommit;
+    }
+  | {
+      type: "GameVersionsMismatch";
+      gitCommit: GitCommit;
+    }
+  | {
+      type: "StartGame";
+    }
   | {
       type: "CreateBoard";
       board: GameBoardState;

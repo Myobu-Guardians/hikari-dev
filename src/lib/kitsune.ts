@@ -122,7 +122,7 @@ export function createKitsuneCards(): KitsuneCard[] {
     {
       id: "tail-1-light",
       type: KitsuneCardType.Tail1Light,
-      symbols: [OfferingSymbol.Plant],
+      symbols: [],
       number: 1,
       spell: getSpellById("tail-1-light-spell"),
     },
