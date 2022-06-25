@@ -30,7 +30,7 @@
     "build": "yarn git-info && react-scripts build && yarn build:service-worker",
     "build:local": "yarn git-info && node before-build.js http://127.0.0.1:8080 && react-scripts build && node after-build.js && yarn build:service-worker",
     "build:service-worker": "gulp service-worker",
-    "build:splash-screen": "cd public && npx pwa-asset-generator logo.png ./assets -i ./index.html -m manifest.json -p 0 -o false --favicon",
+    "build:splash-screen": "cd public && npx pwa-asset-generator logo.png ./assets -i ./index.html -m manifest.json -p 0 -o true --favicon --background #000",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install"

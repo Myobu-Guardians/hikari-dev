@@ -103,8 +103,11 @@ function SpellTrigger(props: Props) {
         )}
       </div>
       <div
-        className="font-bold text-white py-2 px-4"
-        style={{ fontSize: gameContainer.zoom * 8 }}
+        className="font-bold text-white"
+        style={{
+          fontSize: gameContainer.zoom * 8,
+          padding: `${gameContainer.zoom * 2}px ${gameContainer.zoom * 10}px`,
+        }}
       >
         {spellDescription}
       </div>
@@ -141,7 +144,6 @@ function SpellTrigger(props: Props) {
     </div>
   );
 }
-
 export default function KitsuneCardComponent(props: Props) {
   const gameContainer = GameContainer.useContainer();
   const deltaHeight = props.earningPoints && props.earningPoints > 0 ? 12 : 0;
@@ -177,21 +179,31 @@ export default function KitsuneCardComponent(props: Props) {
         }}
       ></img>
       {/* Card symbol */}
-      {props.kitsuneCard.symbol && (
-        <img
-          src={getSymbolImageSrcFromSymbol(props.kitsuneCard.symbol)}
-          alt={props.kitsuneCard.symbol}
+      {props.kitsuneCard.symbols.length && (
+        <div
           className={"absolute "}
           style={{
-            width: gameContainer.zoom * KitsuneCardSymbolSize,
-            height: gameContainer.zoom * KitsuneCardSymbolSize,
             bottom: props.isInPlay
               ? gameContainer.zoom * (12 + deltaHeight)
               : gameContainer.zoom * (36 + deltaHeight),
             right: props.isInPlay ? gameContainer.zoom * 8 : "auto",
             left: props.isInPlay ? "auto" : gameContainer.zoom * 8,
           }}
-        ></img>
+        >
+          {props.kitsuneCard.symbols.map((symbol, index) => {
+            return (
+              <img
+                src={getSymbolImageSrcFromSymbol(symbol)}
+                alt={symbol}
+                key={`${props.kitsuneCard.id}-symbol-${index}`}
+                style={{
+                  width: gameContainer.zoom * KitsuneCardSymbolSize,
+                  height: gameContainer.zoom * KitsuneCardSymbolSize,
+                }}
+              ></img>
+            );
+          })}
+        </div>
       )}
       <SpellTrigger
         kitsuneCard={props.kitsuneCard}

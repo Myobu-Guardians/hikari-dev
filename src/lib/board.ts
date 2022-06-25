@@ -79,11 +79,11 @@ export class GameBoard {
     return {
       id: this.id,
       turns: this.turns,
-      offeringCardsInDeck: this.offeringCardsInDeck,
-      offeringCardsInPlay: this.offeringCardsInPlay,
-      usedOfferingCards: this.usedOfferingCards,
-      playerA: this.player,
-      playerB: this.opponent,
+      offeringCardsInDeck: [...this.offeringCardsInDeck],
+      offeringCardsInPlay: [...this.offeringCardsInPlay],
+      usedOfferingCards: [...this.usedOfferingCards],
+      playerA: JSON.parse(JSON.stringify(this.player)),
+      playerB: JSON.parse(JSON.stringify(this.opponent)),
     };
   }
 
@@ -185,7 +185,11 @@ export class GameBoard {
       // Sum of number matches
       let points = offeringCards.length;
       for (let i = 0; i < offeringCards.length; i++) {
-        if (offeringCards[i].symbol === kitsuneCard.symbol) {
+        if (
+          !!kitsuneCard.symbols.find(
+            (symbol) => symbol === offeringCards[i].symbol
+          )
+        ) {
           points += 1;
         }
       }
@@ -194,7 +198,9 @@ export class GameBoard {
       let symbolMatches = true;
       for (const offeringCard of offeringCards) {
         // Symbol matches
-        if (kitsuneCard.symbol !== offeringCard.symbol) {
+        if (
+          !kitsuneCard.symbols.find((symbol) => symbol === offeringCard.symbol)
+        ) {
           symbolMatches = false;
           break;
         }
@@ -371,5 +377,22 @@ export class GameBoard {
     offeringCards.forEach((offeringCard) => {
       this.discardOfferingCard(offeringCard);
     });
+  }
+
+  public getOfferingCardById(offeringCardId: string): OfferingCard | undefined {
+    return [...this.offeringCardsInDeck, ...this.offeringCardsInPlay].find(
+      (offeringCard) => offeringCard.id === offeringCardId
+    );
+  }
+
+  public getKitsuneCardById(kitsuneCardId: string): KitsuneCard | undefined {
+    return [
+      ...(this.player?.kitsuneCardsInDeck || []),
+      ...(this.player?.kitsuneCardsInPlay || []),
+      ...(this.player?.kitsuneCardsInHand || []),
+      ...(this.opponent?.kitsuneCardsInDeck || []),
+      ...(this.opponent?.kitsuneCardsInPlay || []),
+      ...(this.opponent?.kitsuneCardsInHand || []),
+    ].find((kitsuneCard) => kitsuneCard.id === kitsuneCardId);
   }
 }
