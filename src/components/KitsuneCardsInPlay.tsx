@@ -86,11 +86,18 @@ export default function KitsuneCardsInPlay(props: Props) {
                   );
                 } else if (
                   canSelect &&
-                  boardContainer.highlightedKitsuneCards.has(card)
+                  boardContainer.highlightedKitsuneCards.has(card) &&
+                  !boardContainer.isSelectingKitsuneCardToCastSpell &&
+                  !boardContainer.isSelectingKitsuneCardToCastSpellAt
                 ) {
                   boardContainer.placeAndActivateKitsuneCard(card);
                 } else if (boardContainer.isSelectingKitsuneCardToCastSpellAt) {
                   boardContainer.castSpellAtKitsuneCard(card);
+                } else if (
+                  canSelect &&
+                  boardContainer.isSelectingKitsuneCardToCastSpell
+                ) {
+                  boardContainer.castSpellUsingKitsuneCard(card);
                 }
               }}
             >
@@ -100,6 +107,7 @@ export default function KitsuneCardsInPlay(props: Props) {
                   canSelect &&
                   !boardContainer.isSelectingKitsuneCardToReplace &&
                   !boardContainer.isSelectingKitsuneCardToCastSpellAt &&
+                  !boardContainer.isSelectingKitsuneCardToCastSpell &&
                   earningPoints > 0
                     ? earningPoints
                     : undefined
@@ -110,12 +118,18 @@ export default function KitsuneCardsInPlay(props: Props) {
                     ? "Replace this card"
                     : boardContainer.isSelectingKitsuneCardToCastSpellAt
                     ? "Target this card"
+                    : canSelect &&
+                      boardContainer.isSelectingKitsuneCardToCastSpell &&
+                      card.spell &&
+                      card.spell.trigger.length > 0
+                    ? "Cast spell"
                     : ""
                 }
                 showCastSpell={
                   canSelect &&
                   !boardContainer.isSelectingKitsuneCardToReplace &&
                   !boardContainer.isSelectingKitsuneCardToCastSpellAt &&
+                  !boardContainer.isSelectingKitsuneCardToCastSpell &&
                   canCastSpell_
                 }
                 isOpponent={props.isOpponent}

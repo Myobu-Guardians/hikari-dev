@@ -31,6 +31,10 @@ export const BoardContainer = createContainer(() => {
     isSelectingKitsuneCardToCastSpellAt,
     setIsSelectingKitsuneCardToCastSpellAt,
   ] = useState<boolean>(false);
+  const [
+    isSelectingKitsuneCardToCastSpell,
+    setIsSelectingKitsuneCardToCastSpell,
+  ] = useState<boolean>(false);
 
   const [playerId, setPlayerId] = useState<string>("");
   const [opponentId, setOpponentId] = useState<string>("");
@@ -108,13 +112,16 @@ export const BoardContainer = createContainer(() => {
   const placeAndActivateKitsuneCard = useCallback(
     (kitsuneCard: KitsuneCard, kitsuneCardToReplaceWith?: KitsuneCard) => {
       const player = getPlayer();
+      if (!player) {
+        return;
+      }
       setSelectedKitsuneCardToActivate(kitsuneCard);
 
       // Replace the selected kitsune card with the one to be activated
       if (
-        player?.kitsuneCardsInPlay.length === NumOfKitsuneCardsInPlay &&
+        player.kitsuneCardsInPlay.length === NumOfKitsuneCardsInPlay &&
         !kitsuneCardToReplaceWith &&
-        player?.kitsuneCardsInPlay.indexOf(kitsuneCard) < 0
+        player.kitsuneCardsInPlay.indexOf(kitsuneCard) < 0
       ) {
         return setIsSelectingKitsuneCardToReplace(true);
       }
@@ -126,9 +133,42 @@ export const BoardContainer = createContainer(() => {
         kitsuneCardToReplaceWith
       );
       if (success) {
-        board.nextTurn();
-        setTurns(board.turns);
-        broadcastBoardState();
+        // Check if the player can cast a spell by tail 3 light card.
+        //     "When you activate any card, you can cast any spell"
+        // If so, set the state to selecting a kitsune card to cast a spell
+        const tail3LightCardIndex = player.kitsuneCardsInPlay.findIndex(
+          (card) => card.spell?.id === "tail-3-light-spell"
+        );
+
+        console.log("tail3LightCardIndex: ", tail3LightCardIndex);
+        if (tail3LightCardIndex >= 0) {
+          console.log(
+            player.kitsuneCardsInPlay.filter(
+              (card) =>
+                card.id !== player.kitsuneCardsInPlay[tail3LightCardIndex].id &&
+                card.spell &&
+                card.spell.trigger.length > 0
+            ).length
+          );
+        }
+
+        if (
+          tail3LightCardIndex >= 0 &&
+          player.kitsuneCardsInPlay.filter(
+            (card) =>
+              card.id !== player.kitsuneCardsInPlay[tail3LightCardIndex].id &&
+              card.spell &&
+              card.spell.trigger.length > 0
+          ).length > 0
+        ) {
+          setCastingSpellsOfKitsuneCards((cards) =>
+            cards.concat(player.kitsuneCardsInPlay[tail3LightCardIndex])
+          );
+        } else {
+          board.nextTurn();
+          setTurns(board.turns);
+          broadcastBoardState();
+        }
       } else {
         alert("Failed to place and activate the card");
       }
@@ -165,7 +205,14 @@ export const BoardContainer = createContainer(() => {
   const cancelCastingSpell = useCallback(() => {
     setIsSelectingKitsuneCardToCastSpellAt(false);
     setCastingSpellsOfKitsuneCards((cards) => cards.slice(1));
-  }, []);
+
+    if (isSelectingKitsuneCardToCastSpell) {
+      setIsSelectingKitsuneCardToCastSpell(false);
+      board.nextTurn();
+      setTurns(board.turns);
+      broadcastBoardState();
+    }
+  }, [isSelectingKitsuneCardToCastSpell, board, broadcastBoardState]);
 
   const castSpellAtKitsuneCard = useCallback(
     (targetKitsuneCard: KitsuneCard) => {
@@ -207,6 +254,17 @@ export const BoardContainer = createContainer(() => {
       turns,
       cancelCastingSpell,
     ]
+  );
+
+  const castSpellUsingKitsuneCard = useCallback(
+    (card: KitsuneCard) => {
+      setCastingSpellsOfKitsuneCards((cards) => [
+        card,
+        ...cards.slice(isSelectingKitsuneCardToCastSpell ? 1 : 0),
+      ]);
+      setIsSelectingKitsuneCardToCastSpell(false);
+    },
+    [isSelectingKitsuneCardToCastSpell]
   );
 
   useEffect(() => {
@@ -366,12 +424,13 @@ export const BoardContainer = createContainer(() => {
         console.log("deconstrucing peer");
       }
     };
-  }, [board]);
+  }, [board, toggleOfferingCard_]);
 
   useEffect(() => {
     if (
       castingSpellsOfKitsuneCards.length > 0 &&
-      !isSelectingKitsuneCardToCastSpellAt
+      !isSelectingKitsuneCardToCastSpellAt &&
+      !isSelectingKitsuneCardToCastSpell
     ) {
       const card = castingSpellsOfKitsuneCards[0];
       // Gain one point
@@ -387,6 +446,14 @@ export const BoardContainer = createContainer(() => {
       // Increase any card number by three
       else if (card.spell?.id === "tail-2-light-spell") {
         setIsSelectingKitsuneCardToCastSpellAt(true);
+      }
+      // When you activate any card, you can cast any spell
+      else if (card.spell?.id === "tail-3-light-spell") {
+        setSelectedKitsuneCardToActivate(null);
+        // setSelectedOfferingCards(new Set()); // => Cause infinite loop
+        setIsSelectingKitsuneCardToCastSpellAt(false);
+        setIsSelectingKitsuneCardToCastSpell(true);
+        setIsSelectingKitsuneCardToReplace(false);
       }
       // Gain three points
       else if (card.spell?.id === "tail-7-light-spell") {
@@ -421,6 +488,7 @@ export const BoardContainer = createContainer(() => {
     castingSpellsOfKitsuneCards,
     broadcastBoardState,
     isSelectingKitsuneCardToCastSpellAt,
+    isSelectingKitsuneCardToCastSpell,
   ]);
 
   return {
@@ -441,8 +509,10 @@ export const BoardContainer = createContainer(() => {
 
     castSpell,
     castSpellAtKitsuneCard,
+    castSpellUsingKitsuneCard,
     cancelCastingSpell,
     isSelectingKitsuneCardToCastSpellAt,
+    isSelectingKitsuneCardToCastSpell,
     castingSpellsOfKitsuneCards,
 
     // p2p

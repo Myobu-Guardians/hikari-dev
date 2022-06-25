@@ -156,6 +156,7 @@ export default function KitsuneCardsInHand(props: Props) {
                   earningPoints={
                     !boardContainer.isSelectingKitsuneCardToReplace &&
                     !boardContainer.isSelectingKitsuneCardToCastSpellAt &&
+                    !boardContainer.isSelectingKitsuneCardToCastSpell &&
                     earningPoints &&
                     canSelect
                       ? earningPoints
