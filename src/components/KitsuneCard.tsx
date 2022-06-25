@@ -103,8 +103,11 @@ function SpellTrigger(props: Props) {
         )}
       </div>
       <div
-        className="font-bold text-white py-2 px-4"
-        style={{ fontSize: gameContainer.zoom * 8 }}
+        className="font-bold text-white"
+        style={{
+          fontSize: gameContainer.zoom * 8,
+          padding: `${gameContainer.zoom * 2}px ${gameContainer.zoom * 10}px`,
+        }}
       >
         {spellDescription}
       </div>

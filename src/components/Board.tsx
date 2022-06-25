@@ -17,6 +17,82 @@ import KitsuneCardsInPlay from "./KitsuneCardsInPlay";
 import KitsuneCardsInHand from "./KitsuneCardsInHand";
 import { BoardContainer } from "../containers/board";
 import { copyToClipboard } from "../lib/utils";
+import { getSymbolImageSrcFromSymbol, OfferingSymbol } from "../lib/offering";
+
+interface ModifySymbolProps {}
+function ModifySymbol(props: ModifySymbolProps) {
+  const gameContainer = GameContainer.useContainer();
+  const boardContainer = BoardContainer.useContainer();
+  const isAddingSymbol =
+    boardContainer.castingSpellsOfKitsuneCards[0].spell?.id ===
+    "tail-4-light-spell";
+
+  return (
+    <div>
+      <div
+        className="text-white p-4 fixed text-center flex flex-row items-center justify-between"
+        style={{
+          fontSize: gameContainer.zoom * 18,
+          width: (gameContainer.zoom * BoardWidth) / 2,
+          height: gameContainer.zoom * 80,
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          left: gameContainer.zoom * 250,
+          top: gameContainer.zoom * (BoardHeight / 2 - 40),
+        }}
+      >
+        <div className="flex flex-row items-center">
+          <div>{isAddingSymbol ? "Add a symbol" : "Remove a symbol"}</div>
+          <div className="flex flex-row items-center ml-2">
+            {[
+              OfferingSymbol.Beverage,
+              OfferingSymbol.Food,
+              OfferingSymbol.Incense,
+              OfferingSymbol.MusicInstrument,
+              OfferingSymbol.Plant,
+              OfferingSymbol.Treasure,
+            ]
+              .filter((symbol) => {
+                const flag =
+                  boardContainer.isModifyingSymbolOfKitsuneCard?.symbols.includes(
+                    symbol
+                  );
+                if (isAddingSymbol) {
+                  return !flag;
+                } else {
+                  return flag;
+                }
+              })
+              .map((symbol) => {
+                return (
+                  <img
+                    key={`symbol-to-remove-${symbol}`}
+                    src={getSymbolImageSrcFromSymbol(symbol)}
+                    className={"cursor-pointer mx-1 hover:scale-125"}
+                    style={{
+                      width: gameContainer.zoom * 24,
+                      height: gameContainer.zoom * 24,
+                    }}
+                    onClick={() => {
+                      boardContainer.modifySymbolOfKitsuneCard(symbol);
+                    }}
+                  ></img>
+                );
+              })}
+          </div>
+        </div>
+
+        <button
+          className="btn btn-sm btn-primary ml-2 "
+          onClick={() => {
+            boardContainer.cancelCastingSpell();
+          }}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export function HelpModal() {
   const gameContainer = GameContainer.useContainer();
@@ -232,6 +308,7 @@ export default function Board() {
         )}
         {/* Casting spell, selecting target Kitsune card */}
         {boardContainer.isSelectingKitsuneCardToCastSpellAt &&
+          !boardContainer.isModifyingSymbolOfKitsuneCard &&
           boardContainer.castingSpellsOfKitsuneCards.length > 0 && (
             <div>
               <div
@@ -261,31 +338,39 @@ export default function Board() {
             </div>
           )}
         {/* Select a kitsune card to cast spell */}
-        {boardContainer.isSelectingKitsuneCardToCastSpell && (
-          <div>
-            <div
-              className="text-white p-4 fixed text-center flex flex-row items-center"
-              style={{
-                fontSize: gameContainer.zoom * 18,
-                width: (gameContainer.zoom * BoardWidth) / 2,
-                height: gameContainer.zoom * 80,
-                backgroundColor: "rgba(0, 0, 0, 0.8)",
-                left: gameContainer.zoom * 250,
-                top: gameContainer.zoom * (BoardHeight / 2 - 40),
-              }}
-            >
-              {`Please select a kitunse card to cast spell`}
-              <button
-                className="btn btn-sm btn-primary ml-2"
-                onClick={() => {
-                  boardContainer.cancelCastingSpell();
+        {boardContainer.isSelectingKitsuneCardToCastSpell &&
+          !boardContainer.isModifyingSymbolOfKitsuneCard && (
+            <div>
+              <div
+                className="text-white p-4 fixed text-center flex flex-row items-center"
+                style={{
+                  fontSize: gameContainer.zoom * 18,
+                  width: (gameContainer.zoom * BoardWidth) / 2,
+                  height: gameContainer.zoom * 80,
+                  backgroundColor: "rgba(0, 0, 0, 0.8)",
+                  left: gameContainer.zoom * 250,
+                  top: gameContainer.zoom * (BoardHeight / 2 - 40),
                 }}
               >
-                Cancel
-              </button>
+                {`Please select a kitunse card to cast spell`}
+                <button
+                  className="btn btn-sm btn-primary ml-2"
+                  onClick={() => {
+                    boardContainer.cancelCastingSpell();
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        {/* Display symbols to edit */}
+        {boardContainer.isModifyingSymbolOfKitsuneCard &&
+          boardContainer.castingSpellsOfKitsuneCards.length > 0 &&
+          (boardContainer.castingSpellsOfKitsuneCards[0].spell?.id ===
+            "tail-4-light-spell" ||
+            boardContainer.castingSpellsOfKitsuneCards[0].spell?.id ===
+              "tail-4-dark-spell") && <ModifySymbol></ModifySymbol>}
       </div>
     </div>
   );

@@ -70,6 +70,9 @@ export default function KitsuneCardsInPlay(props: Props) {
                   ? "cursor-pointer"
                   : boardContainer.isSelectingKitsuneCardToReplace && canSelect
                   ? "cursor-pointer"
+                  : boardContainer.isSelectingKitsuneCardToCastSpell &&
+                    canSelect
+                  ? "cursor-pointer"
                   : (boardContainer.highlightedKitsuneCards.has(card)
                       ? "cursor-pointer transition-all duration-300"
                       : "cursor-not-allowed") + " relative"
@@ -116,6 +119,8 @@ export default function KitsuneCardsInPlay(props: Props) {
                 showHint={
                   canSelect && boardContainer.isSelectingKitsuneCardToReplace
                     ? "Replace this card"
+                    : boardContainer.isModifyingSymbolOfKitsuneCard === card
+                    ? "Modify symbol"
                     : boardContainer.isSelectingKitsuneCardToCastSpellAt
                     ? "Target this card"
                     : canSelect &&
