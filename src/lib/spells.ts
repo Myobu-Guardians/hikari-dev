@@ -103,7 +103,7 @@ spells.set("tail-3-dark-spell", {
 spells.set("tail-4-dark-spell", {
   id: "tail-4-dark-spell",
   description: "Remove any symbol from target card",
-  trigger: [[OfferingSymbol.Treasure], [OfferingSymbol.Food]],
+  trigger: [[OfferingSymbol.Treasure, OfferingSymbol.Food]],
 });
 spells.set("tail-5-dark-spell", {
   id: "tail-5-dark-spell",
