@@ -365,7 +365,7 @@ export default function Board() {
                   top: gameContainer.zoom * (BoardHeight / 2 - 40),
                 }}
               >
-                {`Please select a kitunse card to cast spell`}
+                {`Passive spell triggered. Please select a kitunse card to cast spell`}
                 <button
                   className="btn btn-sm btn-primary ml-2"
                   onClick={() => {

@@ -114,6 +114,10 @@ export interface KitsuneCard {
   symbols: OfferingSymbol[];
   number: number;
   spell?: Spell;
+  /**
+   * the number of times the card has been activated
+   */
+  ac?: number;
 }
 
 export function createKitsuneCards(): KitsuneCard[] {
@@ -122,7 +126,7 @@ export function createKitsuneCards(): KitsuneCard[] {
     {
       id: "tail-1-light",
       type: KitsuneCardType.Tail1Light,
-      symbols: [],
+      symbols: [OfferingSymbol.Plant],
       number: 1,
       spell: getSpellById("tail-1-light-spell"),
     },
