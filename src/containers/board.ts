@@ -229,14 +229,14 @@ export const BoardContainer = createContainer(() => {
   );
 
   const cancelCastingSpell = useCallback(
-    (castSpell?: boolean) => {
+    (spellCasted?: boolean) => {
       setIsSelectingKitsuneCardToCastSpell(false);
       setIsSelectingKitsuneCardToCastSpellAt(false);
       setIsModifyingSymbolOfKitsuneCard(null);
       setCastingPassiveSpellOfKitsuneCard(null);
 
       console.log("cancelCastingSpell: ");
-      console.log("* castSpell: ", castSpell);
+      console.log("* castSpell: ", spellCasted);
       console.log(
         "* castingPassiveSpellOfKitsuneCard: ",
         castingPassiveSpellOfKitsuneCard
@@ -260,7 +260,7 @@ export const BoardContainer = createContainer(() => {
             alert("Error cancelCastingSpell");
           }
         } else {
-          if (castSpell) {
+          if (spellCasted) {
             if (castingSpellsOfKitsuneCards.length <= 1) {
               setCastingSpellsOfKitsuneCards([]);
 
@@ -283,7 +283,7 @@ export const BoardContainer = createContainer(() => {
             ]);
           }
         }
-      } else if (castSpell && castingSpellsOfKitsuneCards.length <= 1) {
+      } else if (spellCasted && castingSpellsOfKitsuneCards.length <= 1) {
         setCastingSpellsOfKitsuneCards([]);
         nextTurnIfNecessary();
       } else {
@@ -715,6 +715,10 @@ export const BoardContainer = createContainer(() => {
       } // Enemy loses one point
       else if (card.spell?.id === "tail-1-dark-spell") {
         board.castTail1DarkSpell(Array.from(selectedOfferingCards), turns);
+        cancelCastingSpell(true);
+      } // Enemy loses three points
+      else if (card.spell?.id === "tail-8-dark-spell") {
+        board.castTail8DarkSpell(Array.from(selectedOfferingCards), turns);
         cancelCastingSpell(true);
       } else {
         alert(`Spell ${card.spell?.id} not implemented`);
