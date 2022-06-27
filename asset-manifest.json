@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/hikari-dev/static/css/main.2e2036da.css",
-    "main.js": "/hikari-dev/static/js/main.5bb4c003.js",
+    "main.js": "/hikari-dev/static/js/main.86925d51.js",
     "static/js/787.c67eddf0.chunk.js": "/hikari-dev/static/js/787.c67eddf0.chunk.js",
     "static/media/Hikari Playing Board with Items.png": "/hikari-dev/static/media/Hikari Playing Board with Items.1fbe314f282aadfa6bb0.png",
     "static/media/back.png": "/hikari-dev/static/media/back.ac946a0e5bb01eb885cc.png",
@@ -89,11 +89,11 @@
     "static/media/4.png": "/hikari-dev/static/media/4.aeb12ef4f204f05984cd.png",
     "index.html": "/hikari-dev/index.html",
     "main.2e2036da.css.map": "/hikari-dev/static/css/main.2e2036da.css.map",
-    "main.5bb4c003.js.map": "/hikari-dev/static/js/main.5bb4c003.js.map",
+    "main.86925d51.js.map": "/hikari-dev/static/js/main.86925d51.js.map",
     "787.c67eddf0.chunk.js.map": "/hikari-dev/static/js/787.c67eddf0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2e2036da.css",
-    "static/js/main.5bb4c003.js"
+    "static/js/main.86925d51.js"
   ]
 }
