@@ -44,7 +44,8 @@ spells.set("tail-2-light-spell", {
 });
 spells.set("tail-3-light-spell", {
   id: "tail-3-light-spell",
-  description: "When you activate any card, you can cast any spell",
+  description:
+    "When you activate any card, you have 33% chance to cast any spell",
   trigger: [],
 });
 spells.set("tail-4-light-spell", {
@@ -97,7 +98,8 @@ spells.set("tail-2-dark-spell", {
 });
 spells.set("tail-3-dark-spell", {
   id: "tail-3-dark-spell",
-  description: "When enemy activates their card, you can cast any spell",
+  description:
+    "When enemy activates their card, you have 33% chance to cast any spell",
   trigger: [],
 });
 spells.set("tail-4-dark-spell", {
