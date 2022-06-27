@@ -173,6 +173,8 @@ export const BoardContainer = createContainer(() => {
         );
 
         if (
+          // 33% chance to trigger passive
+          Math.random() < 0.33 &&
           tail3LightCardIndex >= 0 &&
           !(
             isPlacingCard &&
@@ -461,6 +463,8 @@ export const BoardContainer = createContainer(() => {
           (kc) => kc.spell?.id === "tail-3-dark-spell"
         );
         if (
+          // 33% chance to trigger passive
+          Math.random() < 0.33 &&
           tail3DarkCardIndex >= 0 &&
           player.kitsuneCardsInPlay.filter(
             (card) =>
