@@ -381,6 +381,59 @@ export class GameBoard {
     });
   }
 
+  /**
+   * Return target card to its owners hand
+   */
+  public castTail7DarkSpell(
+    targetKitsuneCard: KitsuneCard,
+    offeringCards: OfferingCard[],
+    turns: number
+  ) {
+    const enemy =
+      turns % 2 === this.player?.turnRemainder ? this.opponent : this.player;
+    if (!enemy) {
+      return;
+    }
+
+    const index = enemy.kitsuneCardsInPlay.indexOf(targetKitsuneCard);
+
+    // TODO: Validate index
+    if (index >= 0) {
+      enemy.kitsuneCardsInPlay.splice(index, 1);
+      enemy.kitsuneCardsInHand.push(targetKitsuneCard);
+    }
+    offeringCards.forEach((offeringCard) => {
+      this.discardOfferingCard(offeringCard);
+    });
+  }
+
+  /**
+   * Enemy loses three point
+   */
+  public castTail8DarkSpell(offeringCards: OfferingCard[], turns: number) {
+    const player =
+      turns % 2 === this.player?.turnRemainder ? this.opponent : this.player;
+    if (!player) {
+      return;
+    }
+    player.gamePoints = Math.max(player.gamePoints - 3, 0);
+    offeringCards.forEach((offeringCard) => {
+      this.discardOfferingCard(offeringCard);
+    });
+  }
+
+  /**
+   * Discard all Offerings
+   * @param offeringCards
+   * @param turns
+   */
+  public castTail9DarkSpell() {
+    const offeringCards = this.offeringCardsInPlay;
+    offeringCards.forEach((offeringCard) => {
+      this.discardOfferingCard(offeringCard);
+    });
+  }
+
   public getOfferingCardById(offeringCardId: string): OfferingCard | undefined {
     return [...this.offeringCardsInDeck, ...this.offeringCardsInPlay].find(
       (offeringCard) => offeringCard.id === offeringCardId

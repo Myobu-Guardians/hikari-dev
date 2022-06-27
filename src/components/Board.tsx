@@ -111,8 +111,8 @@ export function HelpModal() {
         Help ?
       </label>
       <input type="checkbox" id="help-modal" className="modal-toggle" />
-      <div className="modal font-sans">
-        <div className="modal-box">
+      <label htmlFor="help-modal" className="modal font-sans">
+        <label className="modal-box relative" htmlFor="">
           <h3 className="font-bold text-lg">Game rules</h3>
           <p className="text-sm mt-4">
             Code version:{" "}
@@ -146,8 +146,8 @@ export function HelpModal() {
               Close
             </label>
           </div>
-        </div>
-      </div>
+        </label>
+      </label>
     </div>
   );
 }
