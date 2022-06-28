@@ -95,7 +95,8 @@ export default function KitsuneCardsInPlay(props: Props) {
             <div
               key={`kitsune-card-in-play-${index}-` + card.id}
               className={
-                boardContainer.isSelectingKitsuneCardToCastSpellAt
+                "transition-all " +
+                (boardContainer.isSelectingKitsuneCardToCastSpellAt
                   ? "cursor-pointer"
                   : boardContainer.isSelectingKitsuneCardToReplace && canSelect
                   ? "cursor-pointer"
@@ -106,7 +107,7 @@ export default function KitsuneCardsInPlay(props: Props) {
                   ? "cursor-pointer"
                   : (boardContainer.highlightedKitsuneCards.has(card)
                       ? "cursor-pointer transition-all duration-300"
-                      : "cursor-not-allowed") + " relative"
+                      : "cursor-not-allowed") + " relative")
               }
               onClick={() => {
                 if (
