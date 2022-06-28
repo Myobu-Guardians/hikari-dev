@@ -1,13 +1,13 @@
 import { OfferingSymbol } from "./offering";
-import Tail1 from "../assets/images/kitsunes/tail-1.jpeg";
-import Tail2 from "../assets/images/kitsunes/tail-2.jpeg";
-import Tail3 from "../assets/images/kitsunes/tail-3.jpeg";
-import Tail4 from "../assets/images/kitsunes/tail-4.jpeg";
-import Tail5 from "../assets/images/kitsunes/tail-5.jpeg";
-import Tail6 from "../assets/images/kitsunes/tail-6.jpeg";
-import Tail7 from "../assets/images/kitsunes/tail-7.jpeg";
-import Tail8 from "../assets/images/kitsunes/tail-8.jpeg";
-import Tail9 from "../assets/images/kitsunes/tail-9.jpeg";
+import Tail1 from "../assets/images/kitsunes/tail-1.png";
+import Tail2 from "../assets/images/kitsunes/tail-2.png";
+import Tail3 from "../assets/images/kitsunes/tail-3.png";
+import Tail4 from "../assets/images/kitsunes/tail-4.png";
+import Tail5 from "../assets/images/kitsunes/tail-5.png";
+import Tail6 from "../assets/images/kitsunes/tail-6.png";
+import Tail7 from "../assets/images/kitsunes/tail-7.png";
+import Tail8 from "../assets/images/kitsunes/tail-8.png";
+import Tail9 from "../assets/images/kitsunes/tail-9.png";
 import KitsuneCardBack from "../assets/images/kitsunes/back.jpg";
 import LightBorder from "../assets/images/borders/light.png";
 import DarkBorder from "../assets/images/borders/dark.png";
@@ -105,6 +105,20 @@ export function getKitsuneCardImageSrc(card: KitsuneCard) {
   }
 }
 
+export function kitsuneCardIsLightType(kitsuneCard: KitsuneCard) {
+  return (
+    kitsuneCard.type === KitsuneCardType.Tail1Light ||
+    kitsuneCard.type === KitsuneCardType.Tail2Light ||
+    kitsuneCard.type === KitsuneCardType.Tail3Light ||
+    kitsuneCard.type === KitsuneCardType.Tail4Light ||
+    kitsuneCard.type === KitsuneCardType.Tail5Light ||
+    kitsuneCard.type === KitsuneCardType.Tail6Light ||
+    kitsuneCard.type === KitsuneCardType.Tail7Light ||
+    kitsuneCard.type === KitsuneCardType.Tail8Light ||
+    kitsuneCard.type === KitsuneCardType.Tail9Light
+  );
+}
+
 export interface KitsuneCard {
   /*
    * Might be the NFT address in the future
@@ -165,6 +179,7 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 6,
       spell: getSpellById("tail-6-light-spell"),
     },
+    /*
     {
       id: "tail-7-light",
       type: KitsuneCardType.Tail7Light,
@@ -172,6 +187,7 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 7,
       spell: getSpellById("tail-7-light-spell"),
     },
+    */
     {
       id: "tail-8-light",
       type: KitsuneCardType.Tail8Light,
@@ -179,6 +195,7 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 8,
       spell: getSpellById("tail-8-light-spell"),
     },
+    /*
     {
       id: "tail-9-light",
       type: KitsuneCardType.Tail9Light,
@@ -186,6 +203,7 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 9,
       spell: getSpellById("tail-9-light-spell"),
     },
+    */
     /* Dark */
     {
       id: "tail-1-dark",
@@ -229,6 +247,7 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 6,
       spell: getSpellById("tail-6-dark-spell"),
     },
+    /*
     {
       id: "tail-7-dark",
       type: KitsuneCardType.Tail7Dark,
@@ -236,6 +255,7 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 7,
       spell: getSpellById("tail-7-dark-spell"),
     },
+    */
     {
       id: "tail-8-dark",
       type: KitsuneCardType.Tail8Dark,
@@ -243,6 +263,7 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 8,
       spell: getSpellById("tail-8-dark-spell"),
     },
+    /*
     {
       id: "tail-9-dark",
       type: KitsuneCardType.Tail9Dark,
@@ -250,5 +271,6 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 9,
       spell: getSpellById("tail-9-dark-spell"),
     },
+    */
   ].filter((card) => card.number <= MaxKitsuneCardNumber);
 }

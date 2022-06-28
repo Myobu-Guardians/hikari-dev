@@ -229,8 +229,18 @@ export default function Board() {
         {boardContainer.board.player && (
           <>
             <KitsuneCardsInDeck isOpponent={false}></KitsuneCardsInDeck>
-            <KitsuneCardsInPlay isOpponent={false}></KitsuneCardsInPlay>
-            <KitsuneCardsInHand isOpponent={false}></KitsuneCardsInHand>
+            <KitsuneCardsInPlay
+              isOpponent={false}
+              hideKitsuneCards={
+                boardContainer.board.player.hideKitsuneCardsInPlay
+              }
+            ></KitsuneCardsInPlay>
+            <KitsuneCardsInHand
+              isOpponent={false}
+              showKitsuneCards={
+                boardContainer.board.player.showKitsuneCardsInHand
+              }
+            ></KitsuneCardsInHand>
             <div
               className="absolute bottom-2 right-4 text-white cursor-pointer"
               onClick={() => {
@@ -278,10 +288,17 @@ export default function Board() {
         {boardContainer.board.opponent && (
           <>
             <KitsuneCardsInDeck isOpponent={true}></KitsuneCardsInDeck>
-            <KitsuneCardsInPlay isOpponent={true}></KitsuneCardsInPlay>
+            <KitsuneCardsInPlay
+              isOpponent={true}
+              hideKitsuneCards={
+                boardContainer.board.opponent.hideKitsuneCardsInPlay
+              }
+            ></KitsuneCardsInPlay>
             <KitsuneCardsInHand
               isOpponent={true}
-              showOpponentsCards={boardContainer.board.gameMode === "local"}
+              showKitsuneCards={
+                boardContainer.board.opponent.showKitsuneCardsInHand
+              }
             ></KitsuneCardsInHand>
             <div
               className="absolute top-12 right-4 text-white"

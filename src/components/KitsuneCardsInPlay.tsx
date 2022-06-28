@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
+  BoardHeight,
+  BoardWidth,
+  KitsuneCardHeight,
   KitsuneCardsInPlayHeight,
   KitsuneCardsInPlayLeft,
   KitsuneCardsInPlayTop,
@@ -14,13 +17,20 @@ import {
 import { KitsuneCard } from "../lib/kitsune";
 import { canCastSpell } from "../lib/spellFn";
 import KitsuneCardComponent from "./KitsuneCard";
+import KitsuneCardBack from "../assets/images/kitsunes/back.jpg";
+import KitsuneBackground from "../assets/images/kitsunes/background.png";
 
 interface Props {
   isOpponent?: boolean;
+  /**
+   * Hide the kitsune cards in play for `hideKitsuneCards` turns
+   */
+  hideKitsuneCards: number;
 }
 export default function KitsuneCardsInPlay(props: Props) {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
+  const [mouseOverCard, setMouseOverCard] = useState<KitsuneCard | null>(null);
 
   const cards: KitsuneCard[] =
     (props.isOpponent
@@ -52,8 +62,27 @@ export default function KitsuneCardsInPlay(props: Props) {
         // backgroundColor: "rgba(0, 0, 0, 0.5)",
       }}
     >
-      <div className="w-full flex flex-row items-center justify-evenly">
+      <div className="w-full flex flex-row items-center justify-evenly relative">
         {cards.map((card, index) => {
+          if (
+            props.hideKitsuneCards > 0 &&
+            props.isOpponent &&
+            boardContainer.board.gameMode !== "local"
+          ) {
+            return (
+              <div key={`kitsune-card-in-play-${index}-` + card.id}>
+                <img
+                  src={KitsuneCardBack}
+                  alt={"Kitsune cards in deck"}
+                  style={{
+                    width: gameContainer.zoom * KitsuneCardWidth,
+                    height: gameContainer.zoom * KitsuneCardHeight,
+                  }}
+                ></img>
+              </div>
+            );
+          }
+
           const earningPoints = boardContainer.board.calculateEarningPoints(
             card,
             Array.from(boardContainer.selectedOfferingCards)
@@ -66,7 +95,8 @@ export default function KitsuneCardsInPlay(props: Props) {
             <div
               key={`kitsune-card-in-play-${index}-` + card.id}
               className={
-                boardContainer.isSelectingKitsuneCardToCastSpellAt
+                "transition-all " +
+                (boardContainer.isSelectingKitsuneCardToCastSpellAt
                   ? "cursor-pointer"
                   : boardContainer.isSelectingKitsuneCardToReplace && canSelect
                   ? "cursor-pointer"
@@ -77,7 +107,7 @@ export default function KitsuneCardsInPlay(props: Props) {
                   ? "cursor-pointer"
                   : (boardContainer.highlightedKitsuneCards.has(card)
                       ? "cursor-pointer transition-all duration-300"
-                      : "cursor-not-allowed") + " relative"
+                      : "cursor-not-allowed") + " relative")
               }
               onClick={() => {
                 if (
@@ -104,6 +134,23 @@ export default function KitsuneCardsInPlay(props: Props) {
                 ) {
                   boardContainer.castSpellUsingKitsuneCard(card);
                 }
+              }}
+              onMouseEnter={() => {
+                setMouseOverCard(card);
+              }}
+              onMouseLeave={() => {
+                setMouseOverCard(null);
+              }}
+              style={{
+                transform:
+                  mouseOverCard === card
+                    ? `translateY(${
+                        props.isOpponent
+                          ? gameContainer.zoom * 35
+                          : gameContainer.zoom * -20
+                      }px) scale(150%)`
+                    : ``,
+                zIndex: mouseOverCard === card ? 100 : 0,
               }}
             >
               <KitsuneCardComponent
@@ -147,6 +194,7 @@ export default function KitsuneCardsInPlay(props: Props) {
                       boardContainer.castingPassiveSpellOfKitsuneCard.id
                   ) && !boardContainer.isSelectingKitsuneCardToCastSpellAt
                 }
+                showAnimation={mouseOverCard === card}
               ></KitsuneCardComponent>
             </div>
           );
@@ -159,25 +207,42 @@ export default function KitsuneCardsInPlay(props: Props) {
               return (
                 <div
                   key={`empty-slot-${index}`}
-                  className={`border-dashed border-white text-white relative`}
+                  className={`text-white border-dashed relative backdrop-grayscale-0`}
                   style={{
                     width: gameContainer.zoom * KitsuneCardWidth,
                     height: (221 / 137) * gameContainer.zoom * KitsuneCardWidth,
-                    borderWidth: gameContainer.zoom * 3,
+                    backgroundImage: `url(${KitsuneBackground})`,
+                    backgroundSize: `cover`,
+                    filter: `grayscale(90%)`,
+                    borderWidth: gameContainer.zoom * 2,
                   }}
                 >
                   <div
-                    className="absolute bottom-0 right-2"
+                    className={"top-1 right-1 absolute"}
                     style={{
-                      fontSize: gameContainer.zoom * 16,
+                      fontSize: gameContainer.zoom * 12,
                     }}
                   >
-                    Activated<br></br>Kitsune
+                    {" "}
+                    Empty<br></br>Shrine
                   </div>
                 </div>
               );
             })
         }
+        {props.hideKitsuneCards > 0 && (
+          <div
+            className="text-white p-4 absolute text-center flex flex-row items-center justify-center"
+            style={{
+              fontSize: gameContainer.zoom * 18,
+              width: (gameContainer.zoom * BoardWidth) / 4,
+              height: gameContainer.zoom * 80,
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
+            }}
+          >
+            <div>Hide for {props.hideKitsuneCards} turns</div>
+          </div>
+        )}
       </div>
     </div>
   );
