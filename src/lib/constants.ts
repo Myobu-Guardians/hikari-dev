@@ -5,8 +5,8 @@ export const BoardHeight = 510;
 
 export const NumOfOfferingCardsInPlay = 4;
 export const NumOfKitsuneCardsInPlay = 2;
-export const NumOfKitsuneCardsInDeckPerPlayer = 6;
-export const MaxKitsuneCardNumber = 5;
+export const NumOfKitsuneCardsInDeckPerPlayer = 5;
+export const MaxKitsuneCardNumber = 9; // 5;
 export const WinPoints = 12;
 
 export const OfferingCardsInDeckLeft = 795;
@@ -45,7 +45,7 @@ export const OpponentKitsuneCardsInDeckTop = 20;
 export const OpponentKitsuneCardsInPlayLeft = 300;
 export const OpponentKitsuneCardsInPlayTop = 10;
 
-export const OpponentKitsuneCardsInHandLeft = KitsuneCardsInDeckLeft - 60;
+export const OpponentKitsuneCardsInHandLeft = KitsuneCardsInDeckLeft - 110;
 export const OpponentKitsuneCardsInHandTop = 0;
 
 export const OfferingCardSize = 90;

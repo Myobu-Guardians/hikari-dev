@@ -17,6 +17,7 @@ import {
   getSymbolImageSrcFromSymbol,
 } from "../lib/offering";
 import { intersperse } from "../lib/utils";
+import KitsuneBackground from "../assets/images/kitsunes/background.png";
 
 interface Props {
   kitsuneCard: KitsuneCard;
@@ -26,6 +27,7 @@ interface Props {
   showCastSpell?: boolean;
   isOpponent?: boolean;
   displayBorderColor?: boolean;
+  showAnimation?: boolean;
 }
 
 function SpellTrigger(props: Props) {
@@ -115,7 +117,7 @@ function SpellTrigger(props: Props) {
       {props.showCastSpell && (
         <div
           className={
-            "w-full text-white transition-all text-center py-2 " +
+            "w-full text-white transition-all text-center py-2 z-50 " +
             ((boardContainer.isPlayerTurn && !props.isOpponent) ||
             (!boardContainer.isPlayerTurn &&
               props.isOpponent &&
@@ -162,14 +164,29 @@ export default function KitsuneCardComponent(props: Props) {
           : "none",
       }}
     >
+      {/* Background */}
+      <img
+        src={KitsuneBackground}
+        alt={"Background"}
+        className="absolute"
+        style={{
+          width: gameContainer.zoom * KitsuneCardWidth,
+          height: gameContainer.zoom * KitsuneCardHeight,
+        }}
+      ></img>
+      {/* Border */}
       <img
         src={getKitsuneCardBorderImageSrc(props.kitsuneCard)}
         alt={"Border"}
         className={"absolute"}
       ></img>
+      {/* Character */}
       <img
         src={getKitsuneCardImageSrc(props.kitsuneCard)}
         alt={props.kitsuneCard.id}
+        className={
+          "z-30 " + (props.showAnimation ? "animate-zoom" : "scale-75")
+        }
         style={{
           width: gameContainer.zoom * KitsuneCardWidth,
           height: gameContainer.zoom * KitsuneCardHeight,

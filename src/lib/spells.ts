@@ -40,7 +40,7 @@ spells.set("tail-1-light-spell", {
 spells.set("tail-2-light-spell", {
   id: "tail-2-light-spell",
   description: "Increase any card number by three",
-  trigger: [[OfferingSymbol.Plant], [OfferingSymbol.Incense]],
+  trigger: [[OfferingSymbol.Plant], [OfferingSymbol.Beverage]],
 });
 spells.set("tail-3-light-spell", {
   id: "tail-3-light-spell",
@@ -55,16 +55,22 @@ spells.set("tail-4-light-spell", {
 });
 spells.set("tail-5-light-spell", {
   id: "tail-5-light-spell",
-  description: "When any Flora Offering is placed, you can activate any card",
+  description:
+    "When n Flora Offerings are placed, you have n/4 chance to cast any spell",
   trigger: [],
 });
 spells.set("tail-6-light-spell", {
   id: "tail-6-light-spell",
-  description: "Replace this card with any card in your hand",
-  trigger: [],
+  description: "Hide all of your cards for 2 turns",
+  trigger: [[OfferingSymbol.MusicInstrument], [OfferingSymbol.Plant]],
 });
 spells.set("tail-7-light-spell", {
   id: "tail-7-light-spell",
+  description: "Can place 1 more kitsune card for 4 turns",
+  trigger: [[OfferingSymbol.MusicInstrument, OfferingSymbol.Incense]],
+});
+spells.set("tail-8-light-spell", {
+  id: "tail-8-light-spell",
   description: "Gain three points",
   trigger: [
     [
@@ -73,12 +79,6 @@ spells.set("tail-7-light-spell", {
       OfferingSymbol.Incense,
     ],
   ],
-});
-spells.set("tail-8-light-spell", {
-  id: "tail-8-light-spell",
-  description:
-    "When you cast a spell, you can remove any number or effects from any card",
-  trigger: [],
 });
 spells.set("tail-9-light-spell", {
   id: "tail-9-light-spell",
@@ -109,17 +109,18 @@ spells.set("tail-4-dark-spell", {
 });
 spells.set("tail-5-dark-spell", {
   id: "tail-5-dark-spell",
-  description: "When any Bounty Offering is placed, you can cast any spell",
+  description:
+    "When n Bounty Offerings are placed, you have n/4 chance to cast any spell",
   trigger: [],
 });
 spells.set("tail-6-dark-spell", {
   id: "tail-6-dark-spell",
-  description: "Look at the enemies hand",
+  description: "Show all of enemy's cards for 2 turns",
   trigger: [[OfferingSymbol.Food], [OfferingSymbol.Beverage]],
 });
 spells.set("tail-7-dark-spell", {
   id: "tail-7-dark-spell",
-  description: "Return target card to its owners hand",
+  description: "Return target card to its owners hand and lock for 4 turns",
   trigger: [[OfferingSymbol.Food], [OfferingSymbol.Treasure]],
 });
 spells.set("tail-8-dark-spell", {

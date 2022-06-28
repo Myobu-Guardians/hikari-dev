@@ -5,7 +5,11 @@ import {
   NumOfOfferingCardsInPlay,
   PlayerId,
 } from "./constants";
-import { createKitsuneCards, KitsuneCard } from "./kitsune";
+import {
+  createKitsuneCards,
+  KitsuneCard,
+  kitsuneCardIsLightType,
+} from "./kitsune";
 import { OfferingCard, createOfferingCards } from "./offering";
 import { Player } from "./player";
 import { GameBoardState } from "./state";
@@ -111,34 +115,40 @@ export class GameBoard {
     playerId?: string,
     opponentId?: string
   ) {
+    /*
     const kitsuneCardsInDeck = shuffleArray(kitsuneCards).slice(
       0,
       NumOfKitsuneCardsInDeckPerPlayer * 2
     );
+    */
+    const lighKitsuneCards = shuffleArray(
+      kitsuneCards.filter((card) => kitsuneCardIsLightType(card))
+    ).slice(0, NumOfKitsuneCardsInDeckPerPlayer);
+    const darkKitsuneCards = shuffleArray(
+      kitsuneCards.filter((card) => !kitsuneCardIsLightType(card))
+    ).slice(0, NumOfKitsuneCardsInDeckPerPlayer);
 
     let flag = Math.random() < 0.5;
 
     this.player = {
       id: playerId || PlayerId,
-      kitsuneCardsInDeck: kitsuneCardsInDeck.slice(
-        0,
-        kitsuneCardsInDeck.length / 2
-      ),
+      kitsuneCardsInDeck: flag ? lighKitsuneCards : darkKitsuneCards,
       kitsuneCardsInHand: [],
       kitsuneCardsInPlay: [],
       gamePoints: 0,
       turnRemainder: flag ? 0 : 1,
+      showKitsuneCardsInHand: 0,
+      hideKitsuneCardsInPlay: 0,
     };
     this.opponent = {
       id: opponentId || generateUUID(),
-      kitsuneCardsInDeck: kitsuneCardsInDeck.slice(
-        kitsuneCardsInDeck.length / 2,
-        kitsuneCardsInDeck.length
-      ),
+      kitsuneCardsInDeck: flag ? darkKitsuneCards : lighKitsuneCards,
       kitsuneCardsInHand: [],
       kitsuneCardsInPlay: [],
       gamePoints: 0,
       turnRemainder: flag ? 1 : 0,
+      showKitsuneCardsInHand: 0,
+      hideKitsuneCardsInPlay: 0,
     };
   }
 
@@ -276,6 +286,24 @@ export class GameBoard {
 
   public nextTurn() {
     this.turns += 1;
+
+    if (this.player) {
+      if (this.player.showKitsuneCardsInHand > 0) {
+        this.player.showKitsuneCardsInHand -= 1;
+      }
+      if (this.player.hideKitsuneCardsInPlay > 0) {
+        this.player.hideKitsuneCardsInPlay -= 1;
+      }
+    }
+
+    if (this.opponent) {
+      if (this.opponent.showKitsuneCardsInHand > 0) {
+        this.opponent.showKitsuneCardsInHand -= 1;
+      }
+      if (this.opponent.hideKitsuneCardsInPlay > 0) {
+        this.opponent.hideKitsuneCardsInPlay -= 1;
+      }
+    }
   }
 
   public getPreviousActionInitiatorId() {
@@ -327,11 +355,30 @@ export class GameBoard {
   }
 
   /**
+   * Hide all of your cards for 2 turns
+   * @param offeringCards
+   * @param turns
+   * @returns
+   */
+  public castTail6LightSpell(offeringCards: OfferingCard[], turns: number) {
+    const player =
+      turns % 2 === this.player?.turnRemainder ? this.player : this.opponent;
+    if (!player) {
+      return;
+    }
+    player.hideKitsuneCardsInPlay = 2 + 1; // 2 turns
+    player.showKitsuneCardsInHand = 0;
+    offeringCards.forEach((offeringCard) => {
+      this.discardOfferingCard(offeringCard);
+    });
+  }
+
+  /**
    * Gain three points
    * @param offeringCards
    * @param turns
    */
-  public castTail7LightSpell(offeringCards: OfferingCard[], turns: number) {
+  public castTail8LightSpell(offeringCards: OfferingCard[], turns: number) {
     const player =
       turns % 2 === this.player?.turnRemainder ? this.player : this.opponent;
     if (!player) {
@@ -376,6 +423,24 @@ export class GameBoard {
       return;
     }
     targetKitsuneCard.number = Math.max(targetKitsuneCard.number - 3, 1); // TODO: Can it be below 1?
+    offeringCards.forEach((offeringCard) => {
+      this.discardOfferingCard(offeringCard);
+    });
+  }
+
+  /**
+   * Show all of enemy cards for 2 turns
+   * @param offeringCards
+   * @param turns
+   */
+  public castTail6DarkSpell(offeringCards: OfferingCard[], turns: number) {
+    const enemy =
+      turns % 2 === this.player?.turnRemainder ? this.opponent : this.player;
+    if (!enemy) {
+      return;
+    }
+    enemy.showKitsuneCardsInHand = 2 + 1; // 2 turns
+    enemy.hideKitsuneCardsInPlay = 0;
     offeringCards.forEach((offeringCard) => {
       this.discardOfferingCard(offeringCard);
     });

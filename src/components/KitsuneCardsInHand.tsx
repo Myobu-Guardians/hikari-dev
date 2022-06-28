@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
+  BoardWidth,
   KitsuneCardHeight,
   KitsuneCardsInHandHeight,
   KitsuneCardsInHandLeft,
@@ -17,7 +18,8 @@ import { KitsuneCard } from "../lib/kitsune";
 
 interface Props {
   isOpponent?: boolean;
-  showOpponentsCards?: boolean;
+  // Show the kitsune cards in hand for `showKitsuneCards` turns
+  showKitsuneCards: number;
 }
 export default function KitsuneCardsInHand(props: Props) {
   const gameContainer = GameContainer.useContainer();
@@ -28,6 +30,8 @@ export default function KitsuneCardsInHand(props: Props) {
     (props.isOpponent
       ? boardContainer.board.opponent?.kitsuneCardsInHand
       : boardContainer.board.player?.kitsuneCardsInHand) || [];
+
+  console.log(cards);
 
   const canSelect =
     (boardContainer.isPlayerTurn && !props.isOpponent) ||
@@ -55,37 +59,37 @@ export default function KitsuneCardsInHand(props: Props) {
         // backgroundColor: "rgba(0, 0, 0, 0.5)",
       }}
     >
-      {props.isOpponent && !props.showOpponentsCards ? (
+      {props.showKitsuneCards <= 0 &&
+      props.isOpponent &&
+      boardContainer.board.gameMode !== "local" ? (
         <div>
-          {new Array(Math.min(cards.length, 3))
-            .fill(null)
-            .map((val: any, index: number) => {
-              const mid = Math.floor(cards.length / 2);
-              return (
-                <div
-                  key={`kitsune-cards-in-deck-${index}`}
-                  className={
-                    `absolute card shadow-sm shadow-black rounded-sm ` +
-                    (canSelect ? "" : "cursor-not-allowed")
-                  }
+          {new Array(cards.length).fill(null).map((val: any, index: number) => {
+            const mid = Math.floor(cards.length / 2);
+            return (
+              <div
+                key={`kitsune-cards-in-deck-${index}`}
+                className={
+                  `absolute card shadow-sm shadow-black rounded-sm ` +
+                  (canSelect ? "" : "cursor-not-allowed")
+                }
+                style={{
+                  left: (index * gameContainer.zoom * KitsuneCardWidth) / 3,
+                  transform: `rotate(${(index - mid) * 10}deg) scale(60%)`,
+                  width: gameContainer.zoom * KitsuneCardWidth,
+                  height: gameContainer.zoom * KitsuneCardHeight,
+                }}
+              >
+                <img
+                  src={KitsuneCardBack}
+                  alt={"Kitsune cards in hands"}
                   style={{
-                    left: (index * gameContainer.zoom * KitsuneCardWidth) / 2,
-                    transform: `rotate(${(index - mid) * 10}deg) scale(75%)`,
                     width: gameContainer.zoom * KitsuneCardWidth,
                     height: gameContainer.zoom * KitsuneCardHeight,
                   }}
-                >
-                  <img
-                    src={KitsuneCardBack}
-                    alt={"Kitsune cards in hands"}
-                    style={{
-                      width: gameContainer.zoom * KitsuneCardWidth,
-                      height: gameContainer.zoom * KitsuneCardHeight,
-                    }}
-                  ></img>
-                </div>
-              );
-            })}
+                ></img>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div>
@@ -111,16 +115,23 @@ export default function KitsuneCardsInHand(props: Props) {
                   (boardContainer.highlightedKitsuneCards.has(card)
                     ? "transition-all duration-300"
                     : "") +
-                  // ` rotate-[${(index - mid) * 10}deg] scale-75 ` +
                   " " +
-                  " hover:scale-125 hover:rotate-0 hover:transition-all hover:z-[100]"
+                  " hover:rotate-0 hover:transition-all hover:z-[100]"
                 }
                 style={{
                   left: (index * gameContainer.zoom * KitsuneCardWidth) / 3,
                   transform:
                     mouseOverCard === card ||
                     boardContainer.selectedKitsuneCardToActivate === card
-                      ? `translateY(${props.isOpponent ? 20 : -20}px)`
+                      ? `translateY(${
+                          props.isOpponent
+                            ? 40 * gameContainer.zoom
+                            : -40 * gameContainer.zoom
+                        }px) translateX(${
+                          props.isOpponent
+                            ? 30 * gameContainer.zoom
+                            : 30 * gameContainer.zoom
+                        }px) scale(150%)`
                       : `rotate(${(index - mid) * 10}deg) scale(75%)`,
                   zIndex:
                     mouseOverCard === card ||
@@ -170,10 +181,26 @@ export default function KitsuneCardsInHand(props: Props) {
                       : false
                   }
                   isOpponent={props.isOpponent}
+                  showAnimation={mouseOverCard === card}
                 ></KitsuneCardComponent>
               </div>
             );
           })}
+        </div>
+      )}
+      {props.showKitsuneCards > 0 && (
+        <div
+          className="text-white p-4 absolute text-center flex flex-row items-center justify-center"
+          style={{
+            fontSize: gameContainer.zoom * 18,
+            width: (gameContainer.zoom * BoardWidth) / 4,
+            height: gameContainer.zoom * 40,
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            top: "80%",
+            left: "20%",
+          }}
+        >
+          <div>Show for {props.showKitsuneCards} turns</div>
         </div>
       )}
     </div>

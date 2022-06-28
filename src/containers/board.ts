@@ -3,7 +3,11 @@ import { createContainer } from "unstated-next";
 import { GameBoard } from "../lib/board";
 import { NumOfKitsuneCardsInPlay, PlayerId } from "../lib/constants";
 import { KitsuneCard } from "../lib/kitsune";
-import { OfferingCard, OfferingSymbol } from "../lib/offering";
+import {
+  OfferingCard,
+  OfferingCardType,
+  OfferingSymbol,
+} from "../lib/offering";
 import { Korona } from "@0xgg/korona";
 import { GameBoardState, GameStateAction } from "../lib/state";
 import toastr from "toastr";
@@ -255,7 +259,11 @@ export const BoardContainer = createContainer(() => {
           ) {
             nextTurnIfNecessary();
           } else if (
-            castingPassiveSpellOfKitsuneCard.spell?.id === "tail-3-dark-spell"
+            castingPassiveSpellOfKitsuneCard.spell?.id ===
+              "tail-3-dark-spell" ||
+            castingPassiveSpellOfKitsuneCard.spell?.id ===
+              "tail-5-light-spell" ||
+            castingPassiveSpellOfKitsuneCard.spell?.id === "tail-5-dark-spell"
           ) {
             // Do thing, and don't go next turn
           } else {
@@ -268,7 +276,11 @@ export const BoardContainer = createContainer(() => {
 
               if (
                 castingPassiveSpellOfKitsuneCard.spell?.id ===
-                "tail-3-dark-spell"
+                  "tail-3-dark-spell" ||
+                castingPassiveSpellOfKitsuneCard.spell?.id ===
+                  "tail-5-light-spell" ||
+                castingPassiveSpellOfKitsuneCard.spell?.id ===
+                  "tail-5-dark-spell"
               ) {
                 // Do nothing, and don't go next turn
               } else {
@@ -448,13 +460,14 @@ export const BoardContainer = createContainer(() => {
               (oc2) => oc.id === oc2.id
             )
         );
+      const currentPlacedOfferingCards = currentBoardState.offeringCardsInPlay;
       console.log("usedOfferingCards", usedOfferingCards);
       console.log("newlyPlacedOfferingCards", newlyPlacedOfferingCards);
       console.log("newlyPlacedKitsuneCards", newlyPlacedKitsuneCards);
       console.log("newlyActivatedKitsuneCards", newlyActivatedKitsuneCards);
+      console.log("currentPlacedOfferingCards", currentPlacedOfferingCards);
+      const player = playerThisTurn;
       if (newlyActivatedKitsuneCards.length > 0) {
-        const player = playerThisTurn;
-
         // Check if tail 3 dark card passive spell will be triggered
         //  "When enemy activates their card, you can cast any spell"
         // If so, set the state to selecting a kitsune card to cast a spell
@@ -478,10 +491,66 @@ export const BoardContainer = createContainer(() => {
             cards.concat(player.kitsuneCardsInPlay[tail3DarkCardIndex])
           );
         }
+      }
 
-        // Check if tail 5 light card passive spell will be triggered
-        //   "When any Flora Offering is placed, you can activate any card"
-        // If so, set the state to selecting a kitsune card to activate
+      // Check if tail 5 light card passive spell will be triggered
+      //  "When `n` Flora Offering is placed, you have n/4 chance to cast any spell"
+      // If so, set the state to selecting a kitsune card to cast a spell
+      const tail5LightCardIndex = player.kitsuneCardsInPlay.findIndex(
+        (kc) => kc.spell?.id === "tail-5-light-spell"
+      );
+      if (
+        tail5LightCardIndex >= 0 &&
+        currentPlacedOfferingCards.findIndex(
+          (card) => card.symbol === OfferingSymbol.Plant
+        ) >= 0 &&
+        player.kitsuneCardsInPlay.filter(
+          (card) =>
+            card.id !== player.kitsuneCardsInPlay[tail5LightCardIndex].id &&
+            card.spell &&
+            card.spell.trigger.length > 0
+        ).length > 0 &&
+        // n/4 chance to trigger passive
+        Math.random() <
+          currentPlacedOfferingCards.filter(
+            (card) => card.symbol === OfferingSymbol.Plant
+          ).length /
+            4
+      ) {
+        console.log("** Triggered tail5LightCard passive spell");
+        setCastingSpellsOfKitsuneCards((cards) =>
+          cards.concat(player.kitsuneCardsInPlay[tail5LightCardIndex])
+        );
+      }
+
+      // Check if tail 5 dark card passive spell will be triggered
+      //   "When `n` Bounty Offerings are placed, you have n/4 chance to cast any spell"
+      // If so, set the state to selecting a kitsune card to cast a spell
+      const tail5DarkCardIndex = player.kitsuneCardsInPlay.findIndex(
+        (kc) => kc.spell?.id === "tail-5-dark-spell"
+      );
+      if (
+        tail5DarkCardIndex >= 0 &&
+        currentPlacedOfferingCards.findIndex(
+          (card) => card.symbol === OfferingSymbol.Treasure
+        ) >= 0 &&
+        player.kitsuneCardsInPlay.filter(
+          (card) =>
+            card.id !== player.kitsuneCardsInPlay[tail5DarkCardIndex].id &&
+            card.spell &&
+            card.spell.trigger.length > 0
+        ).length > 0 &&
+        // n/4 chance to trigger passive
+        Math.random() <
+          currentPlacedOfferingCards.filter(
+            (card) => card.symbol === OfferingSymbol.Treasure
+          ).length /
+            4
+      ) {
+        console.log("** Triggered tail5DarkCard passive spell");
+        setCastingSpellsOfKitsuneCards((cards) =>
+          cards.concat(player.kitsuneCardsInPlay[tail5DarkCardIndex])
+        );
       }
     }
   }, [boardStates]);
@@ -710,9 +779,12 @@ export const BoardContainer = createContainer(() => {
       }
       // When you activate any card, you can cast any spell
       // When enemy activates any card, you can cast any spell
+      // When `n` Flora Offering is placed, you have n/4 chance to cast any spell
       else if (
         card.spell?.id === "tail-3-light-spell" ||
-        card.spell?.id === "tail-3-dark-spell"
+        card.spell?.id === "tail-3-dark-spell" ||
+        card.spell?.id === "tail-5-light-spell" ||
+        card.spell?.id === "tail-5-dark-spell"
       ) {
         setCastingPassiveSpellOfKitsuneCard(card); // Set current card with passive spell
         setCastingSpellsOfKitsuneCards((cards) => cards.slice(1)); // Remove the card with passive spell from the casting queue
@@ -722,13 +794,23 @@ export const BoardContainer = createContainer(() => {
         setIsSelectingKitsuneCardToCastSpell(true);
         setIsSelectingKitsuneCardToReplace(false);
       }
+      // Hide all of your cards for 2 turns
+      else if (card.spell?.id === "tail-6-light-spell") {
+        board.castTail6LightSpell(Array.from(selectedOfferingCards), turns);
+        cancelCastingSpell(true);
+      }
       // Gain three points
-      else if (card.spell?.id === "tail-7-light-spell") {
-        board.castTail7LightSpell(Array.from(selectedOfferingCards), turns);
+      else if (card.spell?.id === "tail-8-light-spell") {
+        board.castTail8LightSpell(Array.from(selectedOfferingCards), turns);
         cancelCastingSpell(true);
       } // Enemy loses one point
       else if (card.spell?.id === "tail-1-dark-spell") {
         board.castTail1DarkSpell(Array.from(selectedOfferingCards), turns);
+        cancelCastingSpell(true);
+      }
+      // Show all of enemy cards for 2 turns
+      else if (card.spell?.id === "tail-6-dark-spell") {
+        board.castTail6DarkSpell(Array.from(selectedOfferingCards), turns);
         cancelCastingSpell(true);
       }
       // Enemy loses three points
