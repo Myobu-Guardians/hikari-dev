@@ -3,6 +3,8 @@ import {
   Tail6LightHidePlayerKitsuneCardsTurns,
   Tail7DarkLockEnemyKitsuneCardsturns,
   Tail7LightSpellExtraKitsuneCardsInPlayTurns,
+  Tail9DarkLockedOfferingCardsNum,
+  Tail9DarkLockedOfferingCardsTurns,
   Tail9LightSpellExtraOfferingCardsToDraw,
 } from "./constants";
 import { OfferingSymbol } from "./offering";
@@ -41,12 +43,12 @@ const spells: Map<SpellId, Spell> = new Map();
 // Light
 spells.set("tail-1-light-spell", {
   id: "tail-1-light-spell",
-  description: "Gain one point",
+  description: "Gain 1 point",
   trigger: [[OfferingSymbol.MusicInstrument], [OfferingSymbol.Incense]],
 });
 spells.set("tail-2-light-spell", {
   id: "tail-2-light-spell",
-  description: "Increase any card number by three",
+  description: "Increase any card number by 3",
   trigger: [[OfferingSymbol.Incense], [OfferingSymbol.Plant]],
 });
 spells.set("tail-3-light-spell", {
@@ -78,7 +80,7 @@ spells.set("tail-7-light-spell", {
 });
 spells.set("tail-8-light-spell", {
   id: "tail-8-light-spell",
-  description: "Gain three points",
+  description: "Gain 3 points",
   trigger: [
     [
       OfferingSymbol.MusicInstrument,
@@ -89,18 +91,18 @@ spells.set("tail-8-light-spell", {
 });
 spells.set("tail-9-light-spell", {
   id: "tail-9-light-spell",
-  description: `Draw ${Tail9LightSpellExtraOfferingCardsToDraw} offerings, act again, then put them back in any order`,
+  description: `Draw ${Tail9LightSpellExtraOfferingCardsToDraw} offerings, act again, then put them back to deck in any order`,
   trigger: [[OfferingSymbol.Incense]],
 });
 // Dark
 spells.set("tail-1-dark-spell", {
   id: "tail-1-dark-spell",
-  description: "Enemy loses one point",
+  description: "Enemy loses 1 point",
   trigger: [[OfferingSymbol.Food], [OfferingSymbol.Treasure]],
 });
 spells.set("tail-2-dark-spell", {
   id: "tail-2-dark-spell",
-  description: "Decrease any card number by three",
+  description: "Decrease any card number by 3",
   trigger: [[OfferingSymbol.Treasure], [OfferingSymbol.Beverage]],
 });
 spells.set("tail-3-dark-spell", {
@@ -132,14 +134,14 @@ spells.set("tail-7-dark-spell", {
 });
 spells.set("tail-8-dark-spell", {
   id: "tail-8-dark-spell",
-  description: "Enemy loses three points",
+  description: "Enemy loses 3 points",
   trigger: [
     [OfferingSymbol.Food, OfferingSymbol.Beverage, OfferingSymbol.Treasure],
   ],
 });
 spells.set("tail-9-dark-spell", {
   id: "tail-9-dark-spell",
-  description: "Discard all Offerings",
+  description: `Prevent enemy from using ${Tail9DarkLockedOfferingCardsNum} offering for ${Tail9DarkLockedOfferingCardsTurns} turns`,
   trigger: [[OfferingSymbol.Treasure]],
 });
 
