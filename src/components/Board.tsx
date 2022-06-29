@@ -6,7 +6,6 @@ import {
   BoardGamePointsTop,
   BoardHeight,
   BoardWidth,
-  WinPoints,
 } from "../lib/constants";
 import HikariBoard from "../assets/images/Hikari Playing Board with Items.png";
 import OfferingCardsInDeck from "./OfferingCardsInDeck";
@@ -18,7 +17,7 @@ import KitsuneCardsInHand from "./KitsuneCardsInHand";
 import { BoardContainer } from "../containers/board";
 import { copyToClipboard } from "../lib/utils";
 import { getSymbolImageSrcFromSymbol, OfferingSymbol } from "../lib/offering";
-import { gitCommit } from "../git_commit";
+import Menu from "./Menu";
 
 interface ModifySymbolProps {}
 function ModifySymbol(props: ModifySymbolProps) {
@@ -95,63 +94,6 @@ function ModifySymbol(props: ModifySymbolProps) {
   );
 }
 
-export function HelpModal() {
-  const gameContainer = GameContainer.useContainer();
-  return (
-    <div>
-      <label
-        htmlFor="help-modal"
-        className="btn btn-primary btn-sm modal-button absolute z-50"
-        style={{
-          top: gameContainer.zoom * 4,
-          right: gameContainer.zoom * 16,
-          fontSize: gameContainer.zoom * 12,
-        }}
-      >
-        Help ?
-      </label>
-      <input type="checkbox" id="help-modal" className="modal-toggle" />
-      <label htmlFor="help-modal" className="modal font-sans">
-        <label className="modal-box relative" htmlFor="">
-          <h3 className="font-bold text-lg">Game rules</h3>
-          <p className="text-sm mt-4">
-            Code version:{" "}
-            <strong className="text-blue-400">
-              <a
-                href={`https://github.com/Myobu-Guardians/hikari-dev/commit/${gitCommit.hash}`}
-                target={"_blank"}
-                rel={"noopener noreferrer"}
-              >
-                {gitCommit.logMessage}
-              </a>
-            </strong>
-          </p>
-          <p className="py-4">
-            What you can do on your turn (only one action per turn):
-          </p>
-          <ul>
-            <li>* Draw a Kitsune card</li>
-            <li>* Place and activate Kitsune card</li>
-            <li>* Activate Kitsune card</li>
-            <li>* Cast Kitsune spell</li>
-            <li>* Remove any Offering</li>
-          </ul>
-          <p className="py-4">
-            You can plase a Kitsune card on empty space OR replace with an
-            already placed Kitsune card (that then goes into your hand).
-          </p>
-          <p>{`First player that scores ${WinPoints} points wins.`}</p>
-          <div className="modal-action">
-            <label htmlFor="help-modal" className="btn">
-              Close
-            </label>
-          </div>
-        </label>
-      </label>
-    </div>
-  );
-}
-
 function GamePoints() {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
@@ -209,9 +151,14 @@ export default function Board() {
           height: `${BoardHeight * gameContainer.zoom}px`,
         }}
       >
-        <HelpModal />
+        {/* <HelpModal /> */}
+        {/* Menu */}
+        <Menu></Menu>
+
+        {/* Game points */}
         <GamePoints />
 
+        {/* Board background */}
         <img
           src={HikariBoard}
           style={{

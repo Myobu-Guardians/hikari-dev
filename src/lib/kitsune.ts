@@ -132,6 +132,10 @@ export interface KitsuneCard {
    * the number of times the card has been activated
    */
   ac?: number;
+  /**
+   * The turns this card is locked
+   */
+  locked?: number;
 }
 
 export function createKitsuneCards(): KitsuneCard[] {
@@ -179,7 +183,6 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 6,
       spell: getSpellById("tail-6-light-spell"),
     },
-    /*
     {
       id: "tail-7-light",
       type: KitsuneCardType.Tail7Light,
@@ -187,7 +190,6 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 7,
       spell: getSpellById("tail-7-light-spell"),
     },
-    */
     {
       id: "tail-8-light",
       type: KitsuneCardType.Tail8Light,
@@ -195,7 +197,6 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 8,
       spell: getSpellById("tail-8-light-spell"),
     },
-    /*
     {
       id: "tail-9-light",
       type: KitsuneCardType.Tail9Light,
@@ -203,7 +204,6 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 9,
       spell: getSpellById("tail-9-light-spell"),
     },
-    */
     /* Dark */
     {
       id: "tail-1-dark",
@@ -247,7 +247,6 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 6,
       spell: getSpellById("tail-6-dark-spell"),
     },
-    /*
     {
       id: "tail-7-dark",
       type: KitsuneCardType.Tail7Dark,
@@ -255,7 +254,6 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 7,
       spell: getSpellById("tail-7-dark-spell"),
     },
-    */
     {
       id: "tail-8-dark",
       type: KitsuneCardType.Tail8Dark,
@@ -263,7 +261,6 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 8,
       spell: getSpellById("tail-8-dark-spell"),
     },
-    /*
     {
       id: "tail-9-dark",
       type: KitsuneCardType.Tail9Dark,
@@ -271,6 +268,5 @@ export function createKitsuneCards(): KitsuneCard[] {
       number: 9,
       spell: getSpellById("tail-9-dark-spell"),
     },
-    */
   ].filter((card) => card.number <= MaxKitsuneCardNumber);
 }

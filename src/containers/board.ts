@@ -154,7 +154,9 @@ export const BoardContainer = createContainer(() => {
 
       // Replace the selected kitsune card with the one to be activated
       if (
-        player.kitsuneCardsInPlay.length === NumOfKitsuneCardsInPlay &&
+        player.kitsuneCardsInPlay.length ===
+          NumOfKitsuneCardsInPlay +
+            (player.extraKitsuneCardsInPlay > 0 ? 1 : 0) &&
         !kitsuneCardToReplaceWith &&
         player.kitsuneCardsInPlay.indexOf(kitsuneCard) < 0
       ) {
@@ -799,11 +801,23 @@ export const BoardContainer = createContainer(() => {
         board.castTail6LightSpell(Array.from(selectedOfferingCards), turns);
         cancelCastingSpell(true);
       }
+      // Can place 1 more kitsune card for 4 turns
+      else if (card.spell?.id === "tail-7-light-spell") {
+        board.castTail7LightSpell(Array.from(selectedOfferingCards), turns);
+        cancelCastingSpell(true);
+      }
       // Gain three points
       else if (card.spell?.id === "tail-8-light-spell") {
         board.castTail8LightSpell(Array.from(selectedOfferingCards), turns);
         cancelCastingSpell(true);
-      } // Enemy loses one point
+      }
+      // Draw three offerings, then put them back in any order
+      else if (card.spell?.id === "tail-9-light-spell") {
+        board.castTail9LightSpell(Array.from(selectedOfferingCards), turns);
+        cancelCastingSpell(false); // Don't go to next ture
+        setSelectedOfferingCards(new Set());
+      }
+      // Enemy loses one point
       else if (card.spell?.id === "tail-1-dark-spell") {
         board.castTail1DarkSpell(Array.from(selectedOfferingCards), turns);
         cancelCastingSpell(true);
@@ -872,6 +886,8 @@ export const BoardContainer = createContainer(() => {
     isModifyingSymbolOfKitsuneCard,
     castingSpellsOfKitsuneCards,
     castingPassiveSpellOfKitsuneCard,
+
+    getPlayerThisTurn,
 
     // p2p
     playerId,
