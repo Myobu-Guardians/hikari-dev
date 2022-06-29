@@ -4,6 +4,11 @@ import {
   NumOfKitsuneCardsInPlay,
   NumOfOfferingCardsInPlay,
   PlayerId,
+  Tail6DarkShowEnemyKitsuneCardsTurns,
+  Tail6LightHidePlayerKitsuneCardsTurns,
+  Tail7DarkLockEnemyKitsuneCardsturns,
+  Tail7LightSpellExtraKitsuneCardsInPlayTurns,
+  Tail9LightSpellExtraOfferingCardsToDraw,
 } from "./constants";
 import {
   createKitsuneCards,
@@ -139,6 +144,7 @@ export class GameBoard {
       turnRemainder: flag ? 0 : 1,
       showKitsuneCardsInHand: 0,
       hideKitsuneCardsInPlay: 0,
+      extraKitsuneCardsInPlay: 0,
     };
     this.opponent = {
       id: opponentId || generateUUID(),
@@ -149,6 +155,7 @@ export class GameBoard {
       turnRemainder: flag ? 1 : 0,
       showKitsuneCardsInHand: 0,
       hideKitsuneCardsInPlay: 0,
+      extraKitsuneCardsInPlay: 0,
     };
   }
 
@@ -169,12 +176,14 @@ export class GameBoard {
     }
   }
 
-  public discardOfferingCard(offeringCard: OfferingCard) {
+  public discardOfferingCard(offeringCard: OfferingCard, dontRedraw?: boolean) {
     this.usedOfferingCards.push(offeringCard);
     this.offeringCardsInPlay = this.offeringCardsInPlay.filter(
       (card) => card.id !== offeringCard.id
     );
-    this.drawOfferingCards();
+    if (!dontRedraw) {
+      this.drawOfferingCards();
+    }
   }
 
   /**
@@ -251,7 +260,8 @@ export class GameBoard {
 
     if (
       player.kitsuneCardsInPlay.indexOf(kitsuneCard) < 0 &&
-      player.kitsuneCardsInPlay.length < NumOfKitsuneCardsInPlay
+      player.kitsuneCardsInPlay.length <
+        NumOfKitsuneCardsInPlay + (player.extraKitsuneCardsInPlay > 0 ? 1 : 0)
     ) {
       player.kitsuneCardsInPlay.push(kitsuneCard);
     }
@@ -287,21 +297,51 @@ export class GameBoard {
   public nextTurn() {
     this.turns += 1;
 
+    function updateActor(actor: Player) {
+      if (actor.showKitsuneCardsInHand > 0) {
+        actor.showKitsuneCardsInHand -= 1;
+      }
+      if (actor.hideKitsuneCardsInPlay > 0) {
+        actor.hideKitsuneCardsInPlay -= 1;
+      }
+      if (actor.extraKitsuneCardsInPlay > 0) {
+        actor.extraKitsuneCardsInPlay -= 1;
+
+        if (actor.extraKitsuneCardsInPlay === 0) {
+          // Move extra card in play to hand
+          if (actor.kitsuneCardsInPlay.length > NumOfKitsuneCardsInPlay) {
+            const card = actor.kitsuneCardsInPlay.pop();
+            if (card) {
+              actor.kitsuneCardsInHand.push(card);
+            }
+          }
+        }
+      }
+
+      const kitsuneCards = actor.kitsuneCardsInPlay.concat(
+        actor.kitsuneCardsInHand
+      );
+      kitsuneCards.forEach((card) => {
+        if (card.locked && card.locked > 0) {
+          card.locked -= 1;
+        }
+      });
+    }
+
     if (this.player) {
-      if (this.player.showKitsuneCardsInHand > 0) {
-        this.player.showKitsuneCardsInHand -= 1;
-      }
-      if (this.player.hideKitsuneCardsInPlay > 0) {
-        this.player.hideKitsuneCardsInPlay -= 1;
-      }
+      updateActor(this.player);
     }
 
     if (this.opponent) {
-      if (this.opponent.showKitsuneCardsInHand > 0) {
-        this.opponent.showKitsuneCardsInHand -= 1;
-      }
-      if (this.opponent.hideKitsuneCardsInPlay > 0) {
-        this.opponent.hideKitsuneCardsInPlay -= 1;
+      updateActor(this.opponent);
+    }
+
+    // tail 9 light spell effect
+    // put extra offering cards in play back to deck
+    while (this.offeringCardsInPlay.length > NumOfOfferingCardsInPlay) {
+      const card = this.offeringCardsInPlay.pop();
+      if (card) {
+        this.offeringCardsInDeck.push(card);
       }
     }
   }
@@ -366,8 +406,27 @@ export class GameBoard {
     if (!player) {
       return;
     }
-    player.hideKitsuneCardsInPlay = 2 + 1; // 2 turns
+    player.hideKitsuneCardsInPlay = Tail6LightHidePlayerKitsuneCardsTurns + 1; // 2 turns
     player.showKitsuneCardsInHand = 0;
+    offeringCards.forEach((offeringCard) => {
+      this.discardOfferingCard(offeringCard);
+    });
+  }
+
+  /**
+   * Can place 1 more kitsune card for 4 turns
+   * @param offeringCards
+   * @param turns
+   * @returns
+   */
+  public castTail7LightSpell(offeringCards: OfferingCard[], turns: number) {
+    const player =
+      turns % 2 === this.player?.turnRemainder ? this.player : this.opponent;
+    if (!player) {
+      return;
+    }
+    player.extraKitsuneCardsInPlay =
+      Tail7LightSpellExtraKitsuneCardsInPlayTurns + 1;
     offeringCards.forEach((offeringCard) => {
       this.discardOfferingCard(offeringCard);
     });
@@ -388,6 +447,44 @@ export class GameBoard {
     offeringCards.forEach((offeringCard) => {
       this.discardOfferingCard(offeringCard);
     });
+  }
+
+  /**
+   * Draw three offerings, then put them back in any order
+   * @param offeringCards
+   * @param turns
+   */
+  public castTail9LightSpell(offeringCards: OfferingCard[], turns: number) {
+    // already casted once in this turn
+    if (this.offeringCardsInPlay.length > NumOfOfferingCardsInPlay) {
+      return;
+    }
+
+    const player =
+      turns % 2 === this.player?.turnRemainder ? this.player : this.opponent;
+    if (!player) {
+      return;
+    }
+
+    offeringCards.forEach((offeringCard) => {
+      this.discardOfferingCard(offeringCard, true);
+    });
+
+    // Add three more offerings
+    for (let i = 0; i < Tail9LightSpellExtraOfferingCardsToDraw; i++) {
+      if (
+        this.offeringCardsInPlay.length >=
+        NumOfOfferingCardsInPlay + Tail9LightSpellExtraOfferingCardsToDraw
+      ) {
+        break;
+      }
+
+      const drawIndex = Math.floor(
+        Math.random() * this.offeringCardsInDeck.length
+      );
+      const drawnCard = this.offeringCardsInDeck.splice(drawIndex, 1)[0];
+      this.offeringCardsInPlay.push(drawnCard);
+    }
   }
 
   /**
@@ -439,7 +536,7 @@ export class GameBoard {
     if (!enemy) {
       return;
     }
-    enemy.showKitsuneCardsInHand = 2 + 1; // 2 turns
+    enemy.showKitsuneCardsInHand = Tail6DarkShowEnemyKitsuneCardsTurns + 1; // 2 turns
     enemy.hideKitsuneCardsInPlay = 0;
     offeringCards.forEach((offeringCard) => {
       this.discardOfferingCard(offeringCard);
@@ -447,7 +544,7 @@ export class GameBoard {
   }
 
   /**
-   * Return target card to its owners hand
+   * Return target card to its owners hand and lock for ${Tail7DarkLockEnemyKitsuneCardsturns} turns
    */
   public castTail7DarkSpell(
     targetKitsuneCard: KitsuneCard,
@@ -466,6 +563,8 @@ export class GameBoard {
     if (index >= 0) {
       enemy.kitsuneCardsInPlay.splice(index, 1);
       enemy.kitsuneCardsInHand.push(targetKitsuneCard);
+
+      targetKitsuneCard.locked = Tail7DarkLockEnemyKitsuneCardsturns;
     }
     offeringCards.forEach((offeringCard) => {
       this.discardOfferingCard(offeringCard);

@@ -31,8 +31,6 @@ export default function KitsuneCardsInHand(props: Props) {
       ? boardContainer.board.opponent?.kitsuneCardsInHand
       : boardContainer.board.player?.kitsuneCardsInHand) || [];
 
-  console.log(cards);
-
   const canSelect =
     (boardContainer.isPlayerTurn && !props.isOpponent) ||
     (!boardContainer.isPlayerTurn &&
@@ -104,7 +102,8 @@ export default function KitsuneCardsInHand(props: Props) {
                 key={`kitsune-card-in-hand-${index}-` + card.id}
                 className={
                   "absolute " +
-                  (boardContainer.highlightedKitsuneCards.has(card) &&
+                  (!card.locked &&
+                  boardContainer.highlightedKitsuneCards.has(card) &&
                   !(
                     boardContainer.isSelectingKitsuneCardToCastSpellAt ||
                     boardContainer.isSelectingKitsuneCardToReplace
@@ -147,6 +146,7 @@ export default function KitsuneCardsInHand(props: Props) {
                 }}
                 onClick={() => {
                   if (
+                    card.locked ||
                     boardContainer.isSelectingKitsuneCardToCastSpellAt ||
                     boardContainer.isSelectingKitsuneCardToReplace
                   ) {
@@ -182,6 +182,7 @@ export default function KitsuneCardsInHand(props: Props) {
                   }
                   isOpponent={props.isOpponent}
                   showAnimation={mouseOverCard === card}
+                  locked={card.locked}
                 ></KitsuneCardComponent>
               </div>
             );

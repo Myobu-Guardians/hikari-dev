@@ -78,6 +78,18 @@ export enum OfferingSymbol {
   Treasure = "t",
 }
 
+/*
+Light and Dark
+Light:
+  1. Incense
+  2. Music Instrument
+  3. Plant
+Dark
+  1. Treasure
+  2. Food
+  3. Beverage
+*/
+
 export enum OfferingCardType {
   Beverage1 = "b1",
   Beverage2 = "b2",

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
-  BoardHeight,
   BoardWidth,
   KitsuneCardHeight,
   KitsuneCardsInPlayHeight,
@@ -43,6 +42,10 @@ export default function KitsuneCardsInPlay(props: Props) {
       props.isOpponent &&
       boardContainer.board.gameMode === "local");
 
+  const actor = props.isOpponent
+    ? boardContainer.board.opponent
+    : boardContainer.board.player;
+
   return (
     <div
       className="absolute"
@@ -63,7 +66,7 @@ export default function KitsuneCardsInPlay(props: Props) {
       }}
     >
       <div className="w-full flex flex-row items-center justify-evenly relative">
-        {cards.map((card, index) => {
+        {cards.map((card, index, self) => {
           if (
             props.hideKitsuneCards > 0 &&
             props.isOpponent &&
@@ -195,15 +198,34 @@ export default function KitsuneCardsInPlay(props: Props) {
                   ) && !boardContainer.isSelectingKitsuneCardToCastSpellAt
                 }
                 showAnimation={mouseOverCard === card}
+                locked={card.locked}
               ></KitsuneCardComponent>
+              {actor &&
+                actor.extraKitsuneCardsInPlay > 0 &&
+                index === self.length - 1 && (
+                  <div
+                    className="absolute w-full bottom-1/2 left-0 text-white p-2"
+                    style={{
+                      fontSize: gameContainer.zoom * 10,
+                      backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    }}
+                  >{`Available for ${actor.extraKitsuneCardsInPlay} turns`}</div>
+                )}
             </div>
           );
         })}
         {
           /*!props.isOpponent &&*/
-          new Array(Math.max(0, NumOfKitsuneCardsInPlay - cards.length))
+          new Array(
+            Math.max(
+              0,
+              NumOfKitsuneCardsInPlay +
+                (actor && actor.extraKitsuneCardsInPlay > 0 ? 1 : 0) -
+                cards.length
+            )
+          )
             .fill(null)
-            .map((val: any, index: number) => {
+            .map((val: any, index: number, self) => {
               return (
                 <div
                   key={`empty-slot-${index}`}
@@ -226,6 +248,17 @@ export default function KitsuneCardsInPlay(props: Props) {
                     {" "}
                     Empty<br></br>Shrine
                   </div>
+                  {actor &&
+                    actor.extraKitsuneCardsInPlay > 0 &&
+                    index === self.length - 1 && (
+                      <div
+                        className="absolute w-full bottom-1/2 left-0 text-white p-2"
+                        style={{
+                          fontSize: gameContainer.zoom * 10,
+                          backgroundColor: "rgba(0, 0, 0, 0.8)",
+                        }}
+                      >{`Available for ${actor.extraKitsuneCardsInPlay} turns`}</div>
+                    )}
                 </div>
               );
             })

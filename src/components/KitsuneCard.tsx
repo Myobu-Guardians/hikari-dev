@@ -28,6 +28,7 @@ interface Props {
   isOpponent?: boolean;
   displayBorderColor?: boolean;
   showAnimation?: boolean;
+  locked?: number;
 }
 
 function SpellTrigger(props: Props) {
@@ -234,7 +235,7 @@ export default function KitsuneCardComponent(props: Props) {
         showCastSpell={props.showCastSpell}
         isOpponent={props.isOpponent}
       ></SpellTrigger>
-      {props.earningPoints && props.earningPoints > 0 ? (
+      {!props.locked && props.earningPoints && props.earningPoints > 0 ? (
         <div
           className={
             "w-full text-center absolute bottom-0 z-200 text-white " +
@@ -247,7 +248,7 @@ export default function KitsuneCardComponent(props: Props) {
           }`}
         </div>
       ) : null}
-      {props.showHint ? (
+      {!props.locked && props.showHint ? (
         <div
           className={
             "absolute bottom-0 text-white w-full text-center " +
@@ -258,6 +259,17 @@ export default function KitsuneCardComponent(props: Props) {
           }}
         >
           {props.showHint}
+        </div>
+      ) : null}
+      {props.locked ? (
+        <div
+          className={"absolute bottom-0 text-white w-full text-center "}
+          style={{
+            fontSize: gameContainer.zoom * 12,
+            backgroundColor: "rgba(0,0,0,0.8)",
+          }}
+        >
+          {`Locked for ${props.locked} turns`}
         </div>
       ) : null}
     </div>

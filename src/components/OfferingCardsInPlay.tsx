@@ -2,6 +2,7 @@ import React from "react";
 import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import {
+  NumOfOfferingCardsInPlay,
   OfferingCardsInPlayHeight,
   OfferingCardsInPlayLeft,
   OfferingCardsInPlayTop,
@@ -51,6 +52,11 @@ export default function OfferingCardsInPlay() {
                     (boardContainer.isPlayerTurn
                       ? "border-orange-400"
                       : "border-blue-400")
+                  : "") +
+                " " +
+                (boardContainer.board.offeringCardsInPlay.length >
+                NumOfOfferingCardsInPlay
+                  ? "scale-75"
                   : "")
               }
             >

@@ -17,4 +17,10 @@ export interface Player {
    * - \> 0 means to hide `?` turns of the kitsune cards in play
    */
   hideKitsuneCardsInPlay: number;
+
+  /**
+   * - <= 0 means to not allow to have extra kitsune card in play
+   * - \> 0 means to can place `?` turns of one more kitsune card in play
+   */
+  extraKitsuneCardsInPlay: number;
 }

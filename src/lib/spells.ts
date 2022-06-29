@@ -1,3 +1,10 @@
+import {
+  Tail6DarkShowEnemyKitsuneCardsTurns,
+  Tail6LightHidePlayerKitsuneCardsTurns,
+  Tail7DarkLockEnemyKitsuneCardsturns,
+  Tail7LightSpellExtraKitsuneCardsInPlayTurns,
+  Tail9LightSpellExtraOfferingCardsToDraw,
+} from "./constants";
 import { OfferingSymbol } from "./offering";
 
 export type SpellId =
@@ -40,7 +47,7 @@ spells.set("tail-1-light-spell", {
 spells.set("tail-2-light-spell", {
   id: "tail-2-light-spell",
   description: "Increase any card number by three",
-  trigger: [[OfferingSymbol.Plant], [OfferingSymbol.Beverage]],
+  trigger: [[OfferingSymbol.Incense], [OfferingSymbol.Plant]],
 });
 spells.set("tail-3-light-spell", {
   id: "tail-3-light-spell",
@@ -51,7 +58,7 @@ spells.set("tail-3-light-spell", {
 spells.set("tail-4-light-spell", {
   id: "tail-4-light-spell",
   description: "Add any symbol to target card",
-  trigger: [[OfferingSymbol.MusicInstrument, OfferingSymbol.Incense]],
+  trigger: [[OfferingSymbol.Incense, OfferingSymbol.MusicInstrument]],
 });
 spells.set("tail-5-light-spell", {
   id: "tail-5-light-spell",
@@ -61,12 +68,12 @@ spells.set("tail-5-light-spell", {
 });
 spells.set("tail-6-light-spell", {
   id: "tail-6-light-spell",
-  description: "Hide all of your cards for 2 turns",
+  description: `Hide all of your cards for ${Tail6LightHidePlayerKitsuneCardsTurns} turns`,
   trigger: [[OfferingSymbol.MusicInstrument], [OfferingSymbol.Plant]],
 });
 spells.set("tail-7-light-spell", {
   id: "tail-7-light-spell",
-  description: "Can place 1 more kitsune card for 4 turns",
+  description: `Can place 1 more kitsune card for ${Tail7LightSpellExtraKitsuneCardsInPlayTurns} turns`,
   trigger: [[OfferingSymbol.MusicInstrument, OfferingSymbol.Incense]],
 });
 spells.set("tail-8-light-spell", {
@@ -82,7 +89,7 @@ spells.set("tail-8-light-spell", {
 });
 spells.set("tail-9-light-spell", {
   id: "tail-9-light-spell",
-  description: "Draw three offerings, then put them back in any order",
+  description: `Draw ${Tail9LightSpellExtraOfferingCardsToDraw} offerings, act again, then put them back in any order`,
   trigger: [[OfferingSymbol.Incense]],
 });
 // Dark
@@ -115,13 +122,13 @@ spells.set("tail-5-dark-spell", {
 });
 spells.set("tail-6-dark-spell", {
   id: "tail-6-dark-spell",
-  description: "Show all of enemy's cards for 2 turns",
+  description: `Show all of enemy's cards for ${Tail6DarkShowEnemyKitsuneCardsTurns} turns`,
   trigger: [[OfferingSymbol.Food], [OfferingSymbol.Beverage]],
 });
 spells.set("tail-7-dark-spell", {
   id: "tail-7-dark-spell",
-  description: "Return target card to its owners hand and lock for 4 turns",
-  trigger: [[OfferingSymbol.Food], [OfferingSymbol.Treasure]],
+  description: `Return target card to its owners hand and lock for ${Tail7DarkLockEnemyKitsuneCardsturns} turns`,
+  trigger: [[OfferingSymbol.Food, OfferingSymbol.Treasure]],
 });
 spells.set("tail-8-dark-spell", {
   id: "tail-8-dark-spell",
