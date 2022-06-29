@@ -831,9 +831,9 @@ export const BoardContainer = createContainer(() => {
       else if (card.spell?.id === "tail-8-dark-spell") {
         board.castTail8DarkSpell(Array.from(selectedOfferingCards), turns);
         cancelCastingSpell(true);
-      } // Discard all Offerings
+      } // `Prevent enemy from using ${Tail9DarkLockedOfferingCardsNum} offerings for ${Tail9DarkLockedOfferingCardsTurns} turns`
       else if (card.spell?.id === "tail-9-dark-spell") {
-        board.castTail9DarkSpell();
+        board.castTail9DarkSpell(turns);
         cancelCastingSpell(true);
       } else {
         alert(`Spell ${card.spell?.id} not implemented`);

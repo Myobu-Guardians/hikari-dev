@@ -67,3 +67,5 @@ export const Tail7LightSpellExtraKitsuneCardsInPlayTurns = 8;
 export const Tail9LightSpellExtraOfferingCardsToDraw = 3;
 export const Tail6DarkShowEnemyKitsuneCardsTurns = 2;
 export const Tail7DarkLockEnemyKitsuneCardsturns = 6;
+export const Tail9DarkLockedOfferingCardsNum = 1;
+export const Tail9DarkLockedOfferingCardsTurns = 3;

@@ -8,6 +8,7 @@ import {
   Tail6LightHidePlayerKitsuneCardsTurns,
   Tail7DarkLockEnemyKitsuneCardsturns,
   Tail7LightSpellExtraKitsuneCardsInPlayTurns,
+  Tail9DarkLockedOfferingCardsTurns,
   Tail9LightSpellExtraOfferingCardsToDraw,
 } from "./constants";
 import {
@@ -145,6 +146,7 @@ export class GameBoard {
       showKitsuneCardsInHand: 0,
       hideKitsuneCardsInPlay: 0,
       extraKitsuneCardsInPlay: 0,
+      lockOfferingCardsInPlay: 0,
     };
     this.opponent = {
       id: opponentId || generateUUID(),
@@ -156,6 +158,7 @@ export class GameBoard {
       showKitsuneCardsInHand: 0,
       hideKitsuneCardsInPlay: 0,
       extraKitsuneCardsInPlay: 0,
+      lockOfferingCardsInPlay: 0,
     };
   }
 
@@ -316,6 +319,10 @@ export class GameBoard {
             }
           }
         }
+      }
+
+      if (actor.lockOfferingCardsInPlay > 0) {
+        actor.lockOfferingCardsInPlay -= 1;
       }
 
       const kitsuneCards = actor.kitsuneCardsInPlay.concat(
@@ -588,14 +595,15 @@ export class GameBoard {
 
   /**
    * Discard all Offerings
-   * @param offeringCards
    * @param turns
    */
-  public castTail9DarkSpell() {
-    const offeringCards = this.offeringCardsInPlay;
-    offeringCards.forEach((offeringCard) => {
-      this.discardOfferingCard(offeringCard);
-    });
+  public castTail9DarkSpell(turns: number) {
+    const enemy =
+      turns % 2 === this.player?.turnRemainder ? this.opponent : this.player;
+    if (!enemy) {
+      return;
+    }
+    enemy.lockOfferingCardsInPlay = Tail9DarkLockedOfferingCardsTurns + 1;
   }
 
   public getOfferingCardById(offeringCardId: string): OfferingCard | undefined {

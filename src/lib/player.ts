@@ -23,4 +23,10 @@ export interface Player {
    * - \> 0 means to can place `?` turns of one more kitsune card in play
    */
   extraKitsuneCardsInPlay: number;
+
+  /**
+   *  - <= 0 means to not lock any offering cards
+   * - \> 0 means to lock offering cards for `?` turns
+   */
+  lockOfferingCardsInPlay: number;
 }

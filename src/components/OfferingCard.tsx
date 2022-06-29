@@ -5,6 +5,7 @@ import { getOfferingCardImageSrc, OfferingCard } from "../lib/offering";
 
 interface Props {
   offeringCard: OfferingCard;
+  locked?: number;
 }
 export default function OfferingCardComponent(props: Props) {
   const gameContainer = GameContainer.useContainer();
@@ -18,6 +19,17 @@ export default function OfferingCardComponent(props: Props) {
           height: gameContainer.zoom * OfferingCardSize,
         }}
       ></img>
+      {props.locked && props.locked > 0 ? (
+        <div
+          className={"absolute bottom-0 text-white w-full text-center "}
+          style={{
+            fontSize: gameContainer.zoom * 12,
+            backgroundColor: "rgba(0,0,0,0.8)",
+          }}
+        >
+          {`Locked for ${props.locked} turns`}
+        </div>
+      ) : null}
     </div>
   );
 }
