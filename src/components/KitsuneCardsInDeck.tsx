@@ -12,6 +12,7 @@ import {
   OpponentKitsuneCardsInDeckTop,
 } from "../lib/constants";
 import KitsuneCardBack from "../assets/images/kitsunes/back.jpg";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isOpponent?: boolean;
@@ -19,6 +20,7 @@ interface Props {
 export default function KitsuneCardsInDeck(props: Props) {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
+  const { t } = useTranslation();
   const cards =
     (props.isOpponent
       ? boardContainer.board.opponent?.kitsuneCardsInDeck
@@ -69,7 +71,7 @@ export default function KitsuneCardsInDeck(props: Props) {
               style={{
                 transform: `rotate(${index * 10}deg)`,
               }}
-              title={canDraw ? "Draw a card" : ""}
+              title={canDraw ? t("board/draw-a-card") : ""}
               onClick={() => {
                 if (canDraw) {
                   boardContainer.drawKitsuneCard();
@@ -96,7 +98,7 @@ export default function KitsuneCardsInDeck(props: Props) {
             left: gameContainer.zoom * -10,
           }}
         >
-          Draw Kitsune Card ^
+          {t("board/draw-kitsune-card")}
         </div>
       )}
     </div>

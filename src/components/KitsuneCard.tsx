@@ -146,7 +146,7 @@ function SpellTrigger(props: Props) {
             }
           }}
         >
-          Cast Spell
+          {t("card/cast-spell")}
         </div>
       )}
     </div>
@@ -155,6 +155,7 @@ function SpellTrigger(props: Props) {
 export default function KitsuneCardComponent(props: Props) {
   const gameContainer = GameContainer.useContainer();
   const deltaHeight = props.earningPoints && props.earningPoints > 0 ? 12 : 0;
+  const { t } = useTranslation();
   return (
     <div
       className={
@@ -246,7 +247,7 @@ export default function KitsuneCardComponent(props: Props) {
           style={{ fontSize: gameContainer.zoom * 12 }}
         >
           {`+ ${props.earningPoints} ${
-            props.earningPoints === 1 ? "point" : "points"
+            props.earningPoints === 1 ? t("card/point") : t("card/points")
           }`}
         </div>
       ) : null}
@@ -271,7 +272,9 @@ export default function KitsuneCardComponent(props: Props) {
             backgroundColor: "rgba(0,0,0,0.8)",
           }}
         >
-          {`Locked for ${props.locked} turns`}
+          {t(`card/locked-for-turns`, {
+            turns: props.locked,
+          })}
         </div>
       ) : null}
     </div>

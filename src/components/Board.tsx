@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next";
 
 interface ModifySymbolProps {}
 function ModifySymbol(props: ModifySymbolProps) {
+  const { t } = useTranslation();
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
   const isAddingSymbol =
@@ -89,7 +90,7 @@ function ModifySymbol(props: ModifySymbolProps) {
             boardContainer.cancelCastingSpell();
           }}
         >
-          Cancel
+          {t("Cancel")}
         </button>
       </div>
     </div>
@@ -253,8 +254,12 @@ export default function Board() {
               }
             ></KitsuneCardsInHand>
             <div
-              className="absolute top-12 right-4 text-white"
-              style={{ fontSize: gameContainer.zoom * 12 }}
+              className="absolute text-white"
+              style={{
+                fontSize: gameContainer.zoom * 12,
+                top: gameContainer.zoom * 50,
+                right: gameContainer.zoom * 12,
+              }}
             >
               {boardContainer.opponentId
                 ? `${t("board/playing-against")}: ${boardContainer.opponentId}`
@@ -283,7 +288,7 @@ export default function Board() {
                   boardContainer.setIsSelectingKitsuneCardToReplace(false);
                 }}
               >
-                Cancel
+                {t("Cancel")}
               </button>
             </div>
           </div>
@@ -314,7 +319,7 @@ export default function Board() {
                     boardContainer.cancelCastingSpell();
                   }}
                 >
-                  Cancel
+                  {t("Cancel")}
                 </button>
               </div>
             </div>
@@ -341,7 +346,7 @@ export default function Board() {
                     boardContainer.cancelCastingSpell();
                   }}
                 >
-                  Cancel
+                  {t("Cancel")}
                 </button>
               </div>
             </div>

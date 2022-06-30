@@ -15,6 +15,7 @@ import {
 import KitsuneCardBack from "../assets/images/kitsunes/back.jpg";
 import KitsuneCardComponent from "./KitsuneCard";
 import { KitsuneCard } from "../lib/kitsune";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isOpponent?: boolean;
@@ -25,6 +26,7 @@ export default function KitsuneCardsInHand(props: Props) {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
   const [mouseOverCard, setMouseOverCard] = useState<KitsuneCard | null>(null);
+  const { t } = useTranslation();
 
   const cards =
     (props.isOpponent
@@ -201,7 +203,9 @@ export default function KitsuneCardsInHand(props: Props) {
             left: "20%",
           }}
         >
-          <div>Show for {props.showKitsuneCards} turns</div>
+          <div>
+            {t("card/show-for-turns", { turns: props.showKitsuneCards })}
+          </div>
         </div>
       )}
     </div>

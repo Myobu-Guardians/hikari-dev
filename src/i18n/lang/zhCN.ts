@@ -16,6 +16,7 @@ export const zhCN = {
     "Play with friends": "与好友玩游戏",
     "Card library": "卡牌库",
     Close: "关闭",
+    Cancel: "取消",
 
     "menu/invite-success": `邀请链接已复制到剪贴板，分享给好友吧！`,
     "menu/invite-fail-title": "无法连接到 Myobu 元宇宙",
@@ -42,6 +43,23 @@ export const zhCN = {
     "board/connecting": "正在连接到 Myobu 元宇宙",
     "board/local-game": "本地游戏",
     "board/playing-against": "正在对战",
+    "board/empty": "空的",
+    "board/shrine": "神社",
+    "board/draw-a-card": "抽一张卡牌",
+    "board/draw-kitsune-card": "抽一张妖狐卡 ^",
+    "board/click-here-to-discard": "点击这里丢弃",
+    "board/used-offerings": "已使用的贡品",
+
+    // Card
+    "card/cast-spell": "施放法术",
+    "card/point": "分",
+    "card/points": "分",
+    "card/replace-this-card": "替换这张卡牌",
+    "card/modify-symbol": "修改符号",
+    "card/target-this-card": "选择这张卡牌",
+    "card/show-for-turns": "显示 {{turns}} 回合",
+    "card/hide-for-turns": "隐藏 {{turns}} 回合",
+    "card/locked-for-turns": "锁定 {{turns}} 回合",
 
     // Spells
     "spells/tail-1-light": "获得 1 分",

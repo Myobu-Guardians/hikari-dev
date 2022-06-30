@@ -10,10 +10,12 @@ import {
 } from "../lib/constants";
 import { asciiStringToNumber } from "../lib/utils";
 import OfferingCardBack from "../assets/images/offerings/back.png";
+import { useTranslation } from "react-i18next";
 
 export default function UsedOfferingCards() {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
+  const { t } = useTranslation();
   const canDiscard =
     boardContainer.selectedOfferingCards.size === 1 &&
     (boardContainer.isPlayerTurn ||
@@ -60,7 +62,9 @@ export default function UsedOfferingCards() {
               fontSize: gameContainer.zoom * 16,
             }}
           >
-            {canDiscard ? "Click here to discard" : "Used Offering"}
+            {canDiscard
+              ? t("board/click-here-to-discard")
+              : t("board/used-offerings")}
           </div>
         </div>
       )}
