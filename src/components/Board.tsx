@@ -220,7 +220,7 @@ export default function Board() {
                       bottom: gameContainer.zoom * 36,
                       borderWidth: gameContainer.zoom * 2,
                     }}
-                    placeholder="Send message"
+                    placeholder={t("Send message")}
                     value={message}
                     onChange={(event) => {
                       setMessage(event.target.value);

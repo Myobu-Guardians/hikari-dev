@@ -17,6 +17,7 @@ export const enUS = {
     "Card library": "Card library",
     Close: "Close",
     Cancel: "Cancel",
+    "Send message": "Send message",
 
     "menu/invite-success": `Invite link copied to clipboard. Share it with your friends!`,
     "menu/invite-fail-title": "Failed to connect to Myobu metaverse",
