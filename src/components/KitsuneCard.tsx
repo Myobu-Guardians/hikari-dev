@@ -18,6 +18,7 @@ import {
 } from "../lib/offering";
 import { intersperse } from "../lib/utils";
 import KitsuneBackground from "../assets/images/kitsunes/background.png";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   kitsuneCard: KitsuneCard;
@@ -36,6 +37,7 @@ function SpellTrigger(props: Props) {
   const boardContainer = BoardContainer.useContainer();
   const spellDescription = props.kitsuneCard.spell?.description || "";
   const spellTrigger = props.kitsuneCard.spell?.trigger || [];
+  const { t } = useTranslation();
 
   const plus = useMemo(
     () => (
@@ -113,7 +115,7 @@ function SpellTrigger(props: Props) {
           padding: `${gameContainer.zoom * 2}px ${gameContainer.zoom * 10}px`,
         }}
       >
-        {spellDescription}
+        {t(spellDescription)}
       </div>
       {props.showCastSpell && (
         <div

@@ -1,8 +1,11 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { gitCommit } from "../git_commit";
 import { WinPoints } from "../lib/constants";
 
 export default function HelpModal() {
+  const { t } = useTranslation();
+
   return (
     <>
       <input type="checkbox" id="help-modal" className="modal-toggle" />
@@ -10,7 +13,7 @@ export default function HelpModal() {
       <label htmlFor="help-modal" className="modal font-sans">
         <label className="modal-box relative" htmlFor="">
           <div className="flex flex-row items-center justify-between text-xl font-bold">
-            <h3 className="mb-2">Game rules</h3>
+            <h3 className="mb-2">{t("Game rules")}</h3>
             <label
               htmlFor="help-modal"
               className="btn btn-circle btn-sm btn-ghost border-0"
@@ -19,7 +22,7 @@ export default function HelpModal() {
             </label>
           </div>
           <p className="text-sm mt-4">
-            Code version:{" "}
+            {t("Code version")}:{" "}
             <strong className="text-blue-400">
               <a
                 href={`https://github.com/Myobu-Guardians/hikari-dev/commit/${gitCommit.hash}`}
@@ -30,24 +33,19 @@ export default function HelpModal() {
               </a>
             </strong>
           </p>
-          <p className="py-4">
-            What you can do on your turn (only one action per turn):
-          </p>
+          <p className="py-4">{t("game-rules/subtitle")}:</p>
           <ul>
-            <li>* Draw a Kitsune card</li>
-            <li>* Place and activate Kitsune card</li>
-            <li>* Activate Kitsune card</li>
-            <li>* Cast Kitsune spell</li>
-            <li>* Remove any Offering</li>
+            <li>* {t("game-rules/action-1")}</li>
+            <li>* {t("game-rules/action-2")}</li>
+            <li>* {t("game-rules/action-3")}</li>
+            <li>* {t("game-rules/action-4")}</li>
+            <li>* {t("game-rules/action-5")}</li>
           </ul>
-          <p className="py-4">
-            You can plase a Kitsune card on empty space OR replace with an
-            already placed Kitsune card (that then goes into your hand).
-          </p>
-          <p>{`First player that scores ${WinPoints} points wins.`}</p>
+          <p className="py-4">{t("game-rules/subtitle-2")}</p>
+          <p>{t("game-rules/win-requirements")}</p>
           <div className="modal-action">
             <label htmlFor="help-modal" className="btn">
-              Close
+              {t("Close")}
             </label>
           </div>
         </label>

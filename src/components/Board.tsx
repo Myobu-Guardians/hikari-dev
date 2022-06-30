@@ -18,6 +18,8 @@ import { BoardContainer } from "../containers/board";
 import { copyToClipboard } from "../lib/utils";
 import { getSymbolImageSrcFromSymbol, OfferingSymbol } from "../lib/offering";
 import Menu from "./Menu";
+import LanguageSelector from "./LanguageSelector";
+import { useTranslation } from "react-i18next";
 
 interface ModifySymbolProps {}
 function ModifySymbol(props: ModifySymbolProps) {
@@ -141,6 +143,7 @@ export default function Board() {
   const [message, setMessage] = useState<string>("");
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
+  const { t } = useTranslation();
 
   return (
     <div className="container mx-auto px-4">
@@ -151,7 +154,9 @@ export default function Board() {
           height: `${BoardHeight * gameContainer.zoom}px`,
         }}
       >
-        {/* <HelpModal /> */}
+        {/* Languages */}
+        <LanguageSelector></LanguageSelector>
+
         {/* Menu */}
         <Menu></Menu>
 
@@ -198,8 +203,8 @@ export default function Board() {
               style={{ fontSize: gameContainer.zoom * 12 }}
             >
               {boardContainer.playerId
-                ? `Your Id: ${boardContainer.playerId}`
-                : "Connecting to Myobu Metaverse"}
+                ? `${t("board/your-id")}: ${boardContainer.playerId}`
+                : t("board/connecting")}
             </div>
             {boardContainer.playerId &&
               boardContainer.board.gameMode === "remote" && (
@@ -252,8 +257,8 @@ export default function Board() {
               style={{ fontSize: gameContainer.zoom * 12 }}
             >
               {boardContainer.opponentId
-                ? `Playing against: ${boardContainer.opponentId}`
-                : "Local game"}
+                ? `${t("board/playing-against")}: ${boardContainer.opponentId}`
+                : t("board/local-game")}
             </div>
           </>
         )}
@@ -299,10 +304,10 @@ export default function Board() {
                   top: gameContainer.zoom * (BoardHeight / 2 - 40),
                 }}
               >
-                {
+                {t(
                   boardContainer.castingSpellsOfKitsuneCards[0].spell
-                    ?.description
-                }
+                    ?.description || ""
+                )}
                 <button
                   className="btn btn-sm btn-primary ml-2"
                   onClick={() => {

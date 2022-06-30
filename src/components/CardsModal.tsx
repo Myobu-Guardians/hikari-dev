@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   createKitsuneCards,
   KitsuneCard,
@@ -34,6 +35,7 @@ function Cards({ cards }: { cards: KitsuneCard[] }) {
 }
 
 export default function CardsModal() {
+  const { t } = useTranslation();
   const cards = createKitsuneCards();
 
   return (
@@ -50,7 +52,7 @@ export default function CardsModal() {
           }}
         >
           <div className="flex flex-row items-center justify-between text-xl font-bold">
-            <h3 className="mb-2">Card library</h3>
+            <h3 className="mb-2">{t("Card library")}</h3>
             <label
               htmlFor="cards-modal"
               className="btn btn-circle btn-sm btn-ghost border-0"
@@ -58,11 +60,11 @@ export default function CardsModal() {
               {"✖"}
             </label>
           </div>
-          <p>Light</p>
+          <p>{t("Light")}</p>
           <Cards
             cards={cards.filter((card) => kitsuneCardIsLightType(card))}
           ></Cards>
-          <p>Dark</p>
+          <p>{t("Dark")}</p>
           <Cards
             cards={cards.filter((card) => !kitsuneCardIsLightType(card))}
           ></Cards>

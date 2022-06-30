@@ -1,9 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { createContainer } from "unstated-next";
 import { BoardHeight, BoardWidth } from "../lib/constants";
+import { useTranslation } from "react-i18next";
 
 export const GameContainer = createContainer(() => {
   const [zoom, setZoom] = useState<number>(1);
+  const [lang, setLang] = useState<string>(
+    localStorage.getItem("settings/language") || "en-US"
+  );
+  const { i18n } = useTranslation();
 
   const resize = useCallback(() => {
     const orientation =
@@ -20,6 +25,22 @@ export const GameContainer = createContainer(() => {
     setZoom(zoom);
   }, []);
 
+  const setLanguage = useCallback(
+    (lang: string) => {
+      console.log(i18n);
+      if (lang === "en-US" || lang === "zh-CN") {
+        localStorage.setItem("settings/language", lang);
+        setLang(lang);
+        i18n.changeLanguage(lang);
+      } else {
+        localStorage.setItem("settings/language", "en-US");
+        setLang("en-US");
+        i18n.changeLanguage("en-US");
+      }
+    },
+    [i18n]
+  );
+
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
@@ -31,5 +52,7 @@ export const GameContainer = createContainer(() => {
   return {
     zoom,
     resize,
+    lang,
+    setLanguage,
   };
 });
