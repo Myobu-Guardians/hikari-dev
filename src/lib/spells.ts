@@ -43,44 +43,42 @@ const spells: Map<SpellId, Spell> = new Map();
 // Light
 spells.set("tail-1-light-spell", {
   id: "tail-1-light-spell",
-  description: "Gain 1 point",
+  description: "spells/tail-1-light",
   trigger: [[OfferingSymbol.MusicInstrument], [OfferingSymbol.Incense]],
 });
 spells.set("tail-2-light-spell", {
   id: "tail-2-light-spell",
-  description: "Increase any card number by 3",
+  description: "spells/tail-2-light",
   trigger: [[OfferingSymbol.Incense], [OfferingSymbol.Plant]],
 });
 spells.set("tail-3-light-spell", {
   id: "tail-3-light-spell",
-  description:
-    "When you activate any card, you have 33% chance to cast any spell",
+  description: "spells/tail-3-light",
   trigger: [],
 });
 spells.set("tail-4-light-spell", {
   id: "tail-4-light-spell",
-  description: "Add any symbol to target card",
+  description: "spells/tail-4-light",
   trigger: [[OfferingSymbol.Incense, OfferingSymbol.MusicInstrument]],
 });
 spells.set("tail-5-light-spell", {
   id: "tail-5-light-spell",
-  description:
-    "When n Flora Offerings are placed, you have n/4 chance to cast any spell",
+  description: "spells/tail-5-light",
   trigger: [],
 });
 spells.set("tail-6-light-spell", {
   id: "tail-6-light-spell",
-  description: `Hide all of your cards for ${Tail6LightHidePlayerKitsuneCardsTurns} turns`,
+  description: "spells/tail-6-light",
   trigger: [[OfferingSymbol.MusicInstrument], [OfferingSymbol.Plant]],
 });
 spells.set("tail-7-light-spell", {
   id: "tail-7-light-spell",
-  description: `Can place 1 more kitsune card for ${Tail7LightSpellExtraKitsuneCardsInPlayTurns} turns`,
+  description: "spells/tail-7-light",
   trigger: [[OfferingSymbol.MusicInstrument, OfferingSymbol.Incense]],
 });
 spells.set("tail-8-light-spell", {
   id: "tail-8-light-spell",
-  description: "Gain 3 points",
+  description: "spells/tail-8-light",
   trigger: [
     [
       OfferingSymbol.MusicInstrument,
@@ -91,57 +89,55 @@ spells.set("tail-8-light-spell", {
 });
 spells.set("tail-9-light-spell", {
   id: "tail-9-light-spell",
-  description: `Draw ${Tail9LightSpellExtraOfferingCardsToDraw} offerings, act again, then put them back to deck in any order`,
+  description: "spells/tail-9-light",
   trigger: [[OfferingSymbol.Incense]],
 });
 // Dark
 spells.set("tail-1-dark-spell", {
   id: "tail-1-dark-spell",
-  description: "Enemy loses 1 point",
+  description: "spells/tail-1-dark",
   trigger: [[OfferingSymbol.Food], [OfferingSymbol.Treasure]],
 });
 spells.set("tail-2-dark-spell", {
   id: "tail-2-dark-spell",
-  description: "Decrease any card number by 3",
+  description: "spells/tail-2-dark",
   trigger: [[OfferingSymbol.Treasure], [OfferingSymbol.Beverage]],
 });
 spells.set("tail-3-dark-spell", {
   id: "tail-3-dark-spell",
-  description:
-    "When enemy activates their card, you have 33% chance to cast any spell",
+  description: "spells/tail-3-dark",
   trigger: [],
 });
 spells.set("tail-4-dark-spell", {
   id: "tail-4-dark-spell",
-  description: "Remove any symbol from target card",
+  description: "spells/tail-4-dark",
   trigger: [[OfferingSymbol.Treasure, OfferingSymbol.Food]],
 });
 spells.set("tail-5-dark-spell", {
   id: "tail-5-dark-spell",
-  description:
-    "When n Bounty Offerings are placed, you have n/4 chance to cast any spell",
+  description: "spells/tail-5-dark",
   trigger: [],
 });
 spells.set("tail-6-dark-spell", {
   id: "tail-6-dark-spell",
-  description: `Show all of enemy's cards for ${Tail6DarkShowEnemyKitsuneCardsTurns} turns`,
+  description: "spells/tail-6-dark",
   trigger: [[OfferingSymbol.Food], [OfferingSymbol.Beverage]],
 });
 spells.set("tail-7-dark-spell", {
   id: "tail-7-dark-spell",
-  description: `Return target card to its owners hand and lock for ${Tail7DarkLockEnemyKitsuneCardsturns} turns`,
+  description: "spells/tail-7-dark",
   trigger: [[OfferingSymbol.Food, OfferingSymbol.Treasure]],
 });
 spells.set("tail-8-dark-spell", {
   id: "tail-8-dark-spell",
-  description: "Enemy loses 3 points",
+  description: "spells/tail-8-dark",
   trigger: [
     [OfferingSymbol.Food, OfferingSymbol.Beverage, OfferingSymbol.Treasure],
   ],
 });
 spells.set("tail-9-dark-spell", {
   id: "tail-9-dark-spell",
-  description: `Prevent enemy from using ${Tail9DarkLockedOfferingCardsNum} offering for ${Tail9DarkLockedOfferingCardsTurns} turns`,
+  description: "spells/tail-9-dark",
   trigger: [[OfferingSymbol.Treasure]],
 });
 

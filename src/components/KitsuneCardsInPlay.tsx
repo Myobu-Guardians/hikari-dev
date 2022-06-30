@@ -18,6 +18,7 @@ import { canCastSpell } from "../lib/spellFn";
 import KitsuneCardComponent from "./KitsuneCard";
 import KitsuneCardBack from "../assets/images/kitsunes/back.jpg";
 import KitsuneBackground from "../assets/images/kitsunes/background.png";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isOpponent?: boolean;
@@ -29,6 +30,7 @@ interface Props {
 export default function KitsuneCardsInPlay(props: Props) {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
+  const { t } = useTranslation();
   const [mouseOverCard, setMouseOverCard] = useState<KitsuneCard | null>(null);
 
   const cards: KitsuneCard[] =
@@ -170,16 +172,16 @@ export default function KitsuneCardsInPlay(props: Props) {
                 isInPlay={true}
                 showHint={
                   canSelect && boardContainer.isSelectingKitsuneCardToReplace
-                    ? "Replace this card"
+                    ? t("card/replace-this-card")
                     : boardContainer.isModifyingSymbolOfKitsuneCard === card
-                    ? "Modify symbol"
+                    ? t("card/modify-symbol")
                     : boardContainer.isSelectingKitsuneCardToCastSpellAt
-                    ? "Target this card"
+                    ? t("card/target-this-card")
                     : canSelect &&
                       boardContainer.isSelectingKitsuneCardToCastSpell &&
                       card.spell &&
                       card.spell.trigger.length > 0
-                    ? "Cast spell"
+                    ? t("card/cast-spell")
                     : ""
                 }
                 showCastSpell={
@@ -246,7 +248,9 @@ export default function KitsuneCardsInPlay(props: Props) {
                     }}
                   >
                     {" "}
-                    Empty<br></br>Shrine
+                    {t("board/empty")}
+                    <br></br>
+                    {t("board/shrine")}
                   </div>
                   {actor &&
                     actor.extraKitsuneCardsInPlay > 0 &&
@@ -273,7 +277,9 @@ export default function KitsuneCardsInPlay(props: Props) {
               backgroundColor: "rgba(0, 0, 0, 0.8)",
             }}
           >
-            <div>Hide for {props.hideKitsuneCards} turns</div>
+            <div>
+              {t("card/hide-for-turns", { turns: props.hideKitsuneCards })}
+            </div>
           </div>
         )}
       </div>

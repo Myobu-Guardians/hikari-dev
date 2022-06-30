@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { GameContainer } from "./containers/game";
 import "toastr/build/toastr.min.css";
+import "./i18n/i18n";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

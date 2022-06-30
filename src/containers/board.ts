@@ -502,6 +502,7 @@ export const BoardContainer = createContainer(() => {
         (kc) => kc.spell?.id === "tail-5-light-spell"
       );
       if (
+        currentBoardState.turns % 2 === player.turnRemainder &&
         tail5LightCardIndex >= 0 &&
         currentPlacedOfferingCards.findIndex(
           (card) => card.symbol === OfferingSymbol.Plant
@@ -532,6 +533,7 @@ export const BoardContainer = createContainer(() => {
         (kc) => kc.spell?.id === "tail-5-dark-spell"
       );
       if (
+        currentBoardState.turns % 2 === player.turnRemainder &&
         tail5DarkCardIndex >= 0 &&
         currentPlacedOfferingCards.findIndex(
           (card) => card.symbol === OfferingSymbol.Treasure
