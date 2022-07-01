@@ -48,6 +48,15 @@ export default function LanguageSelector() {
               简体中文
             </label>
           </li>
+          <li>
+            <label
+              onClick={() => {
+                gameContainer.setLanguage("es-ES");
+              }}
+            >
+              Español
+            </label>
+          </li>
         </ul>
       </div>
     </>

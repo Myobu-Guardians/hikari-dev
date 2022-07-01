@@ -28,7 +28,7 @@ export const GameContainer = createContainer(() => {
   const setLanguage = useCallback(
     (lang: string) => {
       console.log(i18n);
-      if (lang === "en-US" || lang === "zh-CN") {
+      if (lang === "en-US" || lang === "zh-CN" || lang === "es-ES") {
         localStorage.setItem("settings/language", lang);
         setLang(lang);
         i18n.changeLanguage(lang);
