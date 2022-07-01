@@ -247,10 +247,7 @@ export default function KitsuneCardsInPlay(props: Props) {
                       fontSize: gameContainer.zoom * 12,
                     }}
                   >
-                    {" "}
-                    {t("board/empty")}
-                    <br></br>
-                    {t("board/shrine")}
+                    {t("board/empty-shrine")}
                   </div>
                   {actor &&
                     actor.extraKitsuneCardsInPlay > 0 &&
