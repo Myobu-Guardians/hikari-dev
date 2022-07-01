@@ -2,6 +2,7 @@ import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import { enUS as enUSLanguage } from "./lang/enUS";
 import { zhCN as zhCNLanguage } from "./lang/zhCN";
+import { esES as esESLanguage } from "./lang/esES";
 
 i18next.use(initReactI18next).init({
   interpolation: {
@@ -14,19 +15,8 @@ i18next.use(initReactI18next).init({
   resources: {
     "en-US": enUSLanguage,
     "zh-CN": zhCNLanguage,
+    "es-ES": esESLanguage,
   },
 });
 
 export default i18next;
-
-export function languageCodeToLanguageName(code: string) {
-  if (code === "zh-CN") {
-    return "简体中文";
-  } else if (code === "zh-HK") {
-    return "繁体中文";
-  } else if (code === "ja-JP") {
-    return "日本語";
-  } else {
-    return "English";
-  }
-}
