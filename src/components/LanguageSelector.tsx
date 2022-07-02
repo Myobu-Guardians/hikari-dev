@@ -33,6 +33,15 @@ export default function LanguageSelector() {
           <li>
             <label
               onClick={() => {
+                gameContainer.setLanguage("de-DE");
+              }}
+            >
+              Deutsch
+            </label>
+          </li>
+          <li>
+            <label
+              onClick={() => {
                 gameContainer.setLanguage("en-US");
               }}
             >
@@ -42,19 +51,19 @@ export default function LanguageSelector() {
           <li>
             <label
               onClick={() => {
-                gameContainer.setLanguage("zh-CN");
+                gameContainer.setLanguage("es-ES");
               }}
             >
-              简体中文
+              Español
             </label>
           </li>
           <li>
             <label
               onClick={() => {
-                gameContainer.setLanguage("es-ES");
+                gameContainer.setLanguage("zh-CN");
               }}
             >
-              Español
+              简体中文
             </label>
           </li>
         </ul>
