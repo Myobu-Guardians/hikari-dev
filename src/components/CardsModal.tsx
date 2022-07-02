@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   createKitsuneCards,
@@ -36,40 +36,49 @@ function Cards({ cards }: { cards: KitsuneCard[] }) {
 
 export default function CardsModal() {
   const { t } = useTranslation();
+  const [open, setOpen] = useState<boolean>(false);
   const cards = createKitsuneCards();
 
   return (
     <>
-      <input type="checkbox" id="cards-modal" className="modal-toggle" />
-
-      <label htmlFor="cards-modal" className="modal font-sans">
-        <label
-          className="modal-box relative pb-10"
-          htmlFor=""
-          style={{
-            maxWidth: "100%",
-            maxHeight: "96%",
-          }}
-        >
-          <div className="flex flex-row items-center justify-between text-xl font-bold">
-            <h3 className="mb-2">{t("Card library")}</h3>
-            <label
-              htmlFor="cards-modal"
-              className="btn btn-circle btn-sm btn-ghost border-0"
-            >
-              {"✖"}
-            </label>
-          </div>
-          <p>{t("Light")}</p>
-          <Cards
-            cards={cards.filter((card) => kitsuneCardIsLightType(card))}
-          ></Cards>
-          <p>{t("Dark")}</p>
-          <Cards
-            cards={cards.filter((card) => !kitsuneCardIsLightType(card))}
-          ></Cards>
+      <input
+        type="checkbox"
+        id="cards-modal"
+        className="modal-toggle"
+        onChange={(event) => {
+          setOpen(event.target.checked);
+        }}
+      />
+      {open && (
+        <label htmlFor="cards-modal" className="modal font-sans">
+          <label
+            className="modal-box relative pb-10"
+            htmlFor=""
+            style={{
+              maxWidth: "100%",
+              maxHeight: "96%",
+            }}
+          >
+            <div className="flex flex-row items-center justify-between text-xl font-bold">
+              <h3 className="mb-2">{t("Card library")}</h3>
+              <label
+                htmlFor="cards-modal"
+                className="btn btn-circle btn-sm btn-ghost border-0"
+              >
+                {"✖"}
+              </label>
+            </div>
+            <p>{t("Light")}</p>
+            <Cards
+              cards={cards.filter((card) => kitsuneCardIsLightType(card))}
+            ></Cards>
+            <p>{t("Dark")}</p>
+            <Cards
+              cards={cards.filter((card) => !kitsuneCardIsLightType(card))}
+            ></Cards>
+          </label>
         </label>
-      </label>
+      )}
     </>
   );
 }

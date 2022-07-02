@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import { enUS as enUSLanguage } from "./lang/enUS";
 import { zhCN as zhCNLanguage } from "./lang/zhCN";
 import { esES as esESLanguage } from "./lang/esES";
+import { deDE as deDELanguage } from "./lang/deDE";
 
 i18next.use(initReactI18next).init({
   interpolation: {
@@ -16,6 +17,7 @@ i18next.use(initReactI18next).init({
     "en-US": enUSLanguage,
     "zh-CN": zhCNLanguage,
     "es-ES": esESLanguage,
+    "de-DE": deDELanguage,
   },
 });
 
