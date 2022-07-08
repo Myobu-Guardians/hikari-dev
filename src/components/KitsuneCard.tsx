@@ -19,6 +19,7 @@ import {
 import { intersperse } from "../lib/utils";
 import KitsuneBackground from "../assets/images/kitsunes/background.png";
 import { useTranslation } from "react-i18next";
+import { FontOnCard, SettingsContainer } from "../containers/settings";
 
 interface Props {
   kitsuneCard: KitsuneCard;
@@ -34,6 +35,7 @@ interface Props {
 
 function SpellTrigger(props: Props) {
   const gameContainer = GameContainer.useContainer();
+  const settingsContainer = SettingsContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
   const spellDescription = props.kitsuneCard.spell?.description || "";
   const spellTrigger = props.kitsuneCard.spell?.trigger || [];
@@ -109,7 +111,12 @@ function SpellTrigger(props: Props) {
         )}
       </div>
       <div
-        className="font-bold text-white"
+        className={
+          "font-bold text-white " +
+          (settingsContainer.fontOnCard === FontOnCard.Assasin
+            ? "font-assasin"
+            : "font-sans")
+        }
         style={{
           fontSize: gameContainer.zoom * 8,
           padding: `${gameContainer.zoom * 2}px ${gameContainer.zoom * 10}px`,

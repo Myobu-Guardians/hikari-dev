@@ -7,7 +7,7 @@ import {
   OfferingCardsInPlayLeft,
   OfferingCardsInPlayTop,
   OfferingCardsInPlayWidth,
-  Tail9DarkLockedOfferingCardsNum,
+  Tail7DarkLockedOfferingCardsNum,
 } from "../lib/constants";
 import OfferingCardComponent from "./OfferingCard";
 
@@ -50,7 +50,7 @@ export default function OfferingCardsInPlay() {
             let locked =
               actor === lockedActor &&
               lockTurns > 0 &&
-              index >= self.length - Tail9DarkLockedOfferingCardsNum;
+              index >= self.length - Tail7DarkLockedOfferingCardsNum;
 
             return (
               <div
@@ -89,7 +89,7 @@ export default function OfferingCardsInPlay() {
                   offeringCard={offeringCard}
                   locked={
                     lockTurns > 0 &&
-                    index >= self.length - Tail9DarkLockedOfferingCardsNum
+                    index >= self.length - Tail7DarkLockedOfferingCardsNum
                       ? lockTurns
                       : 0
                   }

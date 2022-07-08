@@ -1,11 +1,11 @@
 import {
   Tail6DarkShowEnemyKitsuneCardsTurns,
   Tail6LightHidePlayerKitsuneCardsTurns,
-  Tail7DarkLockEnemyKitsuneCardsturns,
-  Tail7LightSpellExtraKitsuneCardsInPlayTurns,
-  Tail9DarkLockedOfferingCardsNum,
-  Tail9DarkLockedOfferingCardsTurns,
-  Tail9LightSpellExtraOfferingCardsToDraw,
+  Tail9DarkLockEnemyKitsuneCardsturns,
+  Tail9LightSpellExtraKitsuneCardsInPlayTurns,
+  Tail7DarkLockedOfferingCardsNum,
+  Tail7DarkLockedOfferingCardsTurns,
+  Tail7LightSpellExtraOfferingCardsToDraw,
   WinPoints,
 } from "../../lib/constants";
 
@@ -15,6 +15,7 @@ export const esES = {
     "Game rules": "Reglas del juego",
     "Play with friends": "juego con amigos",
     "Card library": "librería de cartas",
+    Settings: "Ajustes",
     Close: "Cierra",
     Cancel: "Cancela",
     "Send message": "Envía mensaje",
@@ -71,9 +72,9 @@ export const esES = {
     "spells/tail-5-light":
       "Cuando la ofrenda  X Flora es colocada, tu tienes X/4 posibilidades de lanzar cualquier hechizo",
     "spells/tail-6-light": `Esconde todas tus cartas por ${Tail6LightHidePlayerKitsuneCardsTurns} turnos`,
-    "spells/tail-7-light": `Puede colocar 1 carta Kitsune mas por  ${Tail7LightSpellExtraKitsuneCardsInPlayTurns} turnos`,
+    "spells/tail-9-light": `Puede colocar 1 carta Kitsune mas por  ${Tail9LightSpellExtraKitsuneCardsInPlayTurns} turnos`,
     "spells/tail-8-light": "Gana 3 puntos",
-    "spells/tail-9-light": `Extrae ${Tail9LightSpellExtraOfferingCardsToDraw} ofrendas, actua otra vez, entonce ponla de nuevo en la baraja de cartas en cualquier orden`,
+    "spells/tail-7-light": `Extrae ${Tail7LightSpellExtraOfferingCardsToDraw} ofrendas, actua otra vez, entonce ponla de nuevo en la baraja de cartas en cualquier orden`,
     "spells/tail-1-dark": "Enemigo pierde 1 punto",
     "spells/tail-2-dark": "Reduce el número de cualquier carta en 3",
     "spells/tail-3-dark":
@@ -82,8 +83,11 @@ export const esES = {
     "spells/tail-5-dark":
       "Cuando X Ofrendas de generosidad son colocadas, tu tienes  X/4 posibilidades de lanzar cualquier hechizo",
     "spells/tail-6-dark": `Enseña todas las cartas enemigas por ${Tail6DarkShowEnemyKitsuneCardsTurns} turnos`,
-    "spells/tail-7-dark": `Devuelve la carta seleccionada a sus Propietarios y bloquea por  ${Tail7DarkLockEnemyKitsuneCardsturns} turnos`,
+    "spells/tail-9-dark": `Devuelve la carta seleccionada a sus Propietarios y bloquea por  ${Tail9DarkLockEnemyKitsuneCardsturns} turnos`,
     "spells/tail-8-dark": "Enemigo pierde 3 puntos",
-    "spells/tail-9-dark": `Evita que el enemigo use ${Tail9DarkLockedOfferingCardsNum} ofrendas por ${Tail9DarkLockedOfferingCardsTurns} turnos`,
+    "spells/tail-7-dark": `Evita que el enemigo use ${Tail7DarkLockedOfferingCardsNum} ofrendas por ${Tail7DarkLockedOfferingCardsTurns} turnos`,
+
+    // Settings
+    "kitsune-card-font": "Fuente de cartas Kitsune",
   },
 };

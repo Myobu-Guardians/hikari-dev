@@ -6,6 +6,7 @@ import CardsModal from "./CardsModal";
 import HelpModal from "./HelpModal";
 import toastr from "toastr";
 import { useTranslation } from "react-i18next";
+import SettingsModal from "./SettingsModal";
 
 export default function Menu() {
   const gameContainer = GameContainer.useContainer();
@@ -64,10 +65,14 @@ export default function Menu() {
           <li>
             <label htmlFor="cards-modal">{t("Card library")}</label>
           </li>
+          <li>
+            <label htmlFor="settings-modal">{t("Settings")}</label>
+          </li>
         </ul>
       </div>
       <HelpModal></HelpModal>
       <CardsModal></CardsModal>
+      <SettingsModal></SettingsModal>
     </>
   );
 }

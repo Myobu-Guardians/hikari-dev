@@ -1,16 +1,28 @@
 import React from "react";
 import { GameContainer } from "../containers/game";
+import { SettingsContainer } from "../containers/settings";
 
-export default function LanguageSelector() {
+interface Props {
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+export default function LanguageSelector(props: Props) {
   const gameContainer = GameContainer.useContainer();
+  const settingsContainer = SettingsContainer.useContainer();
+
   return (
     <>
       <div
-        className="dropdown dropdown-end absolute font-sans"
-        style={{
-          top: gameContainer.zoom * 4,
-          right: gameContainer.zoom * 70,
-        }}
+        className={
+          "dropdown font-sans " + (props.className || "absolute dropdown-end")
+        }
+        style={
+          props.style || {
+            top: gameContainer.zoom * 4,
+            right: gameContainer.zoom * 70,
+          }
+        }
       >
         <label
           tabIndex={0}
@@ -33,7 +45,7 @@ export default function LanguageSelector() {
           <li>
             <label
               onClick={() => {
-                gameContainer.setLanguage("de-DE");
+                settingsContainer.setLanguage("de-DE");
               }}
             >
               Deutsch
@@ -42,7 +54,7 @@ export default function LanguageSelector() {
           <li>
             <label
               onClick={() => {
-                gameContainer.setLanguage("en-US");
+                settingsContainer.setLanguage("en-US");
               }}
             >
               English
@@ -51,7 +63,7 @@ export default function LanguageSelector() {
           <li>
             <label
               onClick={() => {
-                gameContainer.setLanguage("es-ES");
+                settingsContainer.setLanguage("es-ES");
               }}
             >
               Español
@@ -60,10 +72,19 @@ export default function LanguageSelector() {
           <li>
             <label
               onClick={() => {
-                gameContainer.setLanguage("zh-CN");
+                settingsContainer.setLanguage("zh-CN");
               }}
             >
               简体中文
+            </label>
+          </li>
+          <li>
+            <label
+              onClick={() => {
+                settingsContainer.setLanguage("ja-JP");
+              }}
+            >
+              日本語
             </label>
           </li>
         </ul>

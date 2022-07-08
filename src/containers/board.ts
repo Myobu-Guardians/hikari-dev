@@ -340,9 +340,9 @@ export const BoardContainer = createContainer(() => {
         card.spell?.id === "tail-4-dark-spell"
       ) {
         setIsModifyingSymbolOfKitsuneCard(targetKitsuneCard);
-      } else if (card.spell?.id === "tail-7-dark-spell") {
+      } else if (card.spell?.id === "tail-9-dark-spell") {
         /** Return target card to its owners hand */
-        board.castTail7DarkSpell(
+        board.castTail9DarkSpell(
           targetKitsuneCard,
           Array.from(selectedOfferingCards),
           turns
@@ -777,7 +777,7 @@ export const BoardContainer = createContainer(() => {
         // Remove any symbol from target card
         card.spell?.id === "tail-4-dark-spell" ||
         // Return target card to its owners hand
-        card.spell?.id === "tail-7-dark-spell"
+        card.spell?.id === "tail-9-dark-spell"
       ) {
         setIsSelectingKitsuneCardToCastSpellAt(true);
       }
@@ -804,8 +804,8 @@ export const BoardContainer = createContainer(() => {
         cancelCastingSpell(true);
       }
       // Can place 1 more kitsune card for 4 turns
-      else if (card.spell?.id === "tail-7-light-spell") {
-        board.castTail7LightSpell(Array.from(selectedOfferingCards), turns);
+      else if (card.spell?.id === "tail-9-light-spell") {
+        board.castTail9LightSpell(Array.from(selectedOfferingCards), turns);
         cancelCastingSpell(true);
       }
       // Gain three points
@@ -814,8 +814,8 @@ export const BoardContainer = createContainer(() => {
         cancelCastingSpell(true);
       }
       // Draw three offerings, then put them back in any order
-      else if (card.spell?.id === "tail-9-light-spell") {
-        board.castTail9LightSpell(Array.from(selectedOfferingCards), turns);
+      else if (card.spell?.id === "tail-7-light-spell") {
+        board.castTail7LightSpell(Array.from(selectedOfferingCards), turns);
         cancelCastingSpell(false); // Don't go to next ture
         setSelectedOfferingCards(new Set());
       }
@@ -833,9 +833,9 @@ export const BoardContainer = createContainer(() => {
       else if (card.spell?.id === "tail-8-dark-spell") {
         board.castTail8DarkSpell(Array.from(selectedOfferingCards), turns);
         cancelCastingSpell(true);
-      } // `Prevent enemy from using ${Tail9DarkLockedOfferingCardsNum} offerings for ${Tail9DarkLockedOfferingCardsTurns} turns`
-      else if (card.spell?.id === "tail-9-dark-spell") {
-        board.castTail9DarkSpell(turns);
+      } // `Prevent enemy from using ${Tail7DarkLockedOfferingCardsNum} offerings for ${Tail7DarkLockedOfferingCardsTurns} turns`
+      else if (card.spell?.id === "tail-7-dark-spell") {
+        board.castTail7DarkSpell(turns);
         cancelCastingSpell(true);
       } else {
         alert(`Spell ${card.spell?.id} not implemented`);

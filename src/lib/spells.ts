@@ -1,11 +1,11 @@
 import {
   Tail6DarkShowEnemyKitsuneCardsTurns,
   Tail6LightHidePlayerKitsuneCardsTurns,
-  Tail7DarkLockEnemyKitsuneCardsturns,
-  Tail7LightSpellExtraKitsuneCardsInPlayTurns,
-  Tail9DarkLockedOfferingCardsNum,
-  Tail9DarkLockedOfferingCardsTurns,
-  Tail9LightSpellExtraOfferingCardsToDraw,
+  Tail9DarkLockEnemyKitsuneCardsturns,
+  Tail9LightSpellExtraKitsuneCardsInPlayTurns,
+  Tail7DarkLockedOfferingCardsNum,
+  Tail7DarkLockedOfferingCardsTurns,
+  Tail7LightSpellExtraOfferingCardsToDraw,
 } from "./constants";
 import { OfferingSymbol } from "./offering";
 
@@ -16,18 +16,18 @@ export type SpellId =
   | "tail-4-light-spell"
   | "tail-5-light-spell"
   | "tail-6-light-spell"
-  | "tail-7-light-spell"
-  | "tail-8-light-spell"
   | "tail-9-light-spell"
+  | "tail-8-light-spell"
+  | "tail-7-light-spell"
   | "tail-1-dark-spell"
   | "tail-2-dark-spell"
   | "tail-3-dark-spell"
   | "tail-4-dark-spell"
   | "tail-5-dark-spell"
   | "tail-6-dark-spell"
-  | "tail-7-dark-spell"
+  | "tail-9-dark-spell"
   | "tail-8-dark-spell"
-  | "tail-9-dark-spell";
+  | "tail-7-dark-spell";
 
 export interface Spell {
   id: SpellId;
@@ -74,7 +74,7 @@ spells.set("tail-6-light-spell", {
 spells.set("tail-7-light-spell", {
   id: "tail-7-light-spell",
   description: "spells/tail-7-light",
-  trigger: [[OfferingSymbol.MusicInstrument, OfferingSymbol.Incense]],
+  trigger: [[OfferingSymbol.Incense]],
 });
 spells.set("tail-8-light-spell", {
   id: "tail-8-light-spell",
@@ -90,7 +90,7 @@ spells.set("tail-8-light-spell", {
 spells.set("tail-9-light-spell", {
   id: "tail-9-light-spell",
   description: "spells/tail-9-light",
-  trigger: [[OfferingSymbol.Incense]],
+  trigger: [[OfferingSymbol.MusicInstrument, OfferingSymbol.Incense]],
 });
 // Dark
 spells.set("tail-1-dark-spell", {
@@ -126,7 +126,7 @@ spells.set("tail-6-dark-spell", {
 spells.set("tail-7-dark-spell", {
   id: "tail-7-dark-spell",
   description: "spells/tail-7-dark",
-  trigger: [[OfferingSymbol.Food, OfferingSymbol.Treasure]],
+  trigger: [[OfferingSymbol.Treasure]],
 });
 spells.set("tail-8-dark-spell", {
   id: "tail-8-dark-spell",
@@ -138,7 +138,7 @@ spells.set("tail-8-dark-spell", {
 spells.set("tail-9-dark-spell", {
   id: "tail-9-dark-spell",
   description: "spells/tail-9-dark",
-  trigger: [[OfferingSymbol.Treasure]],
+  trigger: [[OfferingSymbol.Food, OfferingSymbol.Treasure]],
 });
 
 export function getSpellById(spellId: SpellId): Spell | undefined {
