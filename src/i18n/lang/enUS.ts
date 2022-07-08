@@ -1,11 +1,11 @@
 import {
   Tail6DarkShowEnemyKitsuneCardsTurns,
   Tail6LightHidePlayerKitsuneCardsTurns,
-  Tail7DarkLockEnemyKitsuneCardsturns,
-  Tail7LightSpellExtraKitsuneCardsInPlayTurns,
-  Tail9DarkLockedOfferingCardsNum,
-  Tail9DarkLockedOfferingCardsTurns,
-  Tail9LightSpellExtraOfferingCardsToDraw,
+  Tail9DarkLockEnemyKitsuneCardsturns,
+  Tail9LightSpellExtraKitsuneCardsInPlayTurns,
+  Tail7DarkLockedOfferingCardsNum,
+  Tail7DarkLockedOfferingCardsTurns,
+  Tail7LightSpellExtraOfferingCardsToDraw,
   WinPoints,
 } from "../../lib/constants";
 
@@ -15,6 +15,7 @@ export const enUS = {
     "Game rules": "Game rules",
     "Play with friends": "Play with friends",
     "Card library": "Card library",
+    Settings: "Settings",
     Close: "Close",
     Cancel: "Cancel",
     "Send message": "Send message",
@@ -71,9 +72,9 @@ export const enUS = {
     "spells/tail-5-light":
       "When X Flora Offerings are placed, you have X/4 chance to cast any spell",
     "spells/tail-6-light": `Hide all of your cards for ${Tail6LightHidePlayerKitsuneCardsTurns} turns`,
-    "spells/tail-7-light": `Can place 1 more kitsune card for ${Tail7LightSpellExtraKitsuneCardsInPlayTurns} turns`,
+    "spells/tail-7-light": `Draw ${Tail7LightSpellExtraOfferingCardsToDraw} offerings, act again, then put them back to deck in any order`,
     "spells/tail-8-light": "Gain 3 points",
-    "spells/tail-9-light": `Draw ${Tail9LightSpellExtraOfferingCardsToDraw} offerings, act again, then put them back to deck in any order`,
+    "spells/tail-9-light": `Can place 1 more kitsune card for ${Tail9LightSpellExtraKitsuneCardsInPlayTurns} turns`,
     "spells/tail-1-dark": "Enemy loses 1 point",
     "spells/tail-2-dark": "Decrease any card number by 3",
     "spells/tail-3-dark":
@@ -82,8 +83,11 @@ export const enUS = {
     "spells/tail-5-dark":
       "When X Bounty Offerings are placed, you have X/4 chance to cast any spell",
     "spells/tail-6-dark": `Show all of enemy's cards for ${Tail6DarkShowEnemyKitsuneCardsTurns} turns`,
-    "spells/tail-7-dark": `Return target card to its owners hand and lock for ${Tail7DarkLockEnemyKitsuneCardsturns} turns`,
+    "spells/tail-7-dark": `Prevent enemy from using ${Tail7DarkLockedOfferingCardsNum} offering for ${Tail7DarkLockedOfferingCardsTurns} turns`,
     "spells/tail-8-dark": "Enemy loses 3 points",
-    "spells/tail-9-dark": `Prevent enemy from using ${Tail9DarkLockedOfferingCardsNum} offering for ${Tail9DarkLockedOfferingCardsTurns} turns`,
+    "spells/tail-9-dark": `Return target card to its owners hand and lock for ${Tail9DarkLockEnemyKitsuneCardsturns} turns`,
+
+    // Settings
+    "kitsune-card-font": "Kitsune card font",
   },
 };

@@ -62,10 +62,10 @@ export const BoardGamePointsTop = 190;
 export const PlayerId = randomID();
 
 // Spells related
-export const Tail6LightHidePlayerKitsuneCardsTurns = 2;
-export const Tail7LightSpellExtraKitsuneCardsInPlayTurns = 8;
-export const Tail9LightSpellExtraOfferingCardsToDraw = 3;
+export const Tail6LightHidePlayerKitsuneCardsTurns = 4;
+export const Tail9LightSpellExtraKitsuneCardsInPlayTurns = 8;
+export const Tail7LightSpellExtraOfferingCardsToDraw = 3;
 export const Tail6DarkShowEnemyKitsuneCardsTurns = 2;
-export const Tail7DarkLockEnemyKitsuneCardsturns = 6;
-export const Tail9DarkLockedOfferingCardsNum = 1;
-export const Tail9DarkLockedOfferingCardsTurns = 3;
+export const Tail9DarkLockEnemyKitsuneCardsturns = 6;
+export const Tail7DarkLockedOfferingCardsNum = 1;
+export const Tail7DarkLockedOfferingCardsTurns = 3;

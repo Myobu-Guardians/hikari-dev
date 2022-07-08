@@ -6,13 +6,16 @@ import reportWebVitals from "./reportWebVitals";
 import { GameContainer } from "./containers/game";
 import "toastr/build/toastr.min.css";
 import "./i18n/i18n";
+import { SettingsContainer } from "./containers/settings";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <GameContainer.Provider>
-    <App></App>
+    <SettingsContainer.Provider>
+      <App></App>
+    </SettingsContainer.Provider>
   </GameContainer.Provider>
 );
 

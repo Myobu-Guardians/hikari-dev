@@ -1,11 +1,11 @@
 import {
   Tail6DarkShowEnemyKitsuneCardsTurns,
   Tail6LightHidePlayerKitsuneCardsTurns,
-  Tail7DarkLockEnemyKitsuneCardsturns,
-  Tail7LightSpellExtraKitsuneCardsInPlayTurns,
-  Tail9DarkLockedOfferingCardsNum,
-  Tail9DarkLockedOfferingCardsTurns,
-  Tail9LightSpellExtraOfferingCardsToDraw,
+  Tail9DarkLockEnemyKitsuneCardsturns,
+  Tail9LightSpellExtraKitsuneCardsInPlayTurns,
+  Tail7DarkLockedOfferingCardsNum,
+  Tail7DarkLockedOfferingCardsTurns,
+  Tail7LightSpellExtraOfferingCardsToDraw,
   WinPoints,
 } from "../../lib/constants";
 
@@ -15,6 +15,7 @@ export const zhCN = {
     "Game rules": "游戏规则",
     "Play with friends": "与好友玩游戏",
     "Card library": "卡牌库",
+    Settings: "设置",
     Close: "关闭",
     Cancel: "取消",
     "Send message": "发送消息",
@@ -69,17 +70,20 @@ export const zhCN = {
     "spells/tail-5-light":
       "当 X 个花朵贡品卡被放置时，你有 X/4 的概率施放任何法术",
     "spells/tail-6-light": `隐藏你的所有卡牌 ${Tail6LightHidePlayerKitsuneCardsTurns} 个回合`,
-    "spells/tail-7-light": `再接下来的 ${Tail7LightSpellExtraKitsuneCardsInPlayTurns} 回合内，可以放置 1 张额外的妖狐卡`,
+    "spells/tail-9-light": `再接下来的 ${Tail9LightSpellExtraKitsuneCardsInPlayTurns} 回合内，可以放置 1 张额外的妖狐卡`,
     "spells/tail-8-light": "获得 3 分",
-    "spells/tail-9-light": `抽取 ${Tail9LightSpellExtraOfferingCardsToDraw} 张贡品卡， 然后行动，最后将这些贡品卡随机放回卡库`,
+    "spells/tail-7-light": `抽取 ${Tail7LightSpellExtraOfferingCardsToDraw} 张贡品卡， 然后行动，最后将这些贡品卡随机放回卡库`,
     "spells/tail-1-dark": `敌人失去 1 分`,
     "spells/tail-2-dark": "减少任何卡牌数字 3 个",
     "spells/tail-3-dark": "当敌人激活任何卡牌时，你有 33% 的概率施放任何法术",
     "spells/tail-4-dark": "将任何符号从目标卡牌移除",
     "spells/tail-5-dark": `当 X 个财宝贡品卡被放置时，你有 X/4 的概率施放任何法术`,
     "spells/tail-6-dark": `显示敌人的所有卡牌 ${Tail6DarkShowEnemyKitsuneCardsTurns} 个回合`,
-    "spells/tail-7-dark": `返回目标卡牌到所有者的手牌里，并且锁住 ${Tail7DarkLockEnemyKitsuneCardsturns} 个回合`,
+    "spells/tail-9-dark": `返回目标卡牌到所有者的手牌里，并且锁住 ${Tail9DarkLockEnemyKitsuneCardsturns} 个回合`,
     "spells/tail-8-dark": "敌人失去 3 分",
-    "spells/tail-9-dark": `阻止敌人在 ${Tail9DarkLockedOfferingCardsTurns} 个回合内使用 ${Tail9DarkLockedOfferingCardsNum} 张贡品卡`,
+    "spells/tail-7-dark": `阻止敌人在 ${Tail7DarkLockedOfferingCardsTurns} 个回合内使用 ${Tail7DarkLockedOfferingCardsNum} 张贡品卡`,
+
+    // Settings
+    "kitsune-card-font": "妖狐卡字体",
   },
 };

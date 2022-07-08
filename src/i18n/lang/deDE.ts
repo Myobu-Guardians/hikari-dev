@@ -1,11 +1,11 @@
 import {
   Tail6DarkShowEnemyKitsuneCardsTurns,
   Tail6LightHidePlayerKitsuneCardsTurns,
-  Tail7DarkLockEnemyKitsuneCardsturns,
-  Tail7LightSpellExtraKitsuneCardsInPlayTurns,
-  Tail9DarkLockedOfferingCardsNum,
-  Tail9DarkLockedOfferingCardsTurns,
-  Tail9LightSpellExtraOfferingCardsToDraw,
+  Tail9DarkLockEnemyKitsuneCardsturns,
+  Tail9LightSpellExtraKitsuneCardsInPlayTurns,
+  Tail7DarkLockedOfferingCardsNum,
+  Tail7DarkLockedOfferingCardsTurns,
+  Tail7LightSpellExtraOfferingCardsToDraw,
   WinPoints,
 } from "../../lib/constants";
 
@@ -15,6 +15,7 @@ export const deDE = {
     "Game rules": "Spielregeln",
     "Play with friends": "Spiele mit Freunden",
     "Card library": "Kartensammlung",
+    Settings: "Einstellungen",
     Close: "Schließen",
     Cancel: "Abbruch",
     "Send message": "Nachricht schicken",
@@ -58,9 +59,9 @@ export const deDE = {
     "card/replace-this-card": "Tausche diese Karte aus",
     "card/modify-symbol": "Modifiziere das Symbol",
     "card/target-this-card": "Ziele auf diese Karte",
-    "card/show-for-turns": "Zeige für {{Züge}} Züge",
-    "card/hide-for-turns": "Verstecke für {{Züge}} Züge",
-    "card/locked-for-turns": "Gesperrt für {{Züge}} Züge",
+    "card/show-for-turns": "Zeige für {{turns}} Züge",
+    "card/hide-for-turns": "Verstecke für {{turns}} Züge",
+    "card/locked-for-turns": "Gesperrt für {{turns}} Züge",
 
     // Spells
     "spells/tail-1-light": "Erhalte einen Punkt",
@@ -71,9 +72,9 @@ export const deDE = {
     "spells/tail-5-light":
       "Wenn X Blumegaben platziert werden, besteht eine Chance von X/4 einen Zauber zu wirken",
     "spells/tail-6-light": `Verstecke alle deine Karten für ${Tail6LightHidePlayerKitsuneCardsTurns} Züge`,
-    "spells/tail-7-light": `Platziere eine weitere Kitsune-Karte für ${Tail7LightSpellExtraKitsuneCardsInPlayTurns} Züge`,
+    "spells/tail-9-light": `Platziere eine weitere Kitsune-Karte für ${Tail9LightSpellExtraKitsuneCardsInPlayTurns} Züge`,
     "spells/tail-8-light": "Erhalte 3 Punkte",
-    "spells/tail-9-light": `Zieh ${Tail9LightSpellExtraOfferingCardsToDraw} Gaben, handle erneut, tue sie in beliebiger Reihenfolge zurück ins Deck`,
+    "spells/tail-7-light": `Zieh ${Tail7LightSpellExtraOfferingCardsToDraw} Gaben, handle erneut, tue sie in beliebiger Reihenfolge zurück ins Deck`,
     "spells/tail-1-dark": "Der Gegner verliert 1 Punkt",
     "spells/tail-2-dark": "Verringere eine Kartennummer um 3",
     "spells/tail-3-dark":
@@ -82,8 +83,11 @@ export const deDE = {
     "spells/tail-5-dark":
       "Wenn X Kopfgelder platziert wurden,  besteht eine Chance von X/4 einen Zauber zu wirken",
     "spells/tail-6-dark": `Zeige alle gegnerischen Karten für ${Tail6DarkShowEnemyKitsuneCardsTurns} Züge`,
-    "spells/tail-7-dark": `Gib dir Zielkarte auf die Hand ihres Besitzers zurück und sperre sie für ${Tail7DarkLockEnemyKitsuneCardsturns} Züge`,
+    "spells/tail-9-dark": `Gib dir Zielkarte auf die Hand ihres Besitzers zurück und sperre sie für ${Tail9DarkLockEnemyKitsuneCardsturns} Züge`,
     "spells/tail-8-dark": "Der Gegner verliert 3 Punkte",
-    "spells/tail-9-dark": `Hindert deinen Gegner an ${Tail9DarkLockedOfferingCardsNum} Gaben für ${Tail9DarkLockedOfferingCardsTurns} Züge`,
+    "spells/tail-7-dark": `Hindert deinen Gegner an ${Tail7DarkLockedOfferingCardsNum} Gaben für ${Tail7DarkLockedOfferingCardsTurns} Züge`,
+
+    // Settings
+    "kitsune-card-font": "Kitsune-Karten Schriftart",
   },
 };
