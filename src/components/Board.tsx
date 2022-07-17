@@ -20,6 +20,7 @@ import { getSymbolImageSrcFromSymbol, OfferingSymbol } from "../lib/offering";
 import Menu from "./Menu";
 import LanguageSelector from "./LanguageSelector";
 import { useTranslation } from "react-i18next";
+import ConnectToWallet from "./ConnectToWallet";
 
 interface ModifySymbolProps {}
 function ModifySymbol(props: ModifySymbolProps) {
@@ -155,6 +156,9 @@ export default function Board() {
           height: `${BoardHeight * gameContainer.zoom}px`,
         }}
       >
+        {/* Connect to Wallet */}
+        <ConnectToWallet></ConnectToWallet>
+
         {/* Languages */}
         <LanguageSelector></LanguageSelector>
 
@@ -195,16 +199,14 @@ export default function Board() {
               }
             ></KitsuneCardsInHand>
             <div
-              className="absolute bottom-2 right-4 text-white cursor-pointer"
-              onClick={() => {
-                const url = new URL(window.location.href);
-                url.search = `?peerId=${boardContainer.playerId}`;
-                copyToClipboard(url.toString());
-              }}
+              className="absolute bottom-2 right-4 text-white font-sans"
               style={{ fontSize: gameContainer.zoom * 12 }}
+              title={gameContainer.signerAddress || ""}
             >
-              {boardContainer.playerId
-                ? `${t("board/your-id")}: ${boardContainer.playerId}`
+              {gameContainer.signerAddress
+                ? gameContainer.signerAddress.slice(0, 12) + "..."
+                : boardContainer.playerId
+                ? `${t("board/wallet-not-connected")}`
                 : t("board/connecting")}
             </div>
             {boardContainer.playerId &&
@@ -212,7 +214,7 @@ export default function Board() {
                 <div>
                   <input
                     type="text"
-                    className="input absolute right-2 input-bordered input-ghost border-orange-500 text-white"
+                    className="input absolute right-2 input-bordered input-ghost border-orange-500 text-white font-sans"
                     style={{
                       fontSize: gameContainer.zoom * 12,
                       width: gameContainer.zoom * 128,
@@ -254,15 +256,19 @@ export default function Board() {
               }
             ></KitsuneCardsInHand>
             <div
-              className="absolute text-white"
+              className="absolute text-white font-sans"
               style={{
                 fontSize: gameContainer.zoom * 12,
                 top: gameContainer.zoom * 50,
                 right: gameContainer.zoom * 12,
               }}
             >
-              {boardContainer.opponentId
-                ? `${t("board/playing-against")}: ${boardContainer.opponentId}`
+              {boardContainer.board.opponent.walletAddress
+                ? `${t("board/playing-against")}: ` +
+                  boardContainer.board.opponent.walletAddress.slice(0, 12) +
+                  "..."
+                : boardContainer.opponentId
+                ? `${t("board/playing-against")}: ${t("board/remote-player")}`
                 : t("board/local-game")}
             </div>
           </>

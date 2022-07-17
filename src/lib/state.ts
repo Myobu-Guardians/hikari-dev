@@ -24,6 +24,7 @@ export type GameStateAction =
     }
   | {
       type: "StartGame";
+      walletAddress?: string;
     }
   | {
       type: "CreateBoard";
@@ -33,6 +34,10 @@ export type GameStateAction =
       type: "UpdateBoard";
       playerId: string; // The id of player that initiated this action
       board: GameBoardState;
+    }
+  | {
+      type: "SetWalletAddress";
+      walletAddress: string;
     }
   | {
       type: "ClickOfferingCard";

@@ -19,6 +19,7 @@ export const jaJP = {
     Close: "閉じる",
     Cancel: "キャンセル",
     "Send message": "メッセージを送る",
+    "Connect Wallet": "ウォレットに接続",
 
     "menu/invite-success": `邀請リンクをクリップボードにコピーしました！友達にシェアしてください！`,
     "menu/invite-fail-title": "Myobu 元宇宙に接続できませんでした",
@@ -44,8 +45,10 @@ export const jaJP = {
     // Board
     "board/your-id": "あなたのID",
     "board/connecting": "Myobu 元宇宙に接続しています",
+    "board/wallet-not-connected": "ウォレットに接続されていません",
     "board/local-game": "ローカルゲーム",
     "board/playing-against": "プレイヤーと対戦中",
+    "board/remote-player": "リモートプレイヤー",
     "board/empty-shrine": "空の神社",
     "board/draw-a-card": "カードを引く",
     "board/draw-kitsune-card": "狐カードを引く",

@@ -19,6 +19,7 @@ export const zhCN = {
     Close: "关闭",
     Cancel: "取消",
     "Send message": "发送消息",
+    "Connect Wallet": "连接钱包",
 
     "menu/invite-success": `邀请链接已复制到剪贴板，分享给好友吧！`,
     "menu/invite-fail-title": "无法连接到 Myobu 元宇宙",
@@ -43,8 +44,10 @@ export const zhCN = {
     // Board
     "board/your-id": "你的 ID",
     "board/connecting": "正在连接到 Myobu 元宇宙",
+    "board/wallet-not-connected": "钱包未连接",
     "board/local-game": "本地游戏",
     "board/playing-against": "正在对战",
+    "board/remote-player": "远程玩家",
     "board/empty-shrine": "空的神社",
     "board/draw-a-card": "抽一张卡牌",
     "board/draw-kitsune-card": "抽一张妖狐卡 ^",

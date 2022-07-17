@@ -14,6 +14,7 @@ import toastr from "toastr";
 import { canCastSpell } from "../lib/spellFn";
 import { Player } from "../lib/player";
 import { gitCommit } from "../git_commit";
+import { GameContainer } from "./game";
 
 export const BoardContainer = createContainer(() => {
   const [peer, setPeer] = useState<Korona | null>(null);
@@ -50,6 +51,7 @@ export const BoardContainer = createContainer(() => {
     useState<KitsuneCard | null>(null);
   const [playerId, setPlayerId] = useState<string>("");
   const [opponentId, setOpponentId] = useState<string>("");
+  const gameContainer = GameContainer.useContainer();
 
   const resetState = useCallback(() => {
     setSelectedOfferingCards(new Set());
@@ -64,8 +66,15 @@ export const BoardContainer = createContainer(() => {
 
   const broadcastBoardState = useCallback(() => {
     const boardState = board.saveState();
-    const playerId = board.getPreviousActionInitiatorId();
-    if (peer && boardState) {
+    const actor = board.getPreviousActor();
+    const playerId = actor?.id;
+    if (peer && boardState && playerId) {
+      // Update boardState player wallet address
+      const player =
+        boardState.playerA.id === playerId
+          ? boardState.playerA
+          : boardState.playerB;
+      player.walletAddress = gameContainer.signerAddress;
       const stateAction: GameStateAction = {
         type: "UpdateBoard",
         playerId: playerId,
@@ -76,7 +85,7 @@ export const BoardContainer = createContainer(() => {
     if (boardState) {
       setBoardStates((states) => [...states, boardState]);
     }
-  }, [board, peer]);
+  }, [board, peer, gameContainer.signerAddress]);
 
   const nextTurnIfNecessary = useCallback(() => {
     board.nextTurn();
@@ -215,16 +224,19 @@ export const BoardContainer = createContainer(() => {
   const sendMessage = useCallback(
     (message: string) => {
       if (peer) {
+        const sender = gameContainer.signerAddress
+          ? gameContainer.signerAddress.slice(0, 12) + "..."
+          : playerId;
         const action: GameStateAction = {
           type: "SendMessage",
-          from: playerId,
+          from: sender,
           message,
         };
         peer.send(action);
-        toastr.info(message, playerId);
+        toastr.info(message, sender);
       }
     },
-    [peer, playerId]
+    [peer, playerId, gameContainer.signerAddress]
   );
 
   const castSpell = useCallback(
@@ -632,7 +644,7 @@ export const BoardContainer = createContainer(() => {
           setPeer(peer);
         },
         onData(data: any, connection) {
-          console.log("received data: ", data);
+          console.log("received data: ", data, connection.peer);
           if ("type" in data) {
             const stateAction = data as GameStateAction;
             if (stateAction.type === "CreateBoard") {
@@ -658,7 +670,12 @@ export const BoardContainer = createContainer(() => {
               // TODO: probably don't need to do this ^^
             } else if (stateAction.type === "StartGame") {
               console.log("initialize remote game");
-              board.initializeBoardForPvP(playerId, opponentId);
+              board.initializeBoardForPvP(
+                playerId,
+                opponentId,
+                gameContainer.signerAddress,
+                stateAction.walletAddress
+              );
               const boardState = board.saveState();
               if (boardState === null) {
                 alert("Failed to initialize remote game");
@@ -692,6 +709,7 @@ export const BoardContainer = createContainer(() => {
               if (offeringCard) {
                 toggleOfferingCard_(offeringCard);
               }
+            } else if (stateAction.type === "SetWalletAddress") {
             }
           }
         },
@@ -862,6 +880,17 @@ export const BoardContainer = createContainer(() => {
       setBoardStates([boardState]);
     }
   }, [board]);
+
+  useEffect(() => {
+    if (peer && typeof gameContainer.signerAddress !== "undefined") {
+      console.log("SetWalletAddress: ", gameContainer.signerAddress);
+      const action: GameStateAction = {
+        type: "SetWalletAddress",
+        walletAddress: gameContainer.signerAddress,
+      };
+      peer.send(action);
+    }
+  }, [peer, gameContainer.signerAddress]);
 
   return {
     board,

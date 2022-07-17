@@ -2,6 +2,7 @@ import { KitsuneCard } from "./kitsune";
 
 export interface Player {
   id: string;
+  walletAddress?: string;
   kitsuneCardsInDeck: KitsuneCard[];
   kitsuneCardsInHand: KitsuneCard[];
   kitsuneCardsInPlay: KitsuneCard[];
