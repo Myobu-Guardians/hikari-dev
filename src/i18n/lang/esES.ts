@@ -19,7 +19,7 @@ export const esES = {
     Close: "Cierra",
     Cancel: "Cancela",
     "Send message": "Envía mensaje",
-    "Connect to wallet": "Conecta a la billetera",
+    "Connect Wallet": "Conecta tu monedero",
 
     "menu/invite-success": `link de invitación copiado en portapapeles. Compartelo con tus amigos!`,
     "menu/invite-fail-title": "Fallo de conexión al Metaverso de MYOBU",

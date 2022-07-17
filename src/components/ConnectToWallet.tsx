@@ -8,7 +8,7 @@ export default function ConnectToWallet() {
   return (
     <div>
       <button
-        className="btn btn-sm m-1 absolute z-20 font-sans"
+        className="btn btn-sm btn-secondary m-1 absolute z-20 font-sans"
         style={{
           width: gameContainer.zoom * 120,
           height: gameContainer.zoom * 32,
@@ -23,7 +23,7 @@ export default function ConnectToWallet() {
       >
         {gameContainer.signerAddress
           ? gameContainer.signerAddress.slice(0, 12) + "..."
-          : t("Connect to wallet")}
+          : t("Connect Wallet")}
       </button>
     </div>
   );

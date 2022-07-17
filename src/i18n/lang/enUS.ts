@@ -19,7 +19,7 @@ export const enUS = {
     Close: "Close",
     Cancel: "Cancel",
     "Send message": "Send message",
-    "Connect to wallet": "Connect to wallet",
+    "Connect Wallet": "Connect Wallet",
 
     "menu/invite-success": `Invite link copied to clipboard. Share it with your friends!`,
     "menu/invite-fail-title": "Failed to connect to Myobu metaverse",

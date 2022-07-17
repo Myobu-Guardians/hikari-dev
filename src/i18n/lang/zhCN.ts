@@ -19,7 +19,7 @@ export const zhCN = {
     Close: "关闭",
     Cancel: "取消",
     "Send message": "发送消息",
-    "Connect to wallet": "连接到钱包",
+    "Connect Wallet": "连接钱包",
 
     "menu/invite-success": `邀请链接已复制到剪贴板，分享给好友吧！`,
     "menu/invite-fail-title": "无法连接到 Myobu 元宇宙",
