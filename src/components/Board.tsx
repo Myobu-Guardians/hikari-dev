@@ -214,7 +214,7 @@ export default function Board() {
                 <div>
                   <input
                     type="text"
-                    className="input absolute right-2 input-bordered input-ghost border-orange-500 text-white"
+                    className="input absolute right-2 input-bordered input-ghost border-orange-500 text-white font-sans"
                     style={{
                       fontSize: gameContainer.zoom * 12,
                       width: gameContainer.zoom * 128,
