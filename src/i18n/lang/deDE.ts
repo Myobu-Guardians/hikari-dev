@@ -19,6 +19,7 @@ export const deDE = {
     Close: "Schließen",
     Cancel: "Abbruch",
     "Send message": "Nachricht schicken",
+    "Connect to wallet": "Zum Wallet verbinden",
 
     "menu/invite-success": `Einladungslink zwischengespeichert. Teile ihn mit deinen Freunden!`,
     "menu/invite-fail-title": "Verbindung zum Myobu-Metaverse fehlgeschlagen.",
@@ -44,8 +45,10 @@ export const deDE = {
     // Board
     "board/your-id": "Deine ID",
     "board/connecting": "Verbinde mit dem Myobu-Metaverse",
+    "board/wallet-not-connected": "Wallet nicht verbunden",
     "board/local-game": "Lokales Spiel",
     "board/playing-against": "Spiel gegen",
+    "board/remote-player": "Gegner",
     "board/empty-shrine": "Leerer Schrein",
     "board/draw-a-card": "Zieh eine Karte",
     "board/draw-kitsune-card": "Zieh eine Kitsune-Karte^",

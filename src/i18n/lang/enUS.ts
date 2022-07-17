@@ -19,6 +19,7 @@ export const enUS = {
     Close: "Close",
     Cancel: "Cancel",
     "Send message": "Send message",
+    "Connect to wallet": "Connect to wallet",
 
     "menu/invite-success": `Invite link copied to clipboard. Share it with your friends!`,
     "menu/invite-fail-title": "Failed to connect to Myobu metaverse",
@@ -44,8 +45,10 @@ export const enUS = {
     // Board
     "board/your-id": "Your ID",
     "board/connecting": "Connecting to Myobu Metaverse",
+    "board/wallet-not-connected": "Wallet not connected",
     "board/local-game": "Local game",
     "board/playing-against": "Playing against",
+    "board/remote-player": "Remote player",
     "board/empty-shrine": "Empty Shrine",
     "board/draw-a-card": "Draw a card",
     "board/draw-kitsune-card": "Draw a Kitsune card ^",

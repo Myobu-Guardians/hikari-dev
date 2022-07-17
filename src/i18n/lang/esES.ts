@@ -19,6 +19,7 @@ export const esES = {
     Close: "Cierra",
     Cancel: "Cancela",
     "Send message": "Envía mensaje",
+    "Connect to wallet": "Conecta a la billetera",
 
     "menu/invite-success": `link de invitación copiado en portapapeles. Compartelo con tus amigos!`,
     "menu/invite-fail-title": "Fallo de conexión al Metaverso de MYOBU",
@@ -44,8 +45,10 @@ export const esES = {
     // Board
     "board/your-id": "tu ID",
     "board/connecting": "Conectando al Metaverso de Myobu",
+    "board/wallet-not-connected": "Billetera no conectada",
     "board/local-game": "Juego local",
     "board/playing-against": "Jugando contra",
+    "board/remote-player": "Jugador remoto",
     "board/empty-shrine": "Santuario Vacío",
     "board/draw-a-card": "extrae una carta",
     "board/draw-kitsune-card": "Extrae una carta Kitsune ^",

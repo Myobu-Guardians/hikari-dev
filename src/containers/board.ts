@@ -14,6 +14,7 @@ import toastr from "toastr";
 import { canCastSpell } from "../lib/spellFn";
 import { Player } from "../lib/player";
 import { gitCommit } from "../git_commit";
+import { GameContainer } from "./game";
 
 export const BoardContainer = createContainer(() => {
   const [peer, setPeer] = useState<Korona | null>(null);
@@ -50,6 +51,7 @@ export const BoardContainer = createContainer(() => {
     useState<KitsuneCard | null>(null);
   const [playerId, setPlayerId] = useState<string>("");
   const [opponentId, setOpponentId] = useState<string>("");
+  const gameContainer = GameContainer.useContainer();
 
   const resetState = useCallback(() => {
     setSelectedOfferingCards(new Set());
@@ -651,6 +653,7 @@ export const BoardContainer = createContainer(() => {
               } else {
                 peer.send({
                   type: "StartGame",
+                  walletAddress: gameContainer.signerAddress,
                 });
               }
             } else if (stateAction.type === "GameVersionsMismatch") {
@@ -658,7 +661,12 @@ export const BoardContainer = createContainer(() => {
               // TODO: probably don't need to do this ^^
             } else if (stateAction.type === "StartGame") {
               console.log("initialize remote game");
-              board.initializeBoardForPvP(playerId, opponentId);
+              board.initializeBoardForPvP(
+                playerId,
+                opponentId,
+                gameContainer.signerAddress,
+                stateAction.walletAddress
+              );
               const boardState = board.saveState();
               if (boardState === null) {
                 alert("Failed to initialize remote game");

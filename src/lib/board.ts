@@ -65,7 +65,12 @@ export class GameBoard {
     this.initializePlayers(kitsuneCardsInDeck);
   }
 
-  public initializeBoardForPvP(hostId: string, guestId: string) {
+  public initializeBoardForPvP(
+    hostId: string,
+    guestId: string,
+    hostWalletAddress?: string,
+    guestWalletAddress?: string
+  ) {
     this.id = randomID();
     const kitsuneCardsInDeck = createKitsuneCards();
     this.offeringCardsInDeck = createOfferingCards();
@@ -78,7 +83,13 @@ export class GameBoard {
 
     let playerId = hostId;
     let opponentId = guestId;
-    this.initializePlayers(kitsuneCardsInDeck, playerId, opponentId);
+    this.initializePlayers(
+      kitsuneCardsInDeck,
+      playerId,
+      opponentId,
+      hostWalletAddress,
+      guestWalletAddress
+    );
   }
 
   public saveState(): GameBoardState | null {
@@ -119,7 +130,9 @@ export class GameBoard {
   private initializePlayers(
     kitsuneCards: KitsuneCard[],
     playerId?: string,
-    opponentId?: string
+    opponentId?: string,
+    playerWalletAddress?: string,
+    opponentWalletAddress?: string
   ) {
     /*
     const kitsuneCardsInDeck = shuffleArray(kitsuneCards).slice(
@@ -138,6 +151,7 @@ export class GameBoard {
 
     this.player = {
       id: playerId || PlayerId,
+      walletAddress: playerWalletAddress,
       kitsuneCardsInDeck: flag ? lighKitsuneCards : darkKitsuneCards,
       kitsuneCardsInHand: [],
       kitsuneCardsInPlay: [],
@@ -150,6 +164,7 @@ export class GameBoard {
     };
     this.opponent = {
       id: opponentId || generateUUID(),
+      walletAddress: opponentWalletAddress,
       kitsuneCardsInDeck: flag ? darkKitsuneCards : lighKitsuneCards,
       kitsuneCardsInHand: [],
       kitsuneCardsInPlay: [],

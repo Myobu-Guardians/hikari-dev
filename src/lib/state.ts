@@ -24,6 +24,7 @@ export type GameStateAction =
     }
   | {
       type: "StartGame";
+      walletAddress?: string;
     }
   | {
       type: "CreateBoard";
