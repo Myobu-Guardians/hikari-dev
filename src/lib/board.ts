@@ -368,11 +368,11 @@ export class GameBoard {
     }
   }
 
-  public getPreviousActionInitiatorId() {
+  public getPreviousActor() {
     if ((this.turns - 1) % 2 === this.player?.turnRemainder) {
-      return this.player.id;
+      return this.player;
     } else {
-      return this.opponent?.id || "";
+      return this.opponent;
     }
   }
 

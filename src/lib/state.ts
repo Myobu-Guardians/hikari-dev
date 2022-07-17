@@ -36,6 +36,10 @@ export type GameStateAction =
       board: GameBoardState;
     }
   | {
+      type: "SetWalletAddress";
+      walletAddress: string;
+    }
+  | {
       type: "ClickOfferingCard";
       cardId: string;
     }
