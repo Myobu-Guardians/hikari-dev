@@ -1,30 +1,111 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { GameContainer } from "../containers/game";
+import MetaMaskLogo from "../assets/images/icons/metamask.png";
+import WalletConnectLogo from "../assets/images/icons/walletconnect.png";
+import LogoutLogo from "../assets/images/icons/logout.png";
+import { WalletConnectMethod } from "../lib/wallet";
 
 export default function ConnectToWallet() {
   const { t } = useTranslation();
   const gameContainer = GameContainer.useContainer();
   return (
-    <div>
-      <button
-        className="btn btn-sm btn-secondary m-1 absolute z-20 font-sans"
+    <>
+      <div
+        className="dropdown dropdown-end absolute font-sans z-20"
         style={{
-          width: gameContainer.zoom * 120,
-          height: gameContainer.zoom * 32,
-          fontSize: gameContainer.zoom * 10,
           top: gameContainer.zoom * 4,
           right: gameContainer.zoom * 138,
         }}
-        onClick={() => {
-          gameContainer.connectToMetaMask();
-        }}
-        title={gameContainer.signerAddress || ""}
       >
-        {gameContainer.signerAddress
-          ? gameContainer.signerAddress.slice(0, 12) + "..."
-          : t("Connect Wallet")}
-      </button>
-    </div>
+        <label
+          tabIndex={0}
+          className="btn btn-sm m-1"
+          style={{
+            fontSize: gameContainer.zoom * 10,
+            width: gameContainer.zoom * 120,
+            height: gameContainer.zoom * 32,
+          }}
+          title={gameContainer.signerAddress || ""}
+        >
+          {gameContainer.signerAddress
+            ? gameContainer.signerAddress.slice(0, 12) + "..."
+            : t("Connect Wallet")}
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu p-0 shadow bg-black text-white rounded-box w-64"
+          style={{
+            fontSize: gameContainer.zoom * 10,
+          }}
+        >
+          <li>
+            <label
+              onClick={() => {
+                gameContainer.connectToMetaMask();
+              }}
+              className={
+                gameContainer.connectedWalletMethod ===
+                WalletConnectMethod.MetaMask
+                  ? "bg-primary-content"
+                  : ""
+              }
+            >
+              <div className={"flex flex-row items-center"}>
+                <img
+                  src={MetaMaskLogo}
+                  style={{ height: "32px" }}
+                  className={"mr-2"}
+                  alt={`MetaMask`}
+                />
+                {`MetaMask`}
+              </div>
+            </label>
+          </li>
+          <li>
+            <label
+              onClick={() => {
+                gameContainer.connectToWalletConnect();
+              }}
+              className={
+                gameContainer.connectedWalletMethod ===
+                WalletConnectMethod.WalletConnect
+                  ? "bg-primary-content"
+                  : ""
+              }
+            >
+              {" "}
+              <div className={"flex flex-row items-center "}>
+                <img
+                  src={WalletConnectLogo}
+                  style={{ height: "32px" }}
+                  className={"mr-2"}
+                  alt={`WalletConnect`}
+                />
+                {`WalletConnect`}
+              </div>
+            </label>
+          </li>
+          <li>
+            <label
+              onClick={() => {
+                gameContainer.disconnectWallet();
+              }}
+            >
+              {" "}
+              <div className="flex flex-row items-center">
+                <img
+                  src={LogoutLogo}
+                  style={{ height: "32px" }}
+                  className={"mr-2"}
+                  alt={`Disconnect Wallet`}
+                />
+                {t("Disconnect")}
+              </div>
+            </label>
+          </li>
+        </ul>
+      </div>
+    </>
   );
 }

@@ -20,6 +20,7 @@ export const deDE = {
     Cancel: "Abbruch",
     "Send message": "Nachricht schicken",
     "Connect Wallet": "Wallet verbinden",
+    "Disconnect Wallet": "Wallet trennen",
 
     "menu/invite-success": `Einladungslink zwischengespeichert. Teile ihn mit deinen Freunden!`,
     "menu/invite-fail-title": "Verbindung zum Myobu-Metaverse fehlgeschlagen.",
