@@ -20,6 +20,7 @@ export const jaJP = {
     Cancel: "キャンセル",
     "Send message": "メッセージを送る",
     "Connect Wallet": "ウォレットに接続",
+    "Disconnect Wallet": "ウォレットから切断",
 
     "menu/invite-success": `邀請リンクをクリップボードにコピーしました！友達にシェアしてください！`,
     "menu/invite-fail-title": "Myobu 元宇宙に接続できませんでした",
