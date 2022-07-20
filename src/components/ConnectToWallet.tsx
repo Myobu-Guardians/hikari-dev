@@ -39,29 +39,31 @@ export default function ConnectToWallet() {
             fontSize: gameContainer.zoom * 10,
           }}
         >
-          <li>
-            <label
-              onClick={() => {
-                gameContainer.connectToMetaMask();
-              }}
-              className={
-                gameContainer.connectedWalletMethod ===
-                WalletConnectMethod.MetaMask
-                  ? "bg-primary-content"
-                  : ""
-              }
-            >
-              <div className={"flex flex-row items-center"}>
-                <img
-                  src={MetaMaskLogo}
-                  style={{ height: "32px" }}
-                  className={"mr-2"}
-                  alt={`MetaMask`}
-                />
-                {`MetaMask`}
-              </div>
-            </label>
-          </li>
+          {(window as any)["ethereum"] && (
+            <li>
+              <label
+                onClick={() => {
+                  gameContainer.connectToMetaMask();
+                }}
+                className={
+                  gameContainer.connectedWalletMethod ===
+                  WalletConnectMethod.MetaMask
+                    ? "bg-primary-content"
+                    : ""
+                }
+              >
+                <div className={"flex flex-row items-center"}>
+                  <img
+                    src={MetaMaskLogo}
+                    style={{ height: "32px" }}
+                    className={"mr-2"}
+                    alt={`MetaMask`}
+                  />
+                  {`MetaMask`}
+                </div>
+              </label>
+            </li>
+          )}
           <li>
             <label
               onClick={() => {
