@@ -100,7 +100,7 @@ export default function ConnectToWallet() {
                   className={"mr-2"}
                   alt={`Disconnect Wallet`}
                 />
-                {t("Disconnect")}
+                {t("Disconnect Wallet")}
               </div>
             </label>
           </li>
