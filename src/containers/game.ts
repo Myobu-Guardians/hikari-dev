@@ -106,6 +106,7 @@ export const GameContainer = createContainer(() => {
       await walletConnectProvider.enable();
 
       const provider = new providers.Web3Provider(walletConnectProvider);
+      setProvider(provider);
 
       const signer = provider.getSigner();
       setSigner(signer);
@@ -142,6 +143,37 @@ export const GameContainer = createContainer(() => {
     // Only allow Ropsten Testnet for now
     return network && network.chainId === 3;
   }, [network]);
+
+  /**
+   * Get the player profile from the signer address by ENS (Ethereum Name Service)
+   */
+  const getPlayerProfileFromWalletAddress = useCallback(
+    async (walletAddress: string) => {
+      if (!isCorrectNetwork() || !walletAddress || !provider) {
+        return;
+      } else {
+        const username =
+          (await provider.lookupAddress(walletAddress)) || "Anonymous";
+        const avatar =
+          (await provider.getAvatar(walletAddress)) ||
+          (await new Promise((resolve, reject) => {
+            identicon.generate(
+              { id: walletAddress, size: 150 },
+              (err: any, buffer: any) => {
+                if (err) return resolve("");
+                else return resolve(buffer);
+              }
+            );
+          }));
+        return {
+          username,
+          avatar: avatar as any,
+          walletAddress: walletAddress,
+        };
+      }
+    },
+    [isCorrectNetwork, provider]
+  );
 
   useEffect(() => {
     window.addEventListener("resize", resize);
@@ -185,21 +217,15 @@ export const GameContainer = createContainer(() => {
 
   useEffect(() => {
     if (signer && signerAddress) {
-      identicon.generate(
-        { id: signerAddress, size: 150 },
-        (err: any, buffer: any) => {
-          if (err) throw err;
-          setPlayerProfile({
-            username: "Anonymous",
-            avatar: buffer,
-            walletAddress: signerAddress,
-          });
-        }
-      );
+      (async () => {
+        setPlayerProfile(
+          await getPlayerProfileFromWalletAddress(signerAddress)
+        );
+      })();
     } else {
       setPlayerProfile(undefined);
     }
-  }, [signer, signerAddress]);
+  }, [signer, signerAddress, getPlayerProfileFromWalletAddress]);
 
   return {
     zoom,

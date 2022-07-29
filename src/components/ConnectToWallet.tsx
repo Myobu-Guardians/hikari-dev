@@ -28,14 +28,14 @@ export default function ConnectToWallet() {
           }
           style={{
             fontSize: gameContainer.zoom * 10,
-            width: gameContainer.zoom * 120,
+            width: gameContainer.zoom * 128,
             height: gameContainer.zoom * 32,
           }}
           title={gameContainer.signerAddress || ""}
         >
           {gameContainer.playerProfile ? (
             gameContainer.isCorrectNetwork() ? (
-              <div className="flex flex-row items-center  normal-case">
+              <div className="flex flex-row items-center text-left normal-case">
                 <img
                   src={gameContainer.playerProfile.avatar}
                   alt={gameContainer.playerProfile.username}
@@ -127,21 +127,6 @@ export default function ConnectToWallet() {
             </label>
           </li>
           <hr></hr>
-          {gameContainer.playerProfile && (
-            <li>
-              <label>
-                <div className="flex flex-row items-center">
-                  <img
-                    src={gameContainer.playerProfile.avatar}
-                    alt={gameContainer.playerProfile.username}
-                    style={{ height: gameContainer.zoom * 24 }}
-                    className={"mr-2 rounded-md"}
-                  />
-                  {t("Change Profile")}
-                </div>
-              </label>
-            </li>
-          )}
           <li>
             <label
               onClick={() => {
