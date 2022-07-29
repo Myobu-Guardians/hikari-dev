@@ -621,16 +621,15 @@ export const BoardContainer = createContainer(() => {
 
   useEffect(() => {
     if (board && gameContainer.signerAddress) {
-      const playerId = PlayerId;
       let opponentId = "";
+      const playerId = `myobu-hikari-${gitCommit.hash}-${gameContainer.signerAddress}`;
       const peer = new Korona({
-        peerID: `Myobu/${gitCommit.hash}/${gameContainer.signerAddress}`,
+        peerID: playerId,
         peerJSOptions: {},
         maxPeers: 5,
         onOpen() {
           console.log("peer opened");
           setPlayerId(playerId);
-
           const targetPeerIDMatch =
             window.location.search.match(/peerId=(.+)$/);
           if (targetPeerIDMatch) {

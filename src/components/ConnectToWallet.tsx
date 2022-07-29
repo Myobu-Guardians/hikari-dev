@@ -33,8 +33,8 @@ export default function ConnectToWallet() {
           }}
           title={gameContainer.signerAddress || ""}
         >
-          {gameContainer.playerProfile ? (
-            gameContainer.isCorrectNetwork() ? (
+          {gameContainer.signerAddress ? (
+            gameContainer.isCorrectNetwork() && gameContainer.playerProfile ? (
               <div className="flex flex-row items-center text-left normal-case">
                 <img
                   src={gameContainer.playerProfile.avatar}
