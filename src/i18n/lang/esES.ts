@@ -21,6 +21,7 @@ export const esES = {
     "Send message": "Envía mensaje",
     "Connect Wallet": "Conecta tu monedero",
     "Disconnect Wallet": "Desconecta tu monedero",
+    "Wrong Network": "Por favor, cambia a la red de pruebas de Ropsten",
 
     "menu/invite-success": `link de invitación copiado en portapapeles. Compartelo con tus amigos!`,
     "menu/invite-fail-title": "Fallo de conexión al Metaverso de MYOBU",

@@ -20,7 +20,12 @@ export default function ConnectToWallet() {
       >
         <label
           tabIndex={0}
-          className="btn btn-sm m-1"
+          className={
+            "btn btn-sm m-1 " +
+            (gameContainer.signerAddress && !gameContainer.isCorrectNetwork()
+              ? " btn-error normal-case"
+              : "")
+          }
           style={{
             fontSize: gameContainer.zoom * 10,
             width: gameContainer.zoom * 120,
@@ -29,7 +34,9 @@ export default function ConnectToWallet() {
           title={gameContainer.signerAddress || ""}
         >
           {gameContainer.signerAddress
-            ? gameContainer.signerAddress.slice(0, 12) + "..."
+            ? gameContainer.isCorrectNetwork()
+              ? gameContainer.signerAddress.slice(0, 12) + "..."
+              : t("Wrong Network")
             : t("Connect Wallet")}
         </label>
         <ul

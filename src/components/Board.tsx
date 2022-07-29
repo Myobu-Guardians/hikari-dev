@@ -15,7 +15,6 @@ import KitsuneCardsInDeck from "./KitsuneCardsInDeck";
 import KitsuneCardsInPlay from "./KitsuneCardsInPlay";
 import KitsuneCardsInHand from "./KitsuneCardsInHand";
 import { BoardContainer } from "../containers/board";
-import { copyToClipboard } from "../lib/utils";
 import { getSymbolImageSrcFromSymbol, OfferingSymbol } from "../lib/offering";
 import Menu from "./Menu";
 import LanguageSelector from "./LanguageSelector";

@@ -14,6 +14,9 @@ export const GameContainer = createContainer(() => {
   const [signerAddress, setSignerAddress] = useState<string | undefined>(
     undefined
   );
+  const [network, setNetwork] = useState<ethers.providers.Network | undefined>(
+    undefined
+  );
   const [connectedWalletMethod, setConnectedWalletMethod] = useState<
     WalletConnectMethod | undefined
   >(
@@ -77,7 +80,7 @@ export const GameContainer = createContainer(() => {
         ethereum.on("chainChanged", async function () {
           window.location.reload();
         });
-
+        setNetwork(await provider.getNetwork());
         setConnectedWalletMethod_(WalletConnectMethod.MetaMask);
       } catch (error) {
         setConnectedWalletMethod_(undefined);
@@ -107,6 +110,7 @@ export const GameContainer = createContainer(() => {
 
       setConnectedWalletMethod_(WalletConnectMethod.WalletConnect);
       setWalletConnectProvider(walletConnectProvider);
+      setNetwork(await provider.getNetwork());
 
       provider.on("accountsChanged", () => {
         console.log("accountsChanged");
@@ -128,6 +132,11 @@ export const GameContainer = createContainer(() => {
     setSigner(undefined);
     setSignerAddress(undefined);
   }, [setConnectedWalletMethod_]);
+
+  const isCorrectNetwork = useCallback(() => {
+    // Only allow Ropsten Testnet for now
+    return network && network.chainId === 3;
+  }, [network]);
 
   useEffect(() => {
     window.addEventListener("resize", resize);
@@ -178,6 +187,7 @@ export const GameContainer = createContainer(() => {
     connectToMetaMask,
     connectToWalletConnect,
     disconnectWallet,
+    isCorrectNetwork,
     connectedWalletMethod,
   };
 });
