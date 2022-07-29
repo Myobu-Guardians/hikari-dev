@@ -12,6 +12,7 @@ module.exports = function override(config, env) {
     url: require.resolve("url"),
     assert: require.resolve("assert"),
     buffer: require.resolve("buffer"),
+    crypto: require.resolve("crypto-browserify"),
   };
 
   config.plugins.push(

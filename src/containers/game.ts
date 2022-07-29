@@ -4,6 +4,8 @@ import { BoardHeight, BoardWidth } from "../lib/constants";
 import { ethers, providers } from "ethers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { WalletConnectMethod } from "../lib/wallet";
+import { PlayerProfile } from "../lib/player";
+const identicon = require("identicon");
 
 export const GameContainer = createContainer(() => {
   const [zoom, setZoom] = useState<number>(1);
@@ -26,6 +28,9 @@ export const GameContainer = createContainer(() => {
   const [walletConnectProvider, setWalletConnectProvider] = useState<
     WalletConnectProvider | undefined
   >(undefined);
+  const [playerProfile, setPlayerProfile] = useState<PlayerProfile | undefined>(
+    undefined
+  );
 
   const resize = useCallback(() => {
     const orientation =
@@ -178,12 +183,31 @@ export const GameContainer = createContainer(() => {
     }
   }, [connectedWalletMethod, walletConnectProvider]);
 
+  useEffect(() => {
+    if (signer && signerAddress) {
+      identicon.generate(
+        { id: signerAddress, size: 150 },
+        (err: any, buffer: any) => {
+          if (err) throw err;
+          setPlayerProfile({
+            username: "Anonymous",
+            avatar: buffer,
+            walletAddress: signerAddress,
+          });
+        }
+      );
+    } else {
+      setPlayerProfile(undefined);
+    }
+  }, [signer, signerAddress]);
+
   return {
     zoom,
     resize,
     provider,
     signer,
     signerAddress,
+    playerProfile,
     connectToMetaMask,
     connectToWalletConnect,
     disconnectWallet,

@@ -31,3 +31,9 @@ export interface Player {
    */
   lockOfferingCardsInPlay: number;
 }
+
+export interface PlayerProfile {
+  username: string;
+  avatar: string;
+  walletAddress: string;
+}

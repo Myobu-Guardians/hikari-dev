@@ -22,6 +22,7 @@ export const jaJP = {
     "Connect Wallet": "ウォレットに接続",
     "Disconnect Wallet": "ウォレットから切断",
     "Wrong Network": "Ropsten Testnetに切り替えてください",
+    "Change Profile": "プロフィールを変更",
 
     "menu/invite-success": `邀請リンクをクリップボードにコピーしました！友達にシェアしてください！`,
     "menu/invite-fail-title": "Myobu 元宇宙に接続できませんでした",

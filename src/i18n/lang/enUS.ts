@@ -22,6 +22,7 @@ export const enUS = {
     "Connect Wallet": "Connect Wallet",
     "Disconnect Wallet": "Disconnect Wallet",
     "Wrong Network": "Please switch to Ropsten Testnet",
+    "Change Profile": "Change Profile",
 
     "menu/invite-success": `Invite link copied to clipboard. Share it with your friends!`,
     "menu/invite-fail-title": "Failed to connect to Myobu metaverse",

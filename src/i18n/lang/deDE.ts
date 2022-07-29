@@ -22,6 +22,7 @@ export const deDE = {
     "Connect Wallet": "Wallet verbinden",
     "Disconnect Wallet": "Wallet trennen",
     "Wrong Network": "Bitte wechsle zu Ropsten Testnetzwerk",
+    "Change Profile": "Profil ändern",
 
     "menu/invite-success": `Einladungslink zwischengespeichert. Teile ihn mit deinen Freunden!`,
     "menu/invite-fail-title": "Verbindung zum Myobu-Metaverse fehlgeschlagen.",

@@ -22,6 +22,7 @@ export const zhCN = {
     "Connect Wallet": "连接钱包",
     "Disconnect Wallet": "断开钱包",
     "Wrong Network": "请切换到 Ropsten 测试网络",
+    "Change Profile": "更改个人资料",
 
     "menu/invite-success": `邀请链接已复制到剪贴板，分享给好友吧！`,
     "menu/invite-fail-title": "无法连接到 Myobu 元宇宙",
