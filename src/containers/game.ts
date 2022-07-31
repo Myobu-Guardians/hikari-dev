@@ -234,6 +234,7 @@ export const GameContainer = createContainer(() => {
     signer,
     signerAddress,
     playerProfile,
+    network,
     connectToMetaMask,
     connectToWalletConnect,
     disconnectWallet,

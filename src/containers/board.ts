@@ -620,9 +620,9 @@ export const BoardContainer = createContainer(() => {
   }, [board.player?.gamePoints, board.opponent?.gamePoints]);
 
   useEffect(() => {
-    if (board && gameContainer.signerAddress) {
+    if (board && gameContainer.signerAddress && gameContainer.network) {
       let opponentId = "";
-      const playerId = `myobu-hikari-${gitCommit.hash}-${gameContainer.signerAddress}`;
+      const playerId = `myobu-hikari-${gameContainer.network.chainId}-${gitCommit.hash}-${gameContainer.signerAddress}`;
       const peer = new Korona({
         peerID: playerId,
         peerJSOptions: {},
@@ -771,7 +771,12 @@ export const BoardContainer = createContainer(() => {
         console.log("deconstrucing peer");
       }
     };
-  }, [board, toggleOfferingCard_, gameContainer.signerAddress]);
+  }, [
+    board,
+    toggleOfferingCard_,
+    gameContainer.signerAddress,
+    gameContainer.network,
+  ]);
 
   useEffect(() => {
     if (
