@@ -20,17 +20,55 @@ export default function ConnectToWallet() {
       >
         <label
           tabIndex={0}
-          className="btn btn-sm m-1"
+          className={
+            "btn btn-sm m-1 " +
+            (gameContainer.signerAddress && !gameContainer.isCorrectNetwork()
+              ? " btn-error normal-case"
+              : "")
+          }
           style={{
             fontSize: gameContainer.zoom * 10,
-            width: gameContainer.zoom * 120,
+            width: gameContainer.zoom * 128,
             height: gameContainer.zoom * 32,
           }}
           title={gameContainer.signerAddress || ""}
         >
-          {gameContainer.signerAddress
-            ? gameContainer.signerAddress.slice(0, 12) + "..."
-            : t("Connect Wallet")}
+          {gameContainer.signerAddress ? (
+            gameContainer.isCorrectNetwork() && gameContainer.playerProfile ? (
+              <div className="flex flex-row items-center text-left normal-case">
+                <img
+                  src={gameContainer.playerProfile.avatar}
+                  alt={gameContainer.playerProfile.username}
+                  style={{
+                    height: gameContainer.zoom * 20,
+                  }}
+                  className={"rounded-md mr-2"}
+                ></img>
+                <div className="flex flex-col items-start">
+                  <p
+                    style={{
+                      fontSize: gameContainer.zoom * 10,
+                    }}
+                  >
+                    {gameContainer.playerProfile.username}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: gameContainer.zoom * 8,
+                    }}
+                    className={"font-normal"}
+                  >
+                    {gameContainer.playerProfile.walletAddress.slice(0, 12) +
+                      "..."}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              t("Wrong Network")
+            )
+          ) : (
+            t("Connect Wallet")
+          )}
         </label>
         <ul
           tabIndex={0}
@@ -55,7 +93,7 @@ export default function ConnectToWallet() {
                 <div className={"flex flex-row items-center"}>
                   <img
                     src={MetaMaskLogo}
-                    style={{ height: "32px" }}
+                    style={{ height: gameContainer.zoom * 24 }}
                     className={"mr-2"}
                     alt={`MetaMask`}
                   />
@@ -80,7 +118,7 @@ export default function ConnectToWallet() {
               <div className={"flex flex-row items-center "}>
                 <img
                   src={WalletConnectLogo}
-                  style={{ height: "32px" }}
+                  style={{ height: gameContainer.zoom * 24 }}
                   className={"mr-2"}
                   alt={`WalletConnect`}
                 />
@@ -88,6 +126,7 @@ export default function ConnectToWallet() {
               </div>
             </label>
           </li>
+          <hr></hr>
           <li>
             <label
               onClick={() => {
@@ -98,7 +137,7 @@ export default function ConnectToWallet() {
               <div className="flex flex-row items-center">
                 <img
                   src={LogoutLogo}
-                  style={{ height: "32px" }}
+                  style={{ height: gameContainer.zoom * 24 }}
                   className={"mr-2"}
                   alt={`Disconnect Wallet`}
                 />
