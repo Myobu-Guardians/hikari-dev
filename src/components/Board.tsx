@@ -20,6 +20,7 @@ import Menu from "./Menu";
 import LanguageSelector from "./LanguageSelector";
 import { useTranslation } from "react-i18next";
 import ConnectToWallet from "./ConnectToWallet";
+import GameMatches from "./GameMatches";
 
 interface ModifySymbolProps {}
 function ModifySymbol(props: ModifySymbolProps) {
@@ -166,6 +167,9 @@ export default function Board() {
 
         {/* Game points */}
         <GamePoints />
+
+        {/* Game Matches */}
+        <GameMatches />
 
         {/* Board background */}
         <img

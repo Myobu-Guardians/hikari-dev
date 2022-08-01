@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@0xgg/korona@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@0xgg/korona/-/korona-0.0.3.tgz#347eec4e79aaaff3287a33dd24cf8811a7a91a7a"
-  integrity sha512-MTldz9te6IdsWXXnL6ZgsKjPXrFm25uBskmiBWWfOO99RkcGDH53p1QyNY4GEES8iVrilQEAbw4Jo3FuaYq/KA==
+"@0xgg/korona@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@0xgg/korona/-/korona-0.0.5.tgz#b4f31f24d1e3618daa420768f2251d05c95f5ec6"
+  integrity sha512-vveL/B633GR5mIpDE3gt2/YddPV/nQqfPhpyZKtqfl2/+rJLXzTKrlxsoJXvFxvj4aS3G1TRJRDbx3rd6d9qeA==
   dependencies:
     peerjs "^1.4.6"
 

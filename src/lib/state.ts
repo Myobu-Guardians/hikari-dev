@@ -1,4 +1,4 @@
-import { Player } from "./player";
+import { Player, PlayerProfileRole } from "./player";
 import { OfferingCard } from "./offering";
 import { SpellId } from "./spells";
 import { GitCommit } from "../git_commit";
@@ -86,4 +86,9 @@ export type GameStateAction =
       type: "SendMessage";
       from: string;
       message: string;
+    }
+  | {
+      type: "PlayAsRole";
+      role: PlayerProfileRole;
+      walletAddress: string;
     };
