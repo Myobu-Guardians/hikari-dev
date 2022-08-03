@@ -1,7 +1,9 @@
-import { Player, PlayerProfileRole } from "./player";
+import { Player, PlayerProfile, PlayerProfileRole } from "./player";
 import { OfferingCard } from "./offering";
 import { SpellId } from "./spells";
 import { GitCommit } from "../git_commit";
+
+export type GameMode = "remote" | "local";
 
 export type GameBoardState = {
   id: string;
@@ -11,6 +13,7 @@ export type GameBoardState = {
   usedOfferingCards: OfferingCard[];
   playerA: Player;
   playerB: Player;
+  gameMode: GameMode;
 };
 
 export type GameStateAction =
@@ -24,7 +27,8 @@ export type GameStateAction =
     }
   | {
       type: "StartGame";
-      walletAddress?: string;
+      lightPlayer: PlayerProfile;
+      darkPlayer: PlayerProfile;
     }
   | {
       type: "CreateBoard";
@@ -91,4 +95,13 @@ export type GameStateAction =
       type: "PlayAsRole";
       role: PlayerProfileRole;
       walletAddress: string;
+    }
+  | {
+      type: "InitializePrivateRoom";
+      players: PlayerProfile[];
+      board?: GameBoardState;
+    }
+  | {
+      type: "PlayerJoinedRoom";
+      player: PlayerProfile;
     };

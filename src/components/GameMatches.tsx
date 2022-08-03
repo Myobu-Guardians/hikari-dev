@@ -1,11 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import PrivateMatchModal from "./PrivateMatchModal";
 
 export default function GameMatches() {
   const { t } = useTranslation();
   const gameContainer = GameContainer.useContainer();
+  const boardContainer = BoardContainer.useContainer();
 
   return gameContainer.playerProfile ? (
     <div
@@ -26,27 +28,28 @@ export default function GameMatches() {
       >
         {t("Private Match")}
       </label>
-      <button
-        className="btn btn-secondary font-sans text-white"
-        disabled={true}
-        style={{
-          fontSize: gameContainer.zoom * 10,
-          width: gameContainer.zoom * 110,
-          height: gameContainer.zoom * 24,
-          color: "#fff",
-        }}
-      >
-        {t("Public Match")}
-        <span
-          className="text-red-400"
+      {boardContainer.board?.gameMode === "local" ? (
+        <button
+          className="btn btn-secondary font-sans text-white"
+          disabled={true}
           style={{
-            fontSize: gameContainer.zoom * 8,
+            fontSize: gameContainer.zoom * 10,
+            width: gameContainer.zoom * 110,
+            height: gameContainer.zoom * 24,
+            color: "#fff",
           }}
         >
-          {" (" + t("Comming Soon") + ")"}
-        </span>
-      </button>
-
+          {t("Public Match")}
+          <span
+            className="text-red-400"
+            style={{
+              fontSize: gameContainer.zoom * 8,
+            }}
+          >
+            {" (" + t("Comming Soon") + ")"}
+          </span>
+        </button>
+      ) : null}
       <PrivateMatchModal></PrivateMatchModal>
     </div>
   ) : null;

@@ -148,9 +148,9 @@ export const GameContainer = createContainer(() => {
    * Get the player profile from the signer address by ENS (Ethereum Name Service)
    */
   const getPlayerProfileFromWalletAddress = useCallback(
-    async (walletAddress: string) => {
+    async (walletAddress: string): Promise<PlayerProfile | undefined> => {
       if (!isCorrectNetwork() || !walletAddress || !provider) {
-        return;
+        return undefined;
       } else {
         const username = (await provider.lookupAddress(walletAddress)) || "";
         const avatar =

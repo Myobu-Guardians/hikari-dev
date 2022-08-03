@@ -67,6 +67,7 @@ export default function PrivateMatchModal() {
   }, [boardContainer.isInPrivateMatchRoom]);
 
   useEffect(() => {
+    console.log("* boardContainer.playersInRoom", boardContainer.playersInRoom);
     const lightPlayers = boardContainer.playersInRoom.filter(
       (playerProfile) => playerProfile.role === PlayerProfileRole.LightPlayer
     );
@@ -184,7 +185,7 @@ export default function PrivateMatchModal() {
                   }}
                 >
                   <p className="mb-2 rounded-md font-bold text-lg">
-                    {t("Viewers")}
+                    {t("Spectators")}
                   </p>
                   <div>
                     {viewers.length > 0 ? (
@@ -202,11 +203,20 @@ export default function PrivateMatchModal() {
                   </div>
                 </div>
                 <div className="mt-4">
-                  {boardContainer.peer && boardContainer.peer.isPubSubHost() ? (
+                  {boardContainer.peer && boardContainer.peer.isPubsubHost() ? (
                     lightPlayers.length === 1 && darkPlayers.length === 1 ? (
-                      <button className="btn btn-primary float-right">
+                      <label
+                        className="btn btn-primary float-right"
+                        htmlFor="private-match-modal"
+                        onClick={() => {
+                          boardContainer.startMatchInPrivateMatchRoom(
+                            lightPlayers[0],
+                            darkPlayers[0]
+                          );
+                        }}
+                      >
                         {t("Start match")}
-                      </button>
+                      </label>
                     ) : (
                       <p className="float-right">
                         {t("Waiting for light and dark players to get ready")}
@@ -247,7 +257,7 @@ export default function PrivateMatchModal() {
                     }}
                     disabled={isJoiningRoom}
                   >
-                    {isJoiningRoom ? t("Joining...") : t("Create or join")}
+                    {isJoiningRoom ? t("Joining...") : t("Join")}
                   </button>
                 </div>
               </div>

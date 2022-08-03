@@ -1,4 +1,4 @@
-import { randomID } from "@0xgg/korona";
+import { randomId } from "@0xgg/korona";
 
 export const BoardWidth = 1024;
 export const BoardHeight = 510;
@@ -58,8 +58,6 @@ export const KitsuneCardSymbolSize = 24;
 
 export const BoardGamePointsLeft = 950;
 export const BoardGamePointsTop = 190;
-
-export const PlayerId = randomID();
 
 // Spells related
 export const Tail6LightHidePlayerKitsuneCardsTurns = 4;
