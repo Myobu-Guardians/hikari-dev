@@ -23,6 +23,9 @@ export const deDE = {
     "Disconnect Wallet": "Wallet trennen",
     "Wrong Network": "Bitte wechsle zu Ropsten Testnetzwerk",
     "Change Profile": "Profil ändern",
+    "Private Match": "Privates Spiel",
+    "Public Match": "Öffentliches Spiel",
+    "Coming Soon": "Bald Verfügbar",
 
     "menu/invite-success": `Einladungslink zwischengespeichert. Teile ihn mit deinen Freunden!`,
     "menu/invite-fail-title": "Verbindung zum Myobu-Metaverse fehlgeschlagen.",
@@ -95,5 +98,21 @@ export const deDE = {
 
     // Settings
     "kitsune-card-font": "Kitsune-Karten Schriftart",
+
+    // Private match
+    Room: "Raum",
+    "Room name": "Raumname",
+    "Leave room": "Raum verlassen",
+    None: "Keiner",
+    Spectators: "Zuschauer",
+    "Back to match": "Zurück zum Spiel",
+    "Watch match": "Spiel beobachten",
+    "Start match": "Spiel starten",
+    "match/waiting_for_players":
+      "Warte auf weitere Spieler, um das Spiel zu starten",
+    "match/waiting_for_host_to_start":
+      "Warte auf den Host, um das Spiel zu starten",
+    Join: "Beitreten",
+    Joining: "Beitreten",
   },
 };

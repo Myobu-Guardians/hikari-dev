@@ -14,7 +14,7 @@ function PlayerProfileListItem({
   const gameContainer = GameContainer.useContainer();
   return (
     <div
-      className="flex flex-row items-center text-left normal-case"
+      className="flex flex-row items-center text-left normal-case mb-2"
       key={playerProfile.walletAddress}
     >
       <img
@@ -96,7 +96,7 @@ export default function PrivateMatchModal() {
         <label htmlFor="private-match-modal" className="modal font-sans">
           <label className="modal-box relative pb-10" htmlFor="">
             <div className="flex flex-row items-center justify-between text-xl font-bold mb-4">
-              <h3 className="mb-2">{t("Private match")}</h3>
+              <h3 className="mb-2">{t("Private Match")}</h3>
               {boardContainer.isInPrivateMatchRoom ? (
                 <label
                   className="btn btn-secondary"
@@ -232,14 +232,10 @@ export default function PrivateMatchModal() {
                         {t("Start match")}
                       </label>
                     ) : (
-                      <p className="">
-                        {t("Waiting for light and dark players to get ready")}
-                      </p>
+                      <p className="">{t("match/waiting_for_players")}</p>
                     )
                   ) : (
-                    <p className="">
-                      {t("Waiting for room host to start match")}
-                    </p>
+                    <p className="">{t("match/waiting_for_host_to_start")}</p>
                   )}
                 </div>
               </div>
@@ -271,7 +267,7 @@ export default function PrivateMatchModal() {
                     }}
                     disabled={isJoiningRoom}
                   >
-                    {isJoiningRoom ? t("Joining...") : t("Join")}
+                    {isJoiningRoom ? t("Joining") + "..." : t("Join")}
                   </button>
                 </div>
               </div>

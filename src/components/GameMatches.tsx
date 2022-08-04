@@ -47,7 +47,7 @@ export default function GameMatches() {
               fontSize: gameContainer.zoom * 8,
             }}
           >
-            {" (" + t("Comming Soon") + ")"}
+            {" (" + t("Coming Soon") + ")"}
           </span>
         </button>
       ) : (

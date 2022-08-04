@@ -23,6 +23,9 @@ export const zhCN = {
     "Disconnect Wallet": "断开钱包",
     "Wrong Network": "请切换到 Ropsten 测试网络",
     "Change Profile": "更改个人资料",
+    "Private Match": "私人比赛",
+    "Public Match": "公开比赛",
+    "Coming Soon": "即将开放",
 
     "menu/invite-success": `邀请链接已复制到剪贴板，分享给好友吧！`,
     "menu/invite-fail-title": "无法连接到 Myobu 元宇宙",
@@ -91,5 +94,19 @@ export const zhCN = {
 
     // Settings
     "kitsune-card-font": "妖狐卡字体",
+
+    // Private match
+    Room: "房间",
+    "Room name": "房间名称",
+    "Leave room": "离开房间",
+    None: "无",
+    Spectators: "观看者",
+    "Back to match": "返回比赛",
+    "Watch match": "观看比赛",
+    "Start match": "开始比赛",
+    "match/waiting_for_players": "等待玩家加入比赛，请稍候...",
+    "match/waiting_for_host_to_start": "等待主机开始比赛，请稍候...",
+    Join: "加入",
+    Joining: "加入中",
   },
 };

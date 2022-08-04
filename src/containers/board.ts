@@ -16,6 +16,7 @@ import { Player, PlayerProfile, PlayerProfileRole } from "../lib/player";
 import { gitCommit } from "../git_commit";
 import { GameContainer } from "./game";
 import { toastrMessage } from "../lib/utils";
+import { useTranslation } from "react-i18next";
 
 export const BoardContainer = createContainer(() => {
   const [peer, setPeer] = useState<Korona | null>(null);
@@ -56,6 +57,7 @@ export const BoardContainer = createContainer(() => {
     useState<boolean>(false);
   const [playersInRoom, setPlayersInRoom] = useState<PlayerProfile[]>([]);
   const [isPlayingGame, setIsPlayingGame] = useState<boolean>(false);
+  const { t } = useTranslation();
   const gameContainer = GameContainer.useContainer();
 
   const resetState = useCallback(() => {
@@ -970,15 +972,19 @@ export const BoardContainer = createContainer(() => {
       };
       const onPeerLeft = async (peerId: string) => {
         console.log("peer left: ", peerId);
+        const profile = playersInRoom.find((p) => p.peerId === peerId);
         setPlayersInRoom((players) => {
           return players.filter((p) => p.peerId !== peerId);
         });
-        if (peerId === playerId) {
-          setPlayerId("");
+        if (
+          profile?.walletAddress !== gameContainer.signerAddress &&
+          (profile?.walletAddress === playerId ||
+            profile?.walletAddress === opponentId)
+        ) {
           // alert("You are disconnected from the Myobu metaverse");
-        } else if (peerId === opponentId) {
-          setOpponentId("");
-          // alert(`Your opponent ${opponentId} left`);
+          alert(
+            `Player ${profile ? `${profile.walletAddress} ` : ""}left the room`
+          );
         }
       };
 
