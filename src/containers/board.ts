@@ -686,7 +686,6 @@ export const BoardContainer = createContainer(() => {
             type: "CreateBoard",
             board: boardState,
           };
-          console.log(action);
           peer.broadcast(action);
           setBoardStates([boardState]);
         }
@@ -866,19 +865,6 @@ export const BoardContainer = createContainer(() => {
     }
   }, [board]);
 
-  /**
-  useEffect(() => {
-    if (peer && typeof gameContainer.signerAddress !== "undefined") {
-      console.log("SetWalletAddress: ", gameContainer.signerAddress);
-      const action: GameStateAction = {
-        type: "SetWalletAddress",
-        walletAddress: gameContainer.signerAddress,
-      };
-      peer.broadcast(action);
-    }
-  }, [peer, gameContainer.signerAddress]);
-  */
-
   useEffect(() => {
     if (peer && peer.id && board) {
       const onData = async (data: any) => {
@@ -931,7 +917,6 @@ export const BoardContainer = createContainer(() => {
                 player: myProfile,
               };
 
-              console.log("broadcast: ", stateAction);
               peer.broadcast(stateAction);
             }
 
@@ -1014,21 +999,17 @@ export const BoardContainer = createContainer(() => {
 
   useEffect(() => {
     const boardState = boardStates[boardStates.length - 1];
-    console.log("* boardState: ", boardState);
     if (board && gameContainer.signerAddress && boardState) {
       if (boardState.playerA.id === gameContainer.signerAddress) {
-        console.log("** conditation 1");
         setPlayerId(boardState.playerA.id);
         setOpponentId(boardState.playerB.id);
         setIsPlayingGame(true);
       } else if (boardState.playerB.id === gameContainer.signerAddress) {
-        console.log("** conditation 2");
         setPlayerId(boardState.playerB.id);
         setOpponentId(boardState.playerA.id);
         setIsPlayingGame(true);
       } else {
         // Spectator
-        console.log("** conditation 3");
         setPlayerId("");
         setOpponentId("");
         setIsPlayingGame(false);
