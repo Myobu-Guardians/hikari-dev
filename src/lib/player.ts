@@ -32,8 +32,16 @@ export interface Player {
   lockOfferingCardsInPlay: number;
 }
 
+export enum PlayerProfileRole {
+  Viewer = "Viewer",
+  LightPlayer = "LightPlayer",
+  DarkPlayer = "DarkPlayer",
+}
+
 export interface PlayerProfile {
   username: string;
   avatar: string;
   walletAddress: string;
+  peerId?: string;
+  role?: PlayerProfileRole;
 }

@@ -23,6 +23,9 @@ export const enUS = {
     "Disconnect Wallet": "Disconnect Wallet",
     "Wrong Network": "Please switch to Ropsten Testnet",
     "Change Profile": "Change Profile",
+    "Private Match": "Private Match",
+    "Public Match": "Public Match",
+    "Coming Soon": "Coming Soon",
 
     "menu/invite-success": `Invite link copied to clipboard. Share it with your friends!`,
     "menu/invite-fail-title": "Failed to connect to Myobu metaverse",
@@ -95,5 +98,20 @@ export const enUS = {
 
     // Settings
     "kitsune-card-font": "Kitsune card font",
+
+    // Private match
+    Room: "Room",
+    "Room name": "Room name",
+    "Leave room": "Leave room",
+    None: "None",
+    Spectators: "Spectators",
+    "Back to match": "Back to match",
+    "Watch match": "Watch match",
+    "Start match": "Start match",
+    "match/waiting_for_players":
+      "Waiting for light and dark players to get ready",
+    "match/waiting_for_host_to_start": "Waiting for room host to start match",
+    Join: "Join",
+    Joining: "Joining",
   },
 };

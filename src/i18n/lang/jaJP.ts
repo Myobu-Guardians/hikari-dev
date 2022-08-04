@@ -23,6 +23,9 @@ export const jaJP = {
     "Disconnect Wallet": "ウォレットから切断",
     "Wrong Network": "Ropsten Testnetに切り替えてください",
     "Change Profile": "プロフィールを変更",
+    "Private Match": "プライベートマッチ",
+    "Public Match": "パブリックマッチ",
+    "Coming Soon": "すぐに公開します",
 
     "menu/invite-success": `邀請リンクをクリップボードにコピーしました！友達にシェアしてください！`,
     "menu/invite-fail-title": "Myobu 元宇宙に接続できませんでした",
@@ -92,5 +95,24 @@ export const jaJP = {
     "spells/tail-7-dark": `敵が${Tail7DarkLockedOfferingCardsNum}オファリングを${Tail7DarkLockedOfferingCardsTurns}ターンに使用するのを防ぎます`,
     "spells/tail-8-dark": "敵は3ポイントを失います",
     "spells/tail-9-dark": `対象のカードをオーナーの手札に戻し、${Tail9DarkLockEnemyKitsuneCardsturns}ターンの間ロックする`,
+
+    // Settings
+    "kitsune-card-font": "キツネカードのフォント",
+
+    // Private match
+    Room: "ルーム",
+    "Room name": "ルーム名",
+    "Leave room": "ルームを退出する",
+    None: "なし",
+    Spectators: "観客",
+    "Back to match": "対戦に戻る",
+    "Watch match": "対戦を観る",
+    "Start match": "対戦を開始する",
+    "match/waiting_for_players":
+      "プレイヤーが全員が参加しているのを待っています。",
+    "match/waiting_for_host_to_start":
+      "ホストが対戦を開始するのを待っています。",
+    Join: "参加",
+    Joining: "参加中",
   },
 };

@@ -23,6 +23,9 @@ export const esES = {
     "Disconnect Wallet": "Desconecta tu monedero",
     "Wrong Network": "Por favor, cambia a la red de pruebas de Ropsten",
     "Change Profile": "Cambia tu perfil",
+    "Private Match": "Partida privada",
+    "Public Match": "Partida pública",
+    "Coming Soon": "Próximamente",
 
     "menu/invite-success": `link de invitación copiado en portapapeles. Compartelo con tus amigos!`,
     "menu/invite-fail-title": "Fallo de conexión al Metaverso de MYOBU",
@@ -95,5 +98,19 @@ export const esES = {
 
     // Settings
     "kitsune-card-font": "Fuente de cartas Kitsune",
+
+    // Private match
+    Room: "Sala",
+    "Room name": "Nombre de la sala",
+    "Leave room": "Salir de la sala",
+    None: "Ninguno",
+    Spectators: "Espectadores",
+    "Back to match": "Volver a la partida",
+    "Watch match": "Ver partida",
+    "Start match": "Iniciar partida",
+    "match/waiting_for_players": "Esperando a que los jugadores se conecten",
+    "match/waiting_for_host_to_start": "Esperando al host para iniciar",
+    Join: "Unirse",
+    Joining: "Uniéndose",
   },
 };

@@ -20,6 +20,7 @@ import Menu from "./Menu";
 import LanguageSelector from "./LanguageSelector";
 import { useTranslation } from "react-i18next";
 import ConnectToWallet from "./ConnectToWallet";
+import GameMatches from "./GameMatches";
 
 interface ModifySymbolProps {}
 function ModifySymbol(props: ModifySymbolProps) {
@@ -167,6 +168,9 @@ export default function Board() {
         {/* Game points */}
         <GamePoints />
 
+        {/* Game Matches */}
+        <GameMatches />
+
         {/* Board background */}
         <img
           src={HikariBoard}
@@ -204,38 +208,8 @@ export default function Board() {
             >
               {gameContainer.signerAddress
                 ? gameContainer.signerAddress.slice(0, 12) + "..."
-                : boardContainer.playerId
-                ? `${t("board/wallet-not-connected")}`
-                : t("board/connecting")}
+                : `${t("board/wallet-not-connected")}`}
             </div>
-            {boardContainer.playerId &&
-              boardContainer.board.gameMode === "remote" && (
-                <div>
-                  <input
-                    type="text"
-                    className="input absolute right-2 input-bordered input-ghost border-orange-500 text-white font-sans"
-                    style={{
-                      fontSize: gameContainer.zoom * 12,
-                      width: gameContainer.zoom * 128,
-                      height: gameContainer.zoom * 36,
-                      bottom: gameContainer.zoom * 36,
-                      borderWidth: gameContainer.zoom * 2,
-                    }}
-                    placeholder={t("Send message")}
-                    value={message}
-                    onChange={(event) => {
-                      setMessage(event.target.value);
-                    }}
-                    onKeyDown={(event) => {
-                      if (event.which === 13 && message.length) {
-                        // Pressed enter key
-                        boardContainer.sendMessage(message);
-                        setMessage("");
-                      }
-                    }}
-                  ></input>
-                </div>
-              )}
           </>
         )}
         {/* Opponent */}

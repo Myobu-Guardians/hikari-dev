@@ -148,12 +148,11 @@ export const GameContainer = createContainer(() => {
    * Get the player profile from the signer address by ENS (Ethereum Name Service)
    */
   const getPlayerProfileFromWalletAddress = useCallback(
-    async (walletAddress: string) => {
+    async (walletAddress: string): Promise<PlayerProfile | undefined> => {
       if (!isCorrectNetwork() || !walletAddress || !provider) {
-        return;
+        return undefined;
       } else {
-        const username =
-          (await provider.lookupAddress(walletAddress)) || "Anonymous";
+        const username = (await provider.lookupAddress(walletAddress)) || "";
         const avatar =
           (await provider.getAvatar(walletAddress)) ||
           (await new Promise((resolve, reject) => {
@@ -218,6 +217,21 @@ export const GameContainer = createContainer(() => {
   useEffect(() => {
     if (signer && signerAddress) {
       (async () => {
+        // Set default player profile
+        setPlayerProfile({
+          avatar: await new Promise((resolve, reject) => {
+            identicon.generate(
+              { id: signerAddress, size: 150 },
+              (err: any, buffer: any) => {
+                if (err) return resolve("");
+                else return resolve(buffer);
+              }
+            );
+          }),
+          username: "",
+          walletAddress: signerAddress,
+        });
+        // Retrieve from ENS
         setPlayerProfile(
           await getPlayerProfileFromWalletAddress(signerAddress)
         );
@@ -240,5 +254,6 @@ export const GameContainer = createContainer(() => {
     disconnectWallet,
     isCorrectNetwork,
     connectedWalletMethod,
+    getPlayerProfileFromWalletAddress,
   };
 });

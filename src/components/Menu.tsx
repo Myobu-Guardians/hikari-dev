@@ -44,25 +44,6 @@ export default function Menu() {
             <label htmlFor="help-modal">{t("Game rules")}</label>
           </li>
           <li>
-            <label
-              onClick={() => {
-                if (boardContainer.playerId) {
-                  const url = new URL(window.location.href);
-                  url.search = `?peerId=${boardContainer.playerId}`;
-                  copyToClipboard(url.toString());
-                  toastr.success(t(`menu/invite-success`), `${url}`);
-                } else {
-                  toastr.warning(
-                    t("menu/invite-fail-message"),
-                    t("menu/invite-fail-title")
-                  );
-                }
-              }}
-            >
-              {t("Play with friends")}
-            </label>
-          </li>
-          <li>
             <label htmlFor="cards-modal">{t("Card library")}</label>
           </li>
           <li>

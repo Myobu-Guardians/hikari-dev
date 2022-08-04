@@ -1,3 +1,6 @@
+import { PlayerProfile } from "./player";
+import toastr from "toastr";
+
 export function asciiStringToNumber(str: string): number {
   let num = 0;
   for (let i = 0; i < str.length; i++) {
@@ -40,4 +43,19 @@ export function copyToClipboard(text: string) {
     document.execCommand("copy");
     document.body.removeChild(textArea);
   }
+}
+
+export function toastrMessage(message: string, from: PlayerProfile) {
+  toastr.info(
+    message,
+    `<div class="flex flex-row items-center">
+      <img style="height:32px" src="${from.avatar}" class="rounded-md mr-2">
+      <div class="flex flex-col">
+        <div><strong style="font-size:16px;">${from.username}</strong></div>
+        <div style="font-size:12px;">${
+          from.walletAddress.slice(0, 12) + "..."
+        }</div>
+      </div>
+    </div>`
+  );
 }

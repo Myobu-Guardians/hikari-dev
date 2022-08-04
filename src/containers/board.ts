@@ -1,20 +1,22 @@
 import { useCallback, useEffect, useState } from "react";
 import { createContainer } from "unstated-next";
 import { GameBoard } from "../lib/board";
-import { NumOfKitsuneCardsInPlay, PlayerId } from "../lib/constants";
+import { NumOfKitsuneCardsInPlay } from "../lib/constants";
 import { KitsuneCard } from "../lib/kitsune";
 import {
   OfferingCard,
   OfferingCardType,
   OfferingSymbol,
 } from "../lib/offering";
-import { Korona } from "@0xgg/korona";
+import { Korona, randomId } from "@0xgg/korona";
 import { GameBoardState, GameStateAction } from "../lib/state";
 import toastr from "toastr";
 import { canCastSpell } from "../lib/spellFn";
-import { Player } from "../lib/player";
+import { Player, PlayerProfile, PlayerProfileRole } from "../lib/player";
 import { gitCommit } from "../git_commit";
 import { GameContainer } from "./game";
+import { toastrMessage } from "../lib/utils";
+import { useTranslation } from "react-i18next";
 
 export const BoardContainer = createContainer(() => {
   const [peer, setPeer] = useState<Korona | null>(null);
@@ -51,6 +53,11 @@ export const BoardContainer = createContainer(() => {
     useState<KitsuneCard | null>(null);
   const [playerId, setPlayerId] = useState<string>("");
   const [opponentId, setOpponentId] = useState<string>("");
+  const [isInPrivateMatchRoom, setIsInPrivateMatchRoom] =
+    useState<boolean>(false);
+  const [playersInRoom, setPlayersInRoom] = useState<PlayerProfile[]>([]);
+  const [isPlayingGame, setIsPlayingGame] = useState<boolean>(false);
+  const { t } = useTranslation();
   const gameContainer = GameContainer.useContainer();
 
   const resetState = useCallback(() => {
@@ -80,7 +87,7 @@ export const BoardContainer = createContainer(() => {
         playerId: playerId,
         board: boardState,
       };
-      peer.send(stateAction);
+      peer.broadcast(stateAction);
     }
     if (boardState) {
       setBoardStates((states) => [...states, boardState]);
@@ -118,7 +125,7 @@ export const BoardContainer = createContainer(() => {
           type: "ClickOfferingCard",
           cardId: offeringCard.id,
         };
-        peer.send(action);
+        peer.broadcast(action);
       }
     },
     [peer, toggleOfferingCard_]
@@ -224,19 +231,21 @@ export const BoardContainer = createContainer(() => {
   const sendMessage = useCallback(
     (message: string) => {
       if (peer) {
-        const sender = gameContainer.signerAddress
-          ? gameContainer.signerAddress.slice(0, 12) + "..."
-          : playerId;
-        const action: GameStateAction = {
-          type: "SendMessage",
-          from: sender,
-          message,
-        };
-        peer.send(action);
-        toastr.info(message, sender);
+        const myProfile = playersInRoom.find(
+          (player) => player.walletAddress === gameContainer.signerAddress
+        );
+        if (myProfile) {
+          const action: GameStateAction = {
+            type: "SendMessage",
+            from: myProfile,
+            message,
+          };
+          peer.broadcast(action);
+          toastrMessage(message, myProfile);
+        }
       }
     },
-    [peer, playerId, gameContainer.signerAddress]
+    [peer, playersInRoom, gameContainer.signerAddress]
   );
 
   const castSpell = useCallback(
@@ -571,6 +580,136 @@ export const BoardContainer = createContainer(() => {
     }
   }, [boardStates]);
 
+  const joinPrivateMatchRoom = useCallback(
+    (roomName: string) => {
+      if (
+        board &&
+        gameContainer.signerAddress &&
+        gameContainer.network &&
+        gameContainer.playerProfile
+      ) {
+        const prefix = `myobu-hikari-${
+          gameContainer.network.chainId
+        }-${gitCommit.hash.slice(0, 6)}-private`;
+        const roomId = `${prefix}-${roomName}`;
+        const myId = `${prefix}-${randomId()}`;
+        const playerProfile = gameContainer.playerProfile;
+
+        const peer = new Korona({
+          peerId: myId, // Reuse the same Id might cause the versionVectors bug
+          roomId: roomId,
+          peerJSOptions: {},
+          maxPeers: 5,
+        });
+
+        peer.on("open", async (peerId) => {
+          console.log("peer opened");
+          (window as any)["peer"] = peer;
+          setPeer(peer);
+          const myProfile: PlayerProfile = Object.assign(playerProfile, {
+            role: PlayerProfileRole.Viewer,
+            peerId: peerId,
+          });
+          setPlayersInRoom([myProfile]);
+        });
+      }
+      return () => {
+        if (board) {
+          console.log("deconstrucing peer");
+        }
+      };
+    },
+    [
+      board,
+      gameContainer.signerAddress,
+      gameContainer.network,
+      gameContainer.playerProfile,
+    ]
+  );
+
+  const leavePrivateMatchRoom = useCallback(() => {
+    if (peer) {
+      peer.destroy();
+      setPeer(null);
+
+      if (board) {
+        board.initializeBoardForLocalPlay();
+        const state = board.saveState();
+        if (state) {
+          setBoardStates([state]);
+        }
+      }
+    }
+  }, [peer, board]);
+
+  const playAsRoleInPrivateMatchRoom = useCallback(
+    (role: PlayerProfileRole) => {
+      if (peer && gameContainer.signerAddress && board.gameMode === "local") {
+        peer.broadcast({
+          type: "PlayAsRole",
+          role: role,
+          walletAddress: gameContainer.signerAddress,
+        });
+
+        setPlayersInRoom((playerProfiles) => {
+          const self = playerProfiles.find(
+            (p) => p.walletAddress === gameContainer.signerAddress
+          );
+          if (self) {
+            self.role = role;
+          }
+          return [...playerProfiles];
+        });
+      }
+    },
+    [peer, gameContainer.signerAddress, board]
+  );
+
+  const startMatchInPrivateMatchRoom = useCallback(
+    (lightPlayer: PlayerProfile, darkPlayer: PlayerProfile) => {
+      if (peer && board) {
+        if (!peer.isPubsubHost()) {
+          return toastr.error("Only host can start match");
+        }
+
+        board.initializeBoardForPvP(
+          lightPlayer.walletAddress,
+          darkPlayer.walletAddress,
+          lightPlayer.walletAddress,
+          darkPlayer.walletAddress
+        );
+        const boardState = board.saveState();
+        if (!boardState) {
+          alert("Failed to initialize remote game");
+        } else {
+          const action: GameStateAction = {
+            type: "CreateBoard",
+            board: boardState,
+          };
+          peer.broadcast(action);
+          setBoardStates([boardState]);
+        }
+      }
+    },
+    [peer, board]
+  );
+
+  useEffect(() => {
+    setIsInPrivateMatchRoom(
+      !!(
+        peer &&
+        peer.id &&
+        gameContainer.network &&
+        peer.id.startsWith(
+          `myobu-hikari-${gameContainer.network.chainId}-${gitCommit.hash.slice(
+            0,
+            6
+          )}-private`
+        )
+      )
+    );
+  }, [peer, gameContainer.network]);
+
   useEffect(() => {
     (window as any)["board"] = board;
   }, [board]);
@@ -618,165 +757,6 @@ export const BoardContainer = createContainer(() => {
   useEffect(() => {
     // TODO: game over
   }, [board.player?.gamePoints, board.opponent?.gamePoints]);
-
-  useEffect(() => {
-    if (board && gameContainer.signerAddress && gameContainer.network) {
-      let opponentId = "";
-      const playerId = `myobu-hikari-${gameContainer.network.chainId}-${gitCommit.hash}-${gameContainer.signerAddress}`;
-      const peer = new Korona({
-        peerID: playerId,
-        peerJSOptions: {},
-        maxPeers: 5,
-        onOpen() {
-          console.log("peer opened");
-          setPlayerId(playerId);
-          const targetPeerIDMatch =
-            window.location.search.match(/peerId=(.+)$/);
-          if (targetPeerIDMatch) {
-            const targetPeerId = targetPeerIDMatch[1];
-            peer.requestConnection(targetPeerId);
-            setOpponentId(targetPeerId);
-            opponentId = targetPeerId;
-          }
-
-          (window as any)["peer"] = peer;
-          setPeer(peer);
-        },
-        onData(data: any, connection) {
-          console.log("received data: ", data, connection.peer);
-          if ("type" in data) {
-            const stateAction = data as GameStateAction;
-            if (stateAction.type === "CreateBoard") {
-              const boardState = stateAction.board;
-              board.loadState(boardState);
-              setTurns(board.turns);
-              setBoardId(board.id);
-              setBoardStates([boardState]);
-            } else if (stateAction.type === "CheckGameVersion") {
-              if (stateAction.gitCommit.hash !== gitCommit.hash) {
-                peer.send({
-                  type: "GameVersionsMismatch",
-                  gitCommit: gitCommit,
-                });
-                alert("Game version is out of date. Please refresh the page.");
-              } else {
-                peer.send({
-                  type: "StartGame",
-                });
-              }
-            } else if (stateAction.type === "GameVersionsMismatch") {
-              alert("Game version is out of date. Please refresh the page.");
-              // TODO: probably don't need to do this ^^
-            } else if (stateAction.type === "StartGame") {
-              console.log("initialize remote game");
-              board.initializeBoardForPvP(
-                playerId,
-                opponentId,
-                gameContainer.signerAddress,
-                stateAction.walletAddress
-              );
-              const boardState = board.saveState();
-              if (boardState === null) {
-                alert("Failed to initialize remote game");
-              } else {
-                setBoardStates([boardState]);
-                const action: GameStateAction = {
-                  type: "CreateBoard",
-                  board: boardState,
-                };
-                console.log(action);
-                peer.send(action);
-
-                setTurns(0);
-                setBoardId(boardState.id);
-              }
-            } else if (stateAction.type === "UpdateBoard") {
-              // TODO: Validate it is the right user
-              const boardState = stateAction.board;
-              board.loadState(boardState);
-              setTurns(board.turns);
-              setBoardId(board.id);
-              setBoardStates((states) => [...states, boardState]);
-            } else if (stateAction.type === "SendMessage") {
-              toastr.info(stateAction.message, stateAction.from, {
-                timeOut: 8000,
-              });
-            } else if (stateAction.type === "ClickOfferingCard") {
-              const offeringCard = board.offeringCardsInPlay.find(
-                (c) => c.id === stateAction.cardId
-              );
-              if (offeringCard) {
-                toggleOfferingCard_(offeringCard);
-              }
-            } else if (stateAction.type === "SetWalletAddress") {
-            }
-          }
-        },
-        onDisconnected() {
-          console.log("peer disconnected");
-        },
-        onPeerJoined(peerId) {
-          console.log("peer joined: ", peerId, peer.network);
-          if (peer.network.length === 1) {
-            // Yourself
-          } else if (peer.network.length === 2) {
-            // Opponent joined
-            if (!opponentId && peerId !== playerId) {
-              opponentId = peerId;
-              setOpponentId(opponentId);
-
-              const stateAction: GameStateAction = {
-                type: "CheckGameVersion",
-                gitCommit: gitCommit,
-              };
-
-              peer.send(stateAction);
-            }
-          } else {
-            // Viewer joined
-          }
-        },
-        onPeerLeft(peerId) {
-          console.log("peer left: ", peerId);
-          if (peerId === playerId) {
-            setPlayerId("");
-            alert("You are disconnected from the Myobu metaverse");
-          } else if (peerId === opponentId) {
-            setOpponentId("");
-            alert(`Your opponent ${opponentId} left`);
-          }
-        },
-        createDataForInitialSync() {
-          console.log("createDataForInitialSync: ", peer.network.length);
-          if (peer.network.length === 2) {
-            // opponent
-            const stateAction: GameStateAction = {
-              type: "CheckGameVersion",
-              gitCommit: gitCommit,
-            };
-            return stateAction;
-          } else {
-            // viewers
-            const boardState = board.saveState();
-            return {
-              type: "CreateBoard",
-              board: boardState,
-            };
-          }
-        },
-      });
-    }
-    return () => {
-      if (board) {
-        console.log("deconstrucing peer");
-      }
-    };
-  }, [
-    board,
-    toggleOfferingCard_,
-    gameContainer.signerAddress,
-    gameContainer.network,
-  ]);
 
   useEffect(() => {
     if (
@@ -886,15 +866,159 @@ export const BoardContainer = createContainer(() => {
   }, [board]);
 
   useEffect(() => {
-    if (peer && typeof gameContainer.signerAddress !== "undefined") {
-      console.log("SetWalletAddress: ", gameContainer.signerAddress);
-      const action: GameStateAction = {
-        type: "SetWalletAddress",
-        walletAddress: gameContainer.signerAddress,
+    if (peer && peer.id && board) {
+      const onData = async (data: any) => {
+        console.log("received data: ", data);
+        if ("type" in data) {
+          const stateAction = data as GameStateAction;
+          if (stateAction.type === "CreateBoard") {
+            const boardState = stateAction.board;
+            setBoardStates([boardState]);
+
+            const i = document.getElementById(
+              "private-match-modal"
+            ) as HTMLInputElement;
+            if (i) {
+              i.checked = false;
+            }
+          } else if (stateAction.type === "UpdateBoard") {
+            // TODO: Validate it is the right user
+            const boardState = stateAction.board;
+            setBoardStates((states) => [...states, boardState]);
+          } else if (stateAction.type === "SendMessage") {
+            toastrMessage(stateAction.message, stateAction.from);
+          } else if (stateAction.type === "ClickOfferingCard") {
+            const offeringCard = board.offeringCardsInPlay.find(
+              (c) => c.id === stateAction.cardId
+            );
+            if (offeringCard) {
+              toggleOfferingCard_(offeringCard);
+            }
+          } else if (stateAction.type === "PlayAsRole") {
+            setPlayersInRoom((playerProfiles) => {
+              const target = playerProfiles.find(
+                (p) => p.walletAddress === stateAction.walletAddress
+              );
+              if (target) {
+                target.role = stateAction.role;
+              }
+              return [...playerProfiles];
+            });
+          } else if (stateAction.type === "InitializePrivateRoom") {
+            const myProfile = playersInRoom.find(
+              (p) => p.walletAddress === gameContainer.signerAddress
+            );
+            const players = stateAction.players;
+            if (myProfile) {
+              setPlayersInRoom([myProfile, ...players]);
+
+              const stateAction: GameStateAction = {
+                type: "PlayerJoinedRoom",
+                player: myProfile,
+              };
+
+              peer.broadcast(stateAction);
+            }
+
+            const boardState = stateAction.board;
+            if (boardState) {
+              setBoardStates([boardState]);
+            }
+          } else if (stateAction.type === "PlayerJoinedRoom") {
+            setPlayersInRoom((players) => {
+              const index = players.findIndex(
+                (p) => p.walletAddress === stateAction.player.walletAddress
+              );
+              if (index >= 0) {
+                players[index] = stateAction.player;
+              } else {
+                players.push(stateAction.player);
+              }
+              return [...players];
+            });
+          }
+        }
       };
-      peer.send(action);
+      const onSync = async (send: (data: any) => void) => {
+        console.log("onSync: ", peer.network.size);
+        const boardState = board.saveState();
+        const stateAction: GameStateAction = {
+          type: "InitializePrivateRoom",
+          players: playersInRoom,
+          board: board.gameMode === "local" ? undefined : boardState,
+        };
+        send(stateAction);
+      };
+      const onDisconnected = async () => {
+        console.log("Your peer disconnected");
+      };
+      const onPeerJoined = async (peerId: string) => {
+        console.log("peer joined: ", peerId, peer.network);
+      };
+      const onPeerLeft = async (peerId: string) => {
+        console.log("peer left: ", peerId);
+        const profile = playersInRoom.find((p) => p.peerId === peerId);
+        setPlayersInRoom((players) => {
+          return players.filter((p) => p.peerId !== peerId);
+        });
+        if (
+          profile?.walletAddress !== gameContainer.signerAddress &&
+          (profile?.walletAddress === playerId ||
+            profile?.walletAddress === opponentId)
+        ) {
+          // alert("You are disconnected from the Myobu metaverse");
+          alert(
+            `Player ${profile ? `${profile.walletAddress} ` : ""}left the room`
+          );
+        }
+      };
+
+      peer.on("data", onData);
+      peer.on("sync", onSync);
+      peer.on("disconnected", onDisconnected);
+      peer.on("peerJoined", onPeerJoined);
+      peer.on("peerLeft", onPeerLeft);
+      return () => {
+        peer.off("data", onData);
+        peer.off("sync", onSync);
+        peer.off("disconnected", onDisconnected);
+        peer.off("peerJoined", onPeerJoined);
+        peer.off("peerLeft", onPeerLeft);
+      };
     }
-  }, [peer, gameContainer.signerAddress]);
+  }, [
+    peer,
+    board,
+    toggleOfferingCard_,
+    playersInRoom,
+    gameContainer.getPlayerProfileFromWalletAddress,
+    gameContainer.signerAddress,
+    playerId,
+    opponentId,
+  ]);
+
+  useEffect(() => {
+    const boardState = boardStates[boardStates.length - 1];
+    if (board && gameContainer.signerAddress && boardState) {
+      if (boardState.playerA.id === gameContainer.signerAddress) {
+        setPlayerId(boardState.playerA.id);
+        setOpponentId(boardState.playerB.id);
+        setIsPlayingGame(true);
+      } else if (boardState.playerB.id === gameContainer.signerAddress) {
+        setPlayerId(boardState.playerB.id);
+        setOpponentId(boardState.playerA.id);
+        setIsPlayingGame(true);
+      } else {
+        // Spectator
+        setPlayerId("");
+        setOpponentId("");
+        setIsPlayingGame(false);
+      }
+      board.loadState(boardState, gameContainer.signerAddress);
+      setTurns(board.turns);
+      setBoardId(board.id);
+    }
+  }, [board, boardStates, gameContainer.signerAddress]);
 
   return {
     board,
@@ -928,5 +1052,13 @@ export const BoardContainer = createContainer(() => {
     playerId,
     opponentId,
     sendMessage,
+    peer,
+    joinPrivateMatchRoom,
+    leavePrivateMatchRoom,
+    isInPrivateMatchRoom,
+    isPlayingGame,
+    playersInRoom,
+    playAsRoleInPrivateMatchRoom,
+    startMatchInPrivateMatchRoom,
   };
 });
