@@ -88,7 +88,7 @@ export type GameStateAction =
     }
   | {
       type: "SendMessage";
-      from: string;
+      from: PlayerProfile;
       message: string;
     }
   | {

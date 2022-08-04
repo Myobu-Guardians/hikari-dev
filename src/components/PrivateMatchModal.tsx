@@ -4,6 +4,7 @@ import { BoardContainer } from "../containers/board";
 import toastr from "toastr";
 import { GameContainer } from "../containers/game";
 import { PlayerProfile, PlayerProfileRole } from "../lib/player";
+import SendMessageInput from "./SendMessageInput";
 
 function PlayerProfileListItem({
   playerProfile,
@@ -20,7 +21,7 @@ function PlayerProfileListItem({
         src={playerProfile.avatar}
         alt={playerProfile.username}
         style={{
-          height: gameContainer.zoom * 20,
+          height: 36,
         }}
         className={"rounded-md mr-2"}
       ></img>
@@ -59,7 +60,6 @@ export default function PrivateMatchModal() {
   const [lightPlayers, setLightPlayers] = useState<PlayerProfile[]>([]);
   const [darkPlayers, setDarkPlayers] = useState<PlayerProfile[]>([]);
   const [viewers, setViewers] = useState<PlayerProfile[]>([]);
-  const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export default function PrivateMatchModal() {
               <h3 className="mb-2">{t("Private match")}</h3>
               {boardContainer.isInPrivateMatchRoom ? (
                 <label
-                  className="btn btn-primary"
+                  className="btn btn-secondary"
                   htmlFor="private-match-modal"
                   onClick={() => {
                     boardContainer.leavePrivateMatchRoom();
@@ -202,11 +202,25 @@ export default function PrivateMatchModal() {
                     )}
                   </div>
                 </div>
-                <div className="mt-4">
-                  {boardContainer.peer && boardContainer.peer.isPubsubHost() ? (
+                <div className="mt-4 mb-4 flex flex-row justify-end">
+                  <SendMessageInput className="w-full"></SendMessageInput>
+                </div>
+                <div className="mt-4 flex flex-row justify-end">
+                  {boardContainer.board &&
+                  boardContainer.board.gameMode === "remote" ? (
+                    <label
+                      htmlFor="private-match-modal"
+                      className="btn btn-primary"
+                    >
+                      {boardContainer.isPlayingGame
+                        ? t("Back to match")
+                        : t("Watch match")}
+                    </label>
+                  ) : boardContainer.peer &&
+                    boardContainer.peer.isPubsubHost() ? (
                     lightPlayers.length === 1 && darkPlayers.length === 1 ? (
                       <label
-                        className="btn btn-primary float-right"
+                        className="btn btn-primary"
                         htmlFor="private-match-modal"
                         onClick={() => {
                           boardContainer.startMatchInPrivateMatchRoom(
@@ -218,12 +232,12 @@ export default function PrivateMatchModal() {
                         {t("Start match")}
                       </label>
                     ) : (
-                      <p className="float-right">
+                      <p className="">
                         {t("Waiting for light and dark players to get ready")}
                       </p>
                     )
                   ) : (
-                    <p className="float-right">
+                    <p className="">
                       {t("Waiting for room host to start match")}
                     </p>
                   )}

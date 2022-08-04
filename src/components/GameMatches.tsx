@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { BoardContainer } from "../containers/board";
 import { GameContainer } from "../containers/game";
 import PrivateMatchModal from "./PrivateMatchModal";
+import SendMessageInput from "./SendMessageInput";
 
 export default function GameMatches() {
   const { t } = useTranslation();
@@ -49,7 +50,18 @@ export default function GameMatches() {
             {" (" + t("Comming Soon") + ")"}
           </span>
         </button>
-      ) : null}
+      ) : (
+        <SendMessageInput
+          style={{
+            fontSize: gameContainer.zoom * 12,
+            width: gameContainer.zoom * 110,
+            height: gameContainer.zoom * 24,
+            // bottom: gameContainer.zoom * 36,
+            // borderWidth: gameContainer.zoom * 2,
+          }}
+          // className={"absolute right-2"}
+        ></SendMessageInput>
+      )}
       <PrivateMatchModal></PrivateMatchModal>
     </div>
   ) : null;

@@ -15,6 +15,7 @@ import { canCastSpell } from "../lib/spellFn";
 import { Player, PlayerProfile, PlayerProfileRole } from "../lib/player";
 import { gitCommit } from "../git_commit";
 import { GameContainer } from "./game";
+import { toastrMessage } from "../lib/utils";
 
 export const BoardContainer = createContainer(() => {
   const [peer, setPeer] = useState<Korona | null>(null);
@@ -54,6 +55,7 @@ export const BoardContainer = createContainer(() => {
   const [isInPrivateMatchRoom, setIsInPrivateMatchRoom] =
     useState<boolean>(false);
   const [playersInRoom, setPlayersInRoom] = useState<PlayerProfile[]>([]);
+  const [isPlayingGame, setIsPlayingGame] = useState<boolean>(false);
   const gameContainer = GameContainer.useContainer();
 
   const resetState = useCallback(() => {
@@ -227,19 +229,21 @@ export const BoardContainer = createContainer(() => {
   const sendMessage = useCallback(
     (message: string) => {
       if (peer) {
-        const sender = gameContainer.signerAddress
-          ? gameContainer.signerAddress.slice(0, 12) + "..."
-          : playerId;
-        const action: GameStateAction = {
-          type: "SendMessage",
-          from: sender,
-          message,
-        };
-        peer.broadcast(action);
-        toastr.info(message, sender);
+        const myProfile = playersInRoom.find(
+          (player) => player.walletAddress === gameContainer.signerAddress
+        );
+        if (myProfile) {
+          const action: GameStateAction = {
+            type: "SendMessage",
+            from: myProfile,
+            message,
+          };
+          peer.broadcast(action);
+          toastrMessage(message, myProfile);
+        }
       }
     },
-    [peer, playerId, gameContainer.signerAddress]
+    [peer, playersInRoom, gameContainer.signerAddress]
   );
 
   const castSpell = useCallback(
@@ -625,8 +629,16 @@ export const BoardContainer = createContainer(() => {
     if (peer) {
       peer.destroy();
       setPeer(null);
+
+      if (board) {
+        board.initializeBoardForLocalPlay();
+        const state = board.saveState();
+        if (state) {
+          setBoardStates([state]);
+        }
+      }
     }
-  }, [peer]);
+  }, [peer, board]);
 
   const playAsRoleInPrivateMatchRoom = useCallback(
     (role: PlayerProfileRole) => {
@@ -668,16 +680,12 @@ export const BoardContainer = createContainer(() => {
         if (!boardState) {
           alert("Failed to initialize remote game");
         } else {
-          setBoardStates([boardState]);
           const action: GameStateAction = {
             type: "CreateBoard",
             board: boardState,
           };
           console.log(action);
           peer.broadcast(action);
-
-          setTurns(0);
-          setBoardId(boardState.id);
           setBoardStates([boardState]);
         }
       }
@@ -873,16 +881,11 @@ export const BoardContainer = createContainer(() => {
     if (peer && peer.id && board) {
       const onData = async (data: any) => {
         console.log("received data: ", data);
-        const createBoard = (boardState: GameBoardState) => {
-          setTurns(board.turns);
-          setBoardId(board.id);
-          setBoardStates([boardState]);
-        };
         if ("type" in data) {
           const stateAction = data as GameStateAction;
           if (stateAction.type === "CreateBoard") {
             const boardState = stateAction.board;
-            createBoard(boardState);
+            setBoardStates([boardState]);
 
             const i = document.getElementById(
               "private-match-modal"
@@ -893,13 +896,9 @@ export const BoardContainer = createContainer(() => {
           } else if (stateAction.type === "UpdateBoard") {
             // TODO: Validate it is the right user
             const boardState = stateAction.board;
-            setTurns(board.turns);
-            setBoardId(board.id);
             setBoardStates((states) => [...states, boardState]);
           } else if (stateAction.type === "SendMessage") {
-            toastr.info(stateAction.message, stateAction.from, {
-              timeOut: 8000,
-            });
+            toastrMessage(stateAction.message, stateAction.from);
           } else if (stateAction.type === "ClickOfferingCard") {
             const offeringCard = board.offeringCardsInPlay.find(
               (c) => c.id === stateAction.cardId
@@ -936,7 +935,7 @@ export const BoardContainer = createContainer(() => {
 
             const boardState = stateAction.board;
             if (boardState) {
-              createBoard(boardState);
+              setBoardStates([boardState]);
             }
           } else if (stateAction.type === "PlayerJoinedRoom") {
             setPlayersInRoom((players) => {
@@ -1015,17 +1014,22 @@ export const BoardContainer = createContainer(() => {
         console.log("** conditation 1");
         setPlayerId(boardState.playerA.id);
         setOpponentId(boardState.playerB.id);
+        setIsPlayingGame(true);
       } else if (boardState.playerB.id === gameContainer.signerAddress) {
         console.log("** conditation 2");
         setPlayerId(boardState.playerB.id);
         setOpponentId(boardState.playerA.id);
+        setIsPlayingGame(true);
       } else {
         // Spectator
         console.log("** conditation 3");
-        setPlayerId(boardState.playerA.id);
-        setOpponentId(boardState.playerB.id);
+        setPlayerId("");
+        setOpponentId("");
+        setIsPlayingGame(false);
       }
       board.loadState(boardState, gameContainer.signerAddress);
+      setTurns(board.turns);
+      setBoardId(board.id);
     }
   }, [board, boardStates, gameContainer.signerAddress]);
 
@@ -1065,6 +1069,7 @@ export const BoardContainer = createContainer(() => {
     joinPrivateMatchRoom,
     leavePrivateMatchRoom,
     isInPrivateMatchRoom,
+    isPlayingGame,
     playersInRoom,
     playAsRoleInPrivateMatchRoom,
     startMatchInPrivateMatchRoom,
