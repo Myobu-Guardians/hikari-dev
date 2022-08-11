@@ -1,18 +1,18 @@
 # Hikari - dev
 
-https://myobu-guardians.github.io/hikari-dev/
+https://hikari-sandbox.myobu.io
 
 ## Roadmap
 
-* [ ] Local play
-* [ ] Simple AI
-* [ ] PvP (by peer to peer connection)
-* [ ] Tutorial 
-* [ ] Ranked game
-* [ ] TBD
+- [ ] Local play
+- [ ] Simple AI
+- [ ] PvP (by peer to peer connection)
+- [ ] Tutorial
+- [ ] Ranked game
+- [ ] TBD
 
 ## License
 
-AGPL3. 
+AGPL3.
 
 Myobu Team. All rights reserved.
