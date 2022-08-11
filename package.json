@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "license": "AGPL-3.0-or-later",
-  "homepage": "https://myobu-guardians.github.io/hikari-dev/",
+  "homepage": "https://hikari-sandbox.myobu.io",
   "scripts": {
     "git-info": "echo \"export interface GitCommit { logMessage:string, hash:string }; export const gitCommit: GitCommit = {\\\"logMessage\\\": \\\"$(git log -1 --oneline)\\\",\\\"hash\\\":\\\"$(git rev-parse HEAD)\\\"}\"  > src/git_commit.ts",
     "start": "yarn git-info && react-app-rewired start",
