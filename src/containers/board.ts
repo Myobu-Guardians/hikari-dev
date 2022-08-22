@@ -57,6 +57,10 @@ export const BoardContainer = createContainer(() => {
     useState<boolean>(false);
   const [playersInRoom, setPlayersInRoom] = useState<PlayerProfile[]>([]);
   const [isPlayingGame, setIsPlayingGame] = useState<boolean>(false);
+  const [aiIsActing, setAiIsActing] = useState<boolean>(false);
+  const [aiKitsuneCardToActivate, setAiKitsuneCardToActivate] = useState<
+    KitsuneCard | undefined
+  >(undefined);
   const { t } = useTranslation();
   const gameContainer = GameContainer.useContainer();
 
@@ -97,6 +101,7 @@ export const BoardContainer = createContainer(() => {
   const nextTurnIfNecessary = useCallback(() => {
     board.nextTurn();
     setTurns(board.turns);
+    setAiIsActing(false);
     broadcastBoardState();
   }, [board, broadcastBoardState]);
 
@@ -264,6 +269,7 @@ export const BoardContainer = createContainer(() => {
       setIsModifyingSymbolOfKitsuneCard(null);
       setCastingPassiveSpellOfKitsuneCard(null);
 
+      /*
       console.log("cancelCastingSpell: ");
       console.log("* castSpell: ", spellCasted);
       console.log(
@@ -274,6 +280,7 @@ export const BoardContainer = createContainer(() => {
         "* castingSpellsOfKitsuneCards: ",
         castingSpellsOfKitsuneCards
       );
+      */
 
       if (castingPassiveSpellOfKitsuneCard) {
         if (castingSpellsOfKitsuneCards.length === 0) {
@@ -414,10 +421,6 @@ export const BoardContainer = createContainer(() => {
   }, []);
 
   const checkPassiveSpell = useCallback(() => {
-    console.log(
-      `checkPassiveSpell total board states length: `,
-      boardStates.length
-    );
     if (boardStates.length > 1) {
       const currentBoardState = boardStates[boardStates.length - 1];
       const previousBoardState = boardStates[boardStates.length - 2];
@@ -446,11 +449,11 @@ export const BoardContainer = createContainer(() => {
           ? currentBoardState.playerB
           : currentBoardState.playerA;
 
-      console.log("previousBoardState", previousBoardState);
-      console.log("currentBoardState", currentBoardState);
-      console.log("opponentPreviousTurn", opponentPreviousTurn);
-      console.log("opponentThisTurn", opponentThisTurn);
-      console.log("playerThisTurn", playerThisTurn);
+      // console.log("previousBoardState", previousBoardState);
+      // console.log("currentBoardState", currentBoardState);
+      // console.log("opponentPreviousTurn", opponentPreviousTurn);
+      // console.log("opponentThisTurn", opponentThisTurn);
+      // console.log("playerThisTurn", playerThisTurn);
 
       const newlyPlacedKitsuneCards =
         opponentThisTurn.kitsuneCardsInPlay.filter(
@@ -484,17 +487,17 @@ export const BoardContainer = createContainer(() => {
             )
         );
       const currentPlacedOfferingCards = currentBoardState.offeringCardsInPlay;
-      console.log("usedOfferingCards", usedOfferingCards);
-      console.log("newlyPlacedOfferingCards", newlyPlacedOfferingCards);
-      console.log("newlyPlacedKitsuneCards", newlyPlacedKitsuneCards);
-      console.log("newlyActivatedKitsuneCards", newlyActivatedKitsuneCards);
-      console.log("currentPlacedOfferingCards", currentPlacedOfferingCards);
+      // console.log("usedOfferingCards", usedOfferingCards);
+      // console.log("newlyPlacedOfferingCards", newlyPlacedOfferingCards);
+      // console.log("newlyPlacedKitsuneCards", newlyPlacedKitsuneCards);
+      // console.log("newlyActivatedKitsuneCards", newlyActivatedKitsuneCards);
+      // console.log("currentPlacedOfferingCards", currentPlacedOfferingCards);
       const player = playerThisTurn;
       if (newlyActivatedKitsuneCards.length > 0) {
         // Check if tail 3 dark card passive spell will be triggered
         //  "When enemy activates their card, you can cast any spell"
         // If so, set the state to selecting a kitsune card to cast a spell
-        console.log("player this turn: ", player);
+        // console.log("player this turn: ", player);
         const tail3DarkCardIndex = player.kitsuneCardsInPlay.findIndex(
           (kc) => kc.spell?.id === "tail-3-dark-spell"
         );
@@ -509,7 +512,7 @@ export const BoardContainer = createContainer(() => {
               card.spell.trigger.length > 0
           ).length > 0
         ) {
-          console.log("** Triggered tail3DarkCard passive spell");
+          // console.log("** Triggered tail3DarkCard passive spell");
           setCastingSpellsOfKitsuneCards((cards) =>
             cards.concat(player.kitsuneCardsInPlay[tail3DarkCardIndex])
           );
@@ -541,7 +544,7 @@ export const BoardContainer = createContainer(() => {
           ).length /
             4
       ) {
-        console.log("** Triggered tail5LightCard passive spell");
+        // console.log("** Triggered tail5LightCard passive spell");
         setCastingSpellsOfKitsuneCards((cards) =>
           cards.concat(player.kitsuneCardsInPlay[tail5LightCardIndex])
         );
@@ -572,7 +575,7 @@ export const BoardContainer = createContainer(() => {
           ).length /
             4
       ) {
-        console.log("** Triggered tail5DarkCard passive spell");
+        // console.log("** Triggered tail5DarkCard passive spell");
         setCastingSpellsOfKitsuneCards((cards) =>
           cards.concat(player.kitsuneCardsInPlay[tail5DarkCardIndex])
         );
@@ -1019,6 +1022,144 @@ export const BoardContainer = createContainer(() => {
       setBoardId(board.id);
     }
   }, [board, boardStates, gameContainer.signerAddress]);
+
+  // AI logic
+  useEffect(() => {
+    const waitForSeconds = (seconds: number) => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          return resolve(undefined);
+        }, seconds * 1000);
+      });
+    };
+
+    if (
+      board &&
+      board.gameMode === "local" &&
+      board.turns % 2 === board.opponent?.turnRemainder &&
+      board.opponent &&
+      !aiIsActing
+    ) {
+      (async () => {
+        const aiPlayer = board.opponent;
+        if (!aiPlayer) {
+          return;
+        }
+
+        setAiIsActing(true);
+
+        // Get possible combination of offering cards
+        // TODO: Get more combinations
+        const offeringCardsCombinations: OfferingCard[][] =
+          board.offeringCardsInPlay.map((offeringCard) => [offeringCard]);
+
+        const getCardsThatCanBeActivated = (
+          kitsuneCards: KitsuneCard[]
+        ): {
+          kitsuneCard: KitsuneCard;
+          offeringCards: OfferingCard[];
+        }[] => {
+          return kitsuneCards
+            .map((kitsuneCard) => {
+              let maxEarningPoint = 0;
+              let returnValue: {
+                kitsuneCard: KitsuneCard;
+                offeringCards: OfferingCard[];
+              } = {
+                kitsuneCard,
+                offeringCards: [],
+              };
+              for (let i = 0; i < offeringCardsCombinations.length; i++) {
+                const offeringCards = offeringCardsCombinations[i];
+                const earningPoint = board.calculateEarningPoints(
+                  kitsuneCard,
+                  offeringCards
+                );
+                if (earningPoint > maxEarningPoint) {
+                  maxEarningPoint = earningPoint;
+                  returnValue.offeringCards = offeringCards;
+                }
+              }
+              return returnValue;
+            })
+            .filter((x) => x.offeringCards.length > 0);
+        };
+
+        // Get kitsune cards in play that can be activated
+        const kitsuneCardsThatCanBeActivated: {
+          kitsuneCard: KitsuneCard;
+          offeringCards: OfferingCard[];
+        }[] = getCardsThatCanBeActivated([
+          ...aiPlayer.kitsuneCardsInPlay,
+          ...aiPlayer.kitsuneCardsInHand,
+        ]);
+
+        console.log(
+          `* kitsuneCardsThatCanBeActivated: `,
+          kitsuneCardsThatCanBeActivated
+        );
+
+        if (kitsuneCardsThatCanBeActivated.length > 0) {
+          // Randomly place/activate a kitune card
+          const randomIndex = Math.floor(
+            Math.random() * kitsuneCardsThatCanBeActivated.length
+          );
+          const kituneCard =
+            kitsuneCardsThatCanBeActivated[randomIndex].kitsuneCard;
+          const offeringCards =
+            kitsuneCardsThatCanBeActivated[randomIndex].offeringCards;
+          setSelectedOfferingCards(new Set(offeringCards));
+          await waitForSeconds(2);
+          setAiKitsuneCardToActivate(kituneCard);
+        } else if (aiPlayer.kitsuneCardsInDeck.length > 0) {
+          await waitForSeconds(2);
+          drawKitsuneCard();
+        } else {
+          // No action
+          nextTurnIfNecessary();
+        }
+      })();
+    }
+  }, [board, drawKitsuneCard, nextTurnIfNecessary, aiIsActing]);
+
+  useEffect(() => {
+    if (
+      aiIsActing &&
+      aiKitsuneCardToActivate &&
+      selectedOfferingCards.size > 0 &&
+      board &&
+      board.opponent
+    ) {
+      // Randomly replace one kitsune card in hand if necessary
+      const aiPlayer = board.opponent;
+      let kitsuneCardToReplaceWith: KitsuneCard | undefined = undefined;
+      if (
+        aiPlayer.kitsuneCardsInPlay.length >= NumOfKitsuneCardsInPlay &&
+        !aiPlayer.kitsuneCardsInPlay.find(
+          (card) => card.id === aiKitsuneCardToActivate.id
+        )
+      ) {
+        kitsuneCardToReplaceWith =
+          aiPlayer.kitsuneCardsInPlay[
+            Math.floor(Math.random() * aiPlayer.kitsuneCardsInPlay.length)
+          ];
+      }
+
+      placeAndActivateKitsuneCard(
+        aiKitsuneCardToActivate,
+        kitsuneCardToReplaceWith
+      );
+
+      setAiKitsuneCardToActivate(undefined);
+      setSelectedOfferingCards(new Set());
+    }
+  }, [
+    board,
+    aiKitsuneCardToActivate,
+    placeAndActivateKitsuneCard,
+    selectedOfferingCards,
+    aiIsActing,
+  ]);
 
   return {
     board,

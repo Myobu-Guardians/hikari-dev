@@ -142,10 +142,10 @@ function GamePoints() {
 }
 
 export default function Board() {
-  const [message, setMessage] = useState<string>("");
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
   const { t } = useTranslation();
+  (window as any)["boardContainer"] = boardContainer;
 
   return (
     <div className="container mx-auto px-4">

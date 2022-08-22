@@ -161,7 +161,7 @@ export class GameBoard {
       lockOfferingCardsInPlay: 0,
     };
     this.opponent = {
-      id: opponentId || generateUUID(),
+      id: opponentId || randomId(),
       walletAddress: opponentWalletAddress,
       kitsuneCardsInDeck: flag ? darkKitsuneCards : lighKitsuneCards,
       kitsuneCardsInHand: [],
@@ -267,6 +267,12 @@ export class GameBoard {
     */
 
     const earningPoints = this.calculateEarningPoints(
+      kitsuneCard,
+      offeringCards
+    );
+    console.log(
+      "** earningPoints: ",
+      earningPoints,
       kitsuneCard,
       offeringCards
     );
