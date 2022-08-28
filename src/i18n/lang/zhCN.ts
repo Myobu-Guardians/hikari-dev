@@ -59,6 +59,7 @@ export const zhCN = {
     "board/draw-kitsune-card": "抽一张妖狐卡 ^",
     "board/click-here-to-discard": "点击这里丢弃",
     "board/used-offerings": "已使用的贡品",
+    "board/passive-spell-triggered": "被动法术触发。请选择一张妖狐卡施放法术",
 
     // Card
     "card/cast-spell": "施放法术",

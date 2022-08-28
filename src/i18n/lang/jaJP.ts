@@ -60,6 +60,8 @@ export const jaJP = {
     "board/draw-kitsune-card": "狐カードを引く",
     "board/click-here-to-discard": "ここをクリックして捨てる",
     "board/used-offerings": "使用済みのオファー",
+    "board/passive-spell-triggered":
+      "パッシブスペルが発動しました。スペルをキャストする狐カードを選択してください",
 
     // Cards
     "card/cast-spell": "魔法を発動する",

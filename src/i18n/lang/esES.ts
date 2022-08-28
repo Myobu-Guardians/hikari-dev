@@ -60,6 +60,8 @@ export const esES = {
     "board/draw-kitsune-card": "Extrae una carta Kitsune ^",
     "board/click-here-to-discard": "Click aquí para descartar",
     "board/used-offerings": "Ofrendas Usadas",
+    "board/passive-spell-triggered":
+      "Hechizo pasivo activado. Selecciona una carta Kitsune para lanzar el hechizo",
 
     // Card
     "card/cast-spell": "lanza hechizo",

@@ -318,15 +318,17 @@ export default function Board() {
                   top: gameContainer.zoom * (BoardHeight / 2 - 40),
                 }}
               >
-                {`Passive spell triggered. Please select a kitunse card to cast spell`}
-                <button
-                  className="btn btn-sm btn-primary ml-2"
-                  onClick={() => {
-                    boardContainer.cancelCastingSpell();
-                  }}
-                >
-                  {t("Cancel")}
-                </button>
+                {t("board/passive-spell-triggered")}
+                {boardContainer.isPlayerTurn && (
+                  <button
+                    className="btn btn-sm btn-primary ml-2"
+                    onClick={() => {
+                      boardContainer.cancelCastingSpell();
+                    }}
+                  >
+                    {t("Cancel")}
+                  </button>
+                )}
               </div>
             </div>
           )}

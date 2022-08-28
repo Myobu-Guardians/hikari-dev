@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { createContainer } from "unstated-next";
 import { GameBoard } from "../lib/board";
-import { NumOfKitsuneCardsInPlay } from "../lib/constants";
+import {
+  NumOfKitsuneCardsInPlay,
+  Tail7DarkLockedOfferingCardsNum,
+} from "../lib/constants";
 import { KitsuneCard } from "../lib/kitsune";
 import {
   OfferingCard,
@@ -1069,9 +1072,22 @@ export const BoardContainer = createContainer(() => {
         setAiIsActing(true);
 
         // Get possible combination of offering cards
-        // TODO: Get more combinations
+
         const offeringCardsCombinations: OfferingCard[][] =
-          getPossibleArrayElementsCombinations(board.offeringCardsInPlay);
+          getPossibleArrayElementsCombinations(
+            board.offeringCardsInPlay
+              .map((offeringCard, index, self) => {
+                if (
+                  board.opponent?.lockOfferingCardsInPlay &&
+                  board.opponent.lockOfferingCardsInPlay > 0 &&
+                  index >= self.length - Tail7DarkLockedOfferingCardsNum
+                ) {
+                  return null;
+                }
+                return offeringCard;
+              })
+              .filter((x) => !!x) as OfferingCard[]
+          );
 
         const getCardsThatCanBeActivated = (
           kitsuneCards: KitsuneCard[]
@@ -1135,7 +1151,8 @@ export const BoardContainer = createContainer(() => {
                     board.player.kitsuneCardsInPlay.length === 0) || // player has no cards in play
                   (board.player && board.player?.hideKitsuneCardsInPlay > 0) || // player is hiding cards
                   (typeof kitsuneCard.locked === "number" &&
-                    kitsuneCard.locked > 0)
+                    kitsuneCard.locked > 0) ||
+                  kitsuneCard.spell?.id === "tail-7-light-spell" // Don't use this spell for now: Tail 7 Light Spell: Draw three offerings, then put them back in any order
                 ) {
                   // Cannot cast such spell if player has no kitsune card in play because there is no available target
                   result.splice(result.length - 1, 1);
@@ -1374,6 +1391,15 @@ export const BoardContainer = createContainer(() => {
     cancelCastingSpell,
     discardSelectedOfferingCards,
   ]);
+
+  // AI passive spell triggered
+  // Skip for now.
+  // TODO: implement the logic
+  useEffect(() => {
+    if (aiIsActing && castingPassiveSpellOfKitsuneCard) {
+      cancelCastingSpell(true);
+    }
+  }, [board, aiIsActing, castingPassiveSpellOfKitsuneCard, cancelCastingSpell]);
 
   return {
     board,

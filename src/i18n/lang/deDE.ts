@@ -60,6 +60,8 @@ export const deDE = {
     "board/draw-kitsune-card": "Zieh eine Kitsune-Karte^",
     "board/click-here-to-discard": "Klicke hier um abzuwerfen",
     "board/used-offerings": "Verwendete Gaben",
+    "board/passive-spell-triggered":
+      "Passiver Zauber ausgelöst. Bitte wähle eine Kitsune-Karte um den Zauber zu wirken",
 
     // Card
     "card/cast-spell": "Wirke Zauber",
