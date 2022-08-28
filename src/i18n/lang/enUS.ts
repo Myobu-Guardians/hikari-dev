@@ -60,6 +60,12 @@ export const enUS = {
     "board/draw-kitsune-card": "Draw a Kitsune card ^",
     "board/click-here-to-discard": "Click here to discard",
     "board/used-offerings": "Used Offerings",
+    "board/passive-spell-triggered":
+      "Passive spell triggered. Please select a kitunse card to cast spell",
+    "board/select-kitsune-card-to-replace-with":
+      "Please select the Kitsune card to replace with",
+    "board/you-wins": "You win!",
+    "board/you-loses": "You lose!",
 
     // Card
     "card/cast-spell": "Cast Spell",

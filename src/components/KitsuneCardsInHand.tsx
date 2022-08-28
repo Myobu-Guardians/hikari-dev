@@ -33,11 +33,10 @@ export default function KitsuneCardsInHand(props: Props) {
       ? boardContainer.board.opponent?.kitsuneCardsInHand
       : boardContainer.board.player?.kitsuneCardsInHand) || [];
 
-  const canSelect =
-    (boardContainer.isPlayerTurn && !props.isOpponent) ||
+  const canSelect = boardContainer.isPlayerTurn && !props.isOpponent; /* ||
     (!boardContainer.isPlayerTurn &&
       props.isOpponent &&
-      boardContainer.board.gameMode === "local");
+      boardContainer.board.gameMode === "local"); */
 
   return (
     <div
@@ -59,9 +58,8 @@ export default function KitsuneCardsInHand(props: Props) {
         // backgroundColor: "rgba(0, 0, 0, 0.5)",
       }}
     >
-      {props.showKitsuneCards <= 0 &&
-      props.isOpponent &&
-      boardContainer.board.gameMode !== "local" ? (
+      {props.showKitsuneCards <= 0 && props.isOpponent /* &&
+      boardContainer.board.gameMode !== "local" */ ? (
         <div>
           {new Array(cards.length).fill(null).map((val: any, index: number) => {
             const mid = Math.floor(cards.length / 2);

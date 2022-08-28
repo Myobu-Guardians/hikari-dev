@@ -16,7 +16,7 @@ export default function OfferingCardsInPlay() {
   const boardContainer = BoardContainer.useContainer();
 
   let canSelect =
-    boardContainer.isPlayerTurn || boardContainer.board.gameMode === "local"; // TODO: if remote and opponent then false
+    boardContainer.isPlayerTurn; /* || boardContainer.board.gameMode === "local";*/ // TODO: if remote and opponent then false
 
   const lockTurns =
     boardContainer.board.player?.lockOfferingCardsInPlay ||
@@ -76,7 +76,7 @@ export default function OfferingCardsInPlay() {
                     ? `border-[6px] box-border transition-all duration-200 ` +
                       (boardContainer.isPlayerTurn
                         ? "border-orange-400"
-                        : "border-blue-400")
+                        : "border-blue-500")
                     : "") +
                   " " +
                   (boardContainer.board.offeringCardsInPlay.length >

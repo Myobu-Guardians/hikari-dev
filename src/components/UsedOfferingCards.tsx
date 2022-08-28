@@ -18,8 +18,8 @@ export default function UsedOfferingCards() {
   const { t } = useTranslation();
   const canDiscard =
     boardContainer.selectedOfferingCards.size === 1 &&
-    (boardContainer.isPlayerTurn ||
-      boardContainer.board.gameMode === "local") &&
+    boardContainer.isPlayerTurn /*||
+      boardContainer.board.gameMode === "local"*/ &&
     !boardContainer.isSelectingKitsuneCardToReplace &&
     !boardContainer.isSelectingKitsuneCardToCastSpellAt;
 

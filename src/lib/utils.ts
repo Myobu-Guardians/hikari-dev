@@ -32,6 +32,40 @@ export function shuffleArray<T>(arr: T[]): T[] {
   return arr;
 }
 
+/**
+ * For array like [1, 2, 3], return all combinations like
+ * [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1,2,3]]
+ * @param arr
+ */
+export function getPossibleArrayElementsCombinations<T>(arr: T[]): T[][] {
+  const getCombinations = (arr: T[], size: number): T[][] => {
+    const combinations: T[][] = [];
+    const getCombination = (
+      arr: T[],
+      size: number,
+      start: number,
+      combination: T[]
+    ) => {
+      if (size === 0) {
+        combinations.push(combination);
+        return;
+      }
+      for (let i = start; i <= arr.length - size; i++) {
+        getCombination(arr, size - 1, i + 1, [...combination, arr[i]]);
+      }
+    };
+    getCombination(arr, size, 0, []);
+    return combinations;
+  };
+
+  const result: T[][] = [];
+  for (let i = 1; i <= arr.length; i++) {
+    const combinations = getCombinations(arr, i);
+    result.push(...combinations);
+  }
+  return result;
+}
+
 export function copyToClipboard(text: string) {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text);
