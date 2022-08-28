@@ -38,11 +38,10 @@ export default function KitsuneCardsInPlay(props: Props) {
       ? boardContainer.board.opponent?.kitsuneCardsInPlay
       : boardContainer.board.player?.kitsuneCardsInPlay) || [];
 
-  const canSelect =
-    (boardContainer.isPlayerTurn && !props.isOpponent) ||
+  const canSelect = boardContainer.isPlayerTurn && !props.isOpponent; /* ||
     (!boardContainer.isPlayerTurn &&
       props.isOpponent &&
-      boardContainer.board.gameMode === "local");
+      boardContainer.board.gameMode === "local");*/
 
   const actor = props.isOpponent
     ? boardContainer.board.opponent
@@ -71,8 +70,8 @@ export default function KitsuneCardsInPlay(props: Props) {
         {cards.map((card, index, self) => {
           if (
             props.hideKitsuneCards > 0 &&
-            props.isOpponent &&
-            boardContainer.board.gameMode !== "local"
+            props.isOpponent /* &&
+            boardContainer.board.gameMode !== "local" */
           ) {
             return (
               <div key={`kitsune-card-in-play-${index}-` + card.id}>
@@ -161,7 +160,7 @@ export default function KitsuneCardsInPlay(props: Props) {
               <KitsuneCardComponent
                 kitsuneCard={card}
                 earningPoints={
-                  canSelect &&
+                  /* canSelect && */
                   !boardContainer.isSelectingKitsuneCardToReplace &&
                   !boardContainer.isSelectingKitsuneCardToCastSpellAt &&
                   !boardContainer.isSelectingKitsuneCardToCastSpell &&
@@ -171,21 +170,21 @@ export default function KitsuneCardsInPlay(props: Props) {
                 }
                 isInPlay={true}
                 showHint={
-                  canSelect && boardContainer.isSelectingKitsuneCardToReplace
+                  /* canSelect && */ boardContainer.isSelectingKitsuneCardToReplace
                     ? t("card/replace-this-card")
                     : boardContainer.isModifyingSymbolOfKitsuneCard === card
                     ? t("card/modify-symbol")
                     : boardContainer.isSelectingKitsuneCardToCastSpellAt
                     ? t("card/target-this-card")
-                    : canSelect &&
-                      boardContainer.isSelectingKitsuneCardToCastSpell &&
+                    : /* canSelect && */
+                    boardContainer.isSelectingKitsuneCardToCastSpell &&
                       card.spell &&
                       card.spell.trigger.length > 0
                     ? t("card/cast-spell")
                     : ""
                 }
                 showCastSpell={
-                  canSelect &&
+                  /* canSelect && */
                   !boardContainer.isSelectingKitsuneCardToReplace &&
                   !boardContainer.isSelectingKitsuneCardToCastSpellAt &&
                   !boardContainer.isSelectingKitsuneCardToCastSpell &&

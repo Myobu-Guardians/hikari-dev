@@ -90,7 +90,7 @@ spells.set("tail-8-light-spell", {
 spells.set("tail-9-light-spell", {
   id: "tail-9-light-spell",
   description: "spells/tail-9-light",
-  trigger: [[OfferingSymbol.MusicInstrument, OfferingSymbol.Incense]],
+  trigger: [[OfferingSymbol.MusicInstrument, OfferingSymbol.Plant]],
 });
 // Dark
 spells.set("tail-1-dark-spell", {
@@ -138,7 +138,7 @@ spells.set("tail-8-dark-spell", {
 spells.set("tail-9-dark-spell", {
   id: "tail-9-dark-spell",
   description: "spells/tail-9-dark",
-  trigger: [[OfferingSymbol.Food, OfferingSymbol.Treasure]],
+  trigger: [[OfferingSymbol.Food, OfferingSymbol.Beverage]],
 });
 
 export function getSpellById(spellId: SpellId): Spell | undefined {

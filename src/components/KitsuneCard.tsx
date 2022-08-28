@@ -16,7 +16,6 @@ import {
   getNumberImageSrcFromNumber,
   getSymbolImageSrcFromSymbol,
 } from "../lib/offering";
-import { intersperse } from "../lib/utils";
 import KitsuneBackground from "../assets/images/kitsunes/background.png";
 import { useTranslation } from "react-i18next";
 import { FontOnCard, SettingsContainer } from "../containers/settings";
@@ -71,6 +70,18 @@ function SpellTrigger(props: Props) {
     [gameContainer.zoom]
   );
 
+  const intersperse = (arr: any[], sep: any, keyPrefix: string) => {
+    if (arr.length === 0) {
+      return [];
+    }
+    return arr
+      .slice(1)
+      .reduce(
+        (xs, x, index) => [...xs, <div key={keyPrefix + index}>{sep}</div>, x],
+        [<div key={keyPrefix + "0"}>{arr[0]}</div>]
+      );
+  };
+
   return (
     <div className="flex flex-col items-center absolute top-2 w-full">
       <div className="flex flex-row items-center justify-center">
@@ -102,12 +113,14 @@ function SpellTrigger(props: Props) {
                       </div>
                     );
                   }),
-                  plus
+                  plus,
+                  props.kitsuneCard.id + "-plus-" + index + "-"
                 )}
               </div>
             );
           }),
-          slash
+          slash,
+          props.kitsuneCard.id + "-slash-"
         )}
       </div>
       <div

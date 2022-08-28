@@ -26,11 +26,10 @@ export default function KitsuneCardsInDeck(props: Props) {
       ? boardContainer.board.opponent?.kitsuneCardsInDeck
       : boardContainer.board.player?.kitsuneCardsInDeck) || [];
 
-  const canDraw =
-    (boardContainer.isPlayerTurn && !props.isOpponent) ||
+  const canDraw = boardContainer.isPlayerTurn && !props.isOpponent; /* ||
     (!boardContainer.isPlayerTurn &&
       props.isOpponent &&
-      boardContainer.board.gameMode === "local");
+      boardContainer.board.gameMode === "local"); */
 
   return (
     <div
