@@ -260,7 +260,7 @@ export default function Board() {
                 top: gameContainer.zoom * (BoardHeight / 2 - 40),
               }}
             >
-              Please select the Kitsune card to replace with
+              {t("board/select-kitsune-card-to-replace-with")}
               <button
                 className="btn btn-sm btn-primary ml-2"
                 onClick={() => {

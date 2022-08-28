@@ -62,6 +62,8 @@ export const enUS = {
     "board/used-offerings": "Used Offerings",
     "board/passive-spell-triggered":
       "Passive spell triggered. Please select a kitunse card to cast spell",
+    "board/select-kitsune-card-to-replace-with":
+      "Please select the Kitsune card to replace with",
 
     // Card
     "card/cast-spell": "Cast Spell",

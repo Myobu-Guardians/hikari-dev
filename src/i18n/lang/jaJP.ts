@@ -62,6 +62,8 @@ export const jaJP = {
     "board/used-offerings": "使用済みのオファー",
     "board/passive-spell-triggered":
       "パッシブスペルが発動しました。スペルをキャストする狐カードを選択してください",
+    "board/select-kitsune-card-to-replace-with":
+      "置き換える狐カードを選択してください",
 
     // Cards
     "card/cast-spell": "魔法を発動する",

@@ -62,6 +62,8 @@ export const deDE = {
     "board/used-offerings": "Verwendete Gaben",
     "board/passive-spell-triggered":
       "Passiver Zauber ausgelöst. Bitte wähle eine Kitsune-Karte um den Zauber zu wirken",
+    "board/select-kitsune-card-to-replace-with":
+      "Bitte wähle eine Kitsune-Karte um sie zu ersetzen",
 
     // Card
     "card/cast-spell": "Wirke Zauber",

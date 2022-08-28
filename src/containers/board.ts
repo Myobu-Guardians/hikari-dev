@@ -23,6 +23,7 @@ import {
   toastrMessage,
 } from "../lib/utils";
 import { useTranslation } from "react-i18next";
+import { SpellId } from "../lib/spells";
 
 export const BoardContainer = createContainer(() => {
   const [peer, setPeer] = useState<Korona | null>(null);
@@ -1133,6 +1134,9 @@ export const BoardContainer = createContainer(() => {
                 kitsuneCard: KitsuneCard;
                 offeringCards: OfferingCard[];
               }[] = [];
+              if (!kitsuneCard.spell?.id) {
+                return result;
+              }
               for (let i = 0; i < offeringCardsCombinations.length; i++) {
                 const offeringCards = offeringCardsCombinations[i];
                 const canCastSpell_ = canCastSpell(kitsuneCard, offeringCards);
@@ -1143,13 +1147,19 @@ export const BoardContainer = createContainer(() => {
                   });
                 }
 
+                const spellIdsThatRequireEnemyTarget: SpellId[] = [
+                  "tail-2-dark-spell", // Decrease any card number by 3
+                  "tail-4-dark-spell", // Remove any symbol from target card
+                  "tail-9-dark-spell", // Return target card to its owners hand
+                ];
+
                 if (
-                  ((kitsuneCard.spell?.id === "tail-2-dark-spell" || // Decrease any card number by 3
-                    kitsuneCard.spell?.id === "tail-4-dark-spell" || // Remove any symbol from target card
-                    kitsuneCard.spell?.id === "tail-9-dark-spell") && // Return target card to its owners hand
+                  (spellIdsThatRequireEnemyTarget.includes(
+                    kitsuneCard.spell.id
+                  ) &&
                     board.player &&
-                    board.player.kitsuneCardsInPlay.length === 0) || // player has no cards in play
-                  (board.player && board.player?.hideKitsuneCardsInPlay > 0) || // player is hiding cards
+                    (board.player.kitsuneCardsInPlay.length === 0 || // player has no cards in play
+                      board.player?.hideKitsuneCardsInPlay > 0)) || // player is hiding cards
                   (typeof kitsuneCard.locked === "number" &&
                     kitsuneCard.locked > 0) ||
                   kitsuneCard.spell?.id === "tail-7-light-spell" // Don't use this spell for now: Tail 7 Light Spell: Draw three offerings, then put them back in any order

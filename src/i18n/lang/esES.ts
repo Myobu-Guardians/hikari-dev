@@ -62,6 +62,8 @@ export const esES = {
     "board/used-offerings": "Ofrendas Usadas",
     "board/passive-spell-triggered":
       "Hechizo pasivo activado. Selecciona una carta Kitsune para lanzar el hechizo",
+    "board/select-kitsune-card-to-replace-with":
+      "Selecciona una carta Kitsune para reemplazar",
 
     // Card
     "card/cast-spell": "lanza hechizo",
