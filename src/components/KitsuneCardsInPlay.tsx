@@ -170,7 +170,7 @@ export default function KitsuneCardsInPlay(props: Props) {
                 }
                 isInPlay={true}
                 showHint={
-                  /* canSelect && */ boardContainer.isSelectingKitsuneCardToReplace
+                  canSelect && boardContainer.isSelectingKitsuneCardToReplace
                     ? t("card/replace-this-card")
                     : boardContainer.isModifyingSymbolOfKitsuneCard === card
                     ? t("card/modify-symbol")

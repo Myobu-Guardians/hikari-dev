@@ -1162,6 +1162,12 @@ export const BoardContainer = createContainer(() => {
                       board.player?.hideKitsuneCardsInPlay > 0)) || // player is hiding cards
                   (typeof kitsuneCard.locked === "number" &&
                     kitsuneCard.locked > 0) ||
+                  (kitsuneCard.spell?.id === "tail-2-light-spell" &&
+                    kitsuneCards.filter((card) => card.number < 9).length ===
+                      0) || // Increase any card number by 3 | No possible picks
+                  (kitsuneCard.spell?.id === "tail-2-dark-spell" &&
+                    kitsuneCards.filter((card) => card.number > 1).length ===
+                      0) ||
                   kitsuneCard.spell?.id === "tail-7-light-spell" // Don't use this spell for now: Tail 7 Light Spell: Draw three offerings, then put them back in any order
                 ) {
                   // Cannot cast such spell if player has no kitsune card in play because there is no available target
@@ -1312,12 +1318,12 @@ export const BoardContainer = createContainer(() => {
     ) {
       if (aiKitsuneCardToCastSpell.spell?.id === "tail-2-light-spell") {
         /** Increase any card number by three */
-        const randomIndex = Math.floor(
-          Math.random() * board.opponent.kitsuneCardsInPlay.length
+        const cards = board.opponent.kitsuneCardsInPlay.filter(
+          (card) => card.number < 9
         );
+        const randomIndex = Math.floor(Math.random() * cards.length);
         if (randomIndex >= 0) {
-          const targetKitsuneCard =
-            board.opponent.kitsuneCardsInPlay[randomIndex];
+          const targetKitsuneCard = cards[randomIndex];
           castSpellAtKitsuneCard(targetKitsuneCard);
         } else {
           cancelCastingSpell(true);
@@ -1328,12 +1334,12 @@ export const BoardContainer = createContainer(() => {
       ) {
         /** Decrease any card number by three */
         /** Return target card to its owners hand */
-        const randomIndex = Math.floor(
-          Math.random() * board.player.kitsuneCardsInPlay.length
+        const cards = board.player.kitsuneCardsInPlay.filter(
+          (card) => card.number > 1
         );
+        const randomIndex = Math.floor(Math.random() * cards.length);
         if (randomIndex >= 0) {
-          const targetKitsuneCard =
-            board.player.kitsuneCardsInPlay[randomIndex];
+          const targetKitsuneCard = cards[randomIndex];
           castSpellAtKitsuneCard(targetKitsuneCard);
         } else {
           cancelCastingSpell(true);

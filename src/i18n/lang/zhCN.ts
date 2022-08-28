@@ -61,6 +61,8 @@ export const zhCN = {
     "board/used-offerings": "已使用的贡品",
     "board/passive-spell-triggered": "被动法术触发。请选择一张妖狐卡施放法术",
     "board/select-kitsune-card-to-replace-with": "请选择要替换的妖狐卡",
+    "board/you-wins": "你赢了！",
+    "board/you-loses": "你输了！",
 
     // Card
     "card/cast-spell": "施放法术",

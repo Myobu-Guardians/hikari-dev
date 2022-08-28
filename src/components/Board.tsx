@@ -6,6 +6,7 @@ import {
   BoardGamePointsTop,
   BoardHeight,
   BoardWidth,
+  WinPoints,
 } from "../lib/constants";
 import HikariBoard from "../assets/images/Hikari Playing Board with Items.png";
 import OfferingCardsInDeck from "./OfferingCardsInDeck";
@@ -101,6 +102,16 @@ function ModifySymbol(props: ModifySymbolProps) {
 function GamePoints() {
   const gameContainer = GameContainer.useContainer();
   const boardContainer = BoardContainer.useContainer();
+  const { t } = useTranslation();
+
+  const winner =
+    boardContainer.board.player &&
+    boardContainer.board.player.gamePoints >= WinPoints
+      ? boardContainer.board.player
+      : boardContainer.board.opponent &&
+        boardContainer.board.opponent.gamePoints >= WinPoints
+      ? boardContainer.board.opponent
+      : null;
 
   return (
     <div
@@ -112,6 +123,32 @@ function GamePoints() {
         lineHeight: "100%",
       }}
     >
+      {winner ? (
+        <div className="fixed w-full h-full left-0 top-0 backdrop-blur-md">
+          <div
+            className="text-white absolute text-center flex flex-row items-center justify-center font-assasin p-4 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              fontSize: gameContainer.zoom * 32,
+              width: (gameContainer.zoom * BoardWidth) / 2,
+              height: gameContainer.zoom * 80,
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              zIndex: 999,
+            }}
+          >
+            {winner === boardContainer.board.player
+              ? t("board/you-wins")
+              : t("board/you-loses")}
+            <button
+              className="btn btn-md btn-primary ml-5"
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              {t("Restart")}
+            </button>
+          </div>
+        </div>
+      ) : null}
       <div
         className={
           "transition-all duration-300 " +

@@ -64,6 +64,8 @@ export const jaJP = {
       "パッシブスペルが発動しました。スペルをキャストする狐カードを選択してください",
     "board/select-kitsune-card-to-replace-with":
       "置き換える狐カードを選択してください",
+    "board/you-wins": "勝ちです",
+    "board/you-loses": "負けです",
 
     // Cards
     "card/cast-spell": "魔法を発動する",

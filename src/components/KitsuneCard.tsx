@@ -150,7 +150,7 @@ function SpellTrigger(props: Props) {
             " " +
             (!props.isOpponent
               ? "bg-orange-500 hover:bg-orange-600"
-              : "bg-gray-700 hover:bg-gray-800")
+              : "bg-blue-500 hover:bg-blue-600")
           }
           style={{ fontSize: gameContainer.zoom * 12 }}
           onClick={(event) => {
@@ -262,7 +262,7 @@ export default function KitsuneCardComponent(props: Props) {
         <div
           className={
             "w-full text-center absolute bottom-0 z-200 text-white " +
-            (!props.isOpponent ? "bg-orange-500" : "bg-gray-700")
+            (!props.isOpponent ? "bg-orange-500" : "bg-blue-500")
           }
           style={{ fontSize: gameContainer.zoom * 12 }}
         >
@@ -275,7 +275,7 @@ export default function KitsuneCardComponent(props: Props) {
         <div
           className={
             "absolute bottom-0 text-white w-full text-center " +
-            (!props.isOpponent ? "bg-orange-500" : "bg-gray-700")
+            (!props.isOpponent ? "bg-orange-500" : "bg-blue-500")
           }
           style={{
             fontSize: gameContainer.zoom * 12,
