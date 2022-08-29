@@ -1106,6 +1106,12 @@ export const BoardContainer = createContainer(() => {
                 kitsuneCard,
                 offeringCards: [],
               };
+              if (
+                typeof kitsuneCard.locked === "number" &&
+                kitsuneCard.locked > 0
+              ) {
+                return returnValue;
+              }
               for (let i = 0; i < offeringCardsCombinations.length; i++) {
                 const offeringCards = offeringCardsCombinations[i];
                 const earningPoint = board.calculateEarningPoints(
